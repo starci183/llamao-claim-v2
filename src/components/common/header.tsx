@@ -18,14 +18,9 @@ export const Header: FC<HeaderProps> = ({
   children,
 }) => {
   return (
-    <header className="w-full max-w-full">
+    <header className={cn("w-full max-w-full", className)}>
       {/* header */}
-      <div
-        className={cn(
-          "flex items-center justify-between p-2 bg-[#02007F]",
-          className
-        )}
-      >
+      <div className="flex items-center justify-between p-2 bg-[#02007F]">
         <div className="flex items-center gap-2">
           {icon}
           <span className="text-lg font-bold">{text}</span>
