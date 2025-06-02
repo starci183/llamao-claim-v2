@@ -50,6 +50,7 @@ type TButtonVariantsProps = Omit<VariantProps<typeof button>, "icon">;
 type TCustomButtonProps = {
   icon?: React.ReactNode;
   iconOnly?: boolean;
+  doubleIcon?: boolean;
 };
 
 export type TButtonProps = TDefaultButtonProps &
@@ -63,12 +64,21 @@ export function Button({
   children,
   className,
   reverseIcon,
+  doubleIcon = false,
   ...props
 }: TButtonProps) {
   const iconChildren = (
     <>
-      {!iconOnly && <span className="btn-l">{children}</span>}
-      {<span className={iconOnly ? "" : "btn-r"}>{icon}</span>}
+      {doubleIcon ? (
+        <span className={iconOnly ? "" : "flex items-center gap-2"}>
+          {icon}{children}{icon}
+        </span>
+      ) : (
+        <>
+          {!iconOnly && <span className="btn-l">{children}</span>}
+          <span className={iconOnly ? "" : "btn-r"}>{icon}</span>
+        </>
+      )}
     </>
   );
 
