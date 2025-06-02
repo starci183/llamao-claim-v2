@@ -1,5 +1,4 @@
 import { Button } from "@/components/common/button";
-import Test from "@/components/common/text";
 import HomeLayout from "@/components/layouts/home/home-layout";
 import Image from "next/image";
 
@@ -37,7 +36,6 @@ export default function Home() {
           Connect Later
         </Button>
       </div>
-      <Test />
     </HomeLayout>
   );
 }
