@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/common/button";
-import { CardRetroLayout } from "@/components/common/retro-windows-header";
+import { Header } from "@/components/common/header";
 import { cn } from "@/lib/utils";
 import { Block, Folder, Smile, Tick, Watch } from "@/svg";
 import { type FC } from "react";
@@ -22,7 +22,7 @@ const DefaultToast: FC<TDefaultToast> = ({
   textClassName,
 }) => {
   return (
-    <CardRetroLayout icon={<Folder />} text="Notification">
+    <Header icon={<Folder />} text="Notification">
       <div className="flex w-fit items-center gap-2 rounded-md">
         {icon}
         <span className={cn("text-16 font-semibold", textClassName)}>
@@ -38,7 +38,7 @@ const DefaultToast: FC<TDefaultToast> = ({
           </Button>
         )}
       </div>
-    </CardRetroLayout>
+    </Header>
   );
 };
 

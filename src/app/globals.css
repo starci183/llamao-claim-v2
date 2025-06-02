@@ -18,9 +18,13 @@ body {
   color: var(--foreground);
 }
 
-.btn-box-shadow {
+.box-shadow-primary {
   box-shadow: -4.04px -4.04px 0px 0px #7e7e7e inset,
     2.02px 2.02px 0px 0px #f0f0f0 inset, -2.02px -2.02px 0px 0px #262626 inset;
+}
+.box-shadow-secondary {
+  box-shadow: -6.05px -6.05px 0px 0px #7e7e7e inset,
+    6.05px 6.05px 0px 0px #f0f0f0 inset;
 }
 .font-w95fa {
   font-family: var(--font-w95fa), "Courier New", monospace;

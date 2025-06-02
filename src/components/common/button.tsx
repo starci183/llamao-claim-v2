@@ -3,7 +3,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const button = cva(
-  "cursor-pointer text-sm transition-colors duration-300 disabled:cursor-not-allowed btn-box-shadow",
+  "cursor-pointer text-sm transition-colors duration-300 disabled:cursor-not-allowed box-shadow-primary",
   {
     variants: {
       intent: {
