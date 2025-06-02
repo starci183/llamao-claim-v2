@@ -11,9 +11,12 @@
     "type-check": "tsc --noEmit",
     "build:analyze": "ANALYZE=true yarn build",
     "clean": "rm -rf .next",
-    "preview": "yarn build && yarn start"
+    "preview": "yarn build && yarn start",
+    "svgr": "npx @svgr/cli --out-dir src/svg --index-template src/lib/index-template.ts --typescript --ext tsx -- public/icons"
   },
   "dependencies": {
+    "@radix-ui/react-toast": "^1.2.14",
+    "class-variance-authority": "^0.7.1",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -24,6 +27,7 @@
     "@heroicons/react": "^2.2.0",
     "@next/bundle-analyzer": "^15.3.3",
     "@next/eslint-plugin-next": "^15.3.3",
+    "@svgr/cli": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/lodash-es": "^4",
