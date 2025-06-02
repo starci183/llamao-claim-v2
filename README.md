@@ -1,36 +1,173 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# llammao-web
+
+A modern Next.js application with optimized configuration and best practices.
+
+## Features
+
+### Performance Optimizations
+
+- ✅ **Turbopack** for faster development builds
+- ✅ **SWC Minification** for better production performance
+- ✅ **Partial Prerendering (PPR)** for incremental static generation
+- ✅ **Optimized Package Imports** for popular libraries
+- ✅ **Bundle Splitting** with vendor chunks
+- ✅ **Image Optimization** with WebP/AVIF support
+
+### Developer Experience
+
+- ✅ **TypeScript** with strict configuration
+- ✅ **ESLint** with Next.js recommended rules
+- ✅ **Tailwind CSS v4** for styling
+- ✅ **Path Aliases** for cleaner imports (`@/components`, `@/lib`, etc.)
+- ✅ **SVG as React Components** with SVGR
+- ✅ **Bundle Analyzer** support
+
+### Security & SEO
+
+- ✅ **Security Headers** (CSP, HSTS, X-Frame-Options, etc.)
+- ✅ **Proper Caching** for static assets
+- ✅ **Environment Variables** management
+- ✅ **No Powered-By Header** for security
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- Yarn (recommended) or npm
+
+### Installation
 
 ```bash
-npm run dev
-# or
+# Clone the repository
+git clone <repository-url>
+cd llammao-web
+
+# Install dependencies
+yarn install
+
+# Copy environment variables
+cp .env.example .env.local
+
+# Start development server
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Available Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Development
+yarn dev                 # Start development server with Turbopack
+yarn type-check         # Run TypeScript type checking
+yarn lint               # Run ESLint
+yarn lint:fix           # Fix ESLint errors
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Production
+yarn build              # Build for production
+yarn start              # Start production server
+yarn preview            # Build and start production server
 
-## Learn More
+# Analysis
+yarn build:analyze      # Build with bundle analyzer
+yarn clean              # Clean build files
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/                # Next.js App Router
+├── components/         # Reusable components
+├── lib/               # Utility libraries
+├── utils/             # Helper functions
+├── hooks/             # Custom React hooks
+└── types/             # TypeScript type definitions
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Configuration Highlights
 
-## Deploy on Vercel
+### Next.js Config Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Image Optimization**: WebP/AVIF formats, responsive sizes, external domains
+- **Experimental Features**: Turbopack, PPR, optimized package imports
+- **Security Headers**: Comprehensive security configuration
+- **Webpack Optimizations**: SVG handling, path aliases, bundle splitting
+- **Environment Variables**: Proper env var exposure to browser
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Path Aliases
+
+The following aliases are configured for cleaner imports:
+
+```typescript
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/use-auth";
+import type { User } from "@/types";
+```
+
+### Environment Variables
+
+Create a `.env.local` file based on `.env.example`:
+
+```bash
+# Required
+NEXT_PUBLIC_APP_NAME=llammao-web
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Optional
+CUSTOM_KEY=your-custom-key
+```
+
+## Bundle Analysis
+
+To analyze your bundle size:
+
+```bash
+yarn build:analyze
+```
+
+This will generate HTML reports in the `analyze/` directory.
+
+## Deployment
+
+The application is configured with:
+
+- **Standalone Output** for optimized Docker deployments
+- **Static Asset Optimization** with proper caching headers
+- **Security Headers** for production
+
+### Vercel (Recommended)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+```
+
+### Docker
+
+```dockerfile
+FROM node:18-alpine AS base
+# ... (Docker configuration using standalone output)
+```
+
+## Performance Tips
+
+1. **Images**: Use the Next.js `Image` component for automatic optimization
+2. **Fonts**: Use `next/font` for optimized font loading
+3. **Imports**: Leverage tree-shaking with optimized package imports
+4. **Bundle**: Monitor bundle size with the analyzer
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run `yarn type-check` and `yarn lint`
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details.
