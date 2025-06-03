@@ -1,11 +1,11 @@
 import { Button } from "@/components/common/button";
-import HomeLayout from "@/components/layouts/home/home-layout";
+import MainLayout from "@/components/layouts/main-layout";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <HomeLayout>
-      <div className="p-4">
+    <MainLayout headerIcon="/gifs/llamao_majestic_run.gif">
+      <div className="p-2 md:p-4">
         <Image
           src={"/images/home.svg"}
           alt="Llamao Web Testnet"
@@ -36,6 +36,6 @@ export default function Home() {
           Connect Later
         </Button>
       </div>
-    </HomeLayout>
+    </MainLayout>
   );
 }

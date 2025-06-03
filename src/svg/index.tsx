@@ -5,4 +5,5 @@ export { default as Block } from "./Block";
 export { default as Folder } from "./Folder";
 export { default as Smile } from "./Smile";
 export { default as Tick } from "./Tick";
+export { default as Wallet } from "./Wallet";
 export { default as Watch } from "./Watch";
