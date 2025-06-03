@@ -27,12 +27,21 @@ body {
     6.05px 6.05px 0px 0px #f0f0f0 inset;
 }
 .box-shadow-tertiary {
-  box-shadow: -2px -2px 0px 0px #C1C1C1 inset,
-    2px 2px 0px 0px #000000 inset, -1px -1px 0px 0px #FFFFFF inset,
-    1px 1px 0px 0px #808080 inset;
+  box-shadow: 6px 6px 0px 0px #7E7E7E inset,
+    -6px -6px 0px 0px #F0F0F0 inset;
 }
 
 
 .font-w95fa {
   font-family: var(--font-w95fa), "Courier New", monospace;
+}
+
+/* Progress Bar Animation */
+@keyframes progress-stripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 16px 0;
+  }
 }

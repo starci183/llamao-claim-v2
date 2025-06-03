@@ -5,7 +5,7 @@ import ProgressBar from "@/components/ui/progress/progress-bar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function Loading() {
+export default function TestLoading() {
   const [progress, setProgress] = useState(0);
 
   // Animate the first progress bar
@@ -15,6 +15,7 @@ export default function Loading() {
     }, 100);
     return () => clearInterval(timer);
   }, []);
+
   return (
     <MainLayout
       headerIcon="/gifs/llamao_majestic_run.gif"

@@ -11,7 +11,7 @@ export default function Home() {
           alt="Llamao Web Testnet"
           width={430}
           height={320}
-          className="w-[430px] h-auto max-w-none mx-auto"
+          className="w-full md:w-[430] h-auto max-w-none mx-auto"
           priority
         />
       </div>
