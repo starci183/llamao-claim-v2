@@ -1,6 +1,7 @@
+// "use client";
+
 import { Button } from "@/components/common/button";
-import Test from "@/components/common/text";
-import { InformationToast } from "@/components/ui/toast/custom-toast";
+import ConnectButton from "@/components/common/text";
 
 export default function Home() {
   return (
@@ -9,8 +10,7 @@ export default function Home() {
       <Button intent={"ghost"} className="text-lg">
         W95FA font should be loaded now!
       </Button>
-      <InformationToast message="Successfully logged in" />
-      <Test />
+      <ConnectButton />
     </div>
   );
 }
