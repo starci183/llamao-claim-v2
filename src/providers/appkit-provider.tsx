@@ -23,7 +23,6 @@ export const appKitInstance = createAppKit({
   metadata,
   networks: [monadTestnet],
   projectId,
-  disableAppend: true,
 });
 
 type AppKitProps = {
