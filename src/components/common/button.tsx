@@ -71,7 +71,9 @@ export function Button({
     <>
       {doubleIcon ? (
         <span className={iconOnly ? "" : "flex items-center gap-2"}>
-          {icon}{children}{icon}
+          {icon}
+          {children}
+          {icon}
         </span>
       ) : (
         <>
