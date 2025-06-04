@@ -1,12 +1,15 @@
+"use client";
 import { Toaster } from "@/components/ui/toast/toaster";
-import React from "react";
+import { type ReactNode } from "react";
+import { AppKit } from "./appkit-provider";
 
 type RootProvidersProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 export default function RootProviders({ children }: RootProvidersProps) {
   return (
     <>
+      <AppKit>{children}</AppKit>
       {children}
       <Toaster />
     </>
