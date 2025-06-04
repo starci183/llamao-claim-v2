@@ -10,7 +10,6 @@ export default function RootProviders({ children }: RootProvidersProps) {
   return (
     <>
       <AppKit>{children}</AppKit>
-      {children}
       <Toaster />
     </>
   );

@@ -1,7 +1,9 @@
 export { default as WindowButton1 } from "./WindowButton1";
 export { default as WindowButton2 } from "./WindowButton2";
 export { default as WindowButton } from "./WindowButton";
+export { default as Ball1 } from "./Ball1";
 export { default as Block } from "./Block";
+export { default as ChevronRight } from "./ChevronRight";
 export { default as Folder } from "./Folder";
 export { default as Smile } from "./Smile";
 export { default as Tick } from "./Tick";
