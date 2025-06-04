@@ -77,13 +77,7 @@ export default function Portal() {
                   }
                 : {}
             }
-            icon={
-              hovered ? (
-                <Block className="w-6 h-auto" />
-              ) : (
-                <Wallet className="w-6 h-auto" />
-              )
-            }
+            icon={hovered ? <Block className="w-6" /> : <Wallet />}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           >
