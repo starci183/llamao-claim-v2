@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={` ${w95fa.variable} ${w95fa.className} antialiased`}>
         <RootProviders>{children}</RootProviders>
       </body>
