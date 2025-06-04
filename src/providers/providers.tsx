@@ -6,9 +6,9 @@ type RootProvidersProps = {
 };
 export default function RootProviders({ children }: RootProvidersProps) {
   return (
-    <div>
+    <>
       {children}
       <Toaster />
-    </div>
+    </>
   );
 }
