@@ -1,12 +1,13 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import React from "react";
+import React, { memo, useMemo } from "react";
 import { Header } from "../common/header";
 import SubHeaderHome from "./home/sub-header-home";
 
-type HomeLayoutProps = {
+type MainLayoutProps = {
   headerIcon?: string;
   subHeader?: boolean;
+  subHeaderComponent?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
   text?: string;
@@ -14,16 +15,38 @@ type HomeLayoutProps = {
   boxShadowInner?: string;
 };
 
-export default function MainLayout({
+const DEFAULT_SUB_HEADER = <SubHeaderHome />;
+
+const MainLayout = memo<MainLayoutProps>(function MainLayout({
   children,
-  text,
+  text = "Llamao Web Testnet",
   headerIcon,
   subHeader = true,
+  subHeaderComponent = DEFAULT_SUB_HEADER,
   className = "",
   boxShadowOuter = "box-shadow-primary",
   boxShadowInner = "box-shadow-secondary",
   ...props
-}: HomeLayoutProps) {
+}) {
+  const headerIconElement = useMemo(() => {
+    if (!headerIcon) return null;
+
+    return (
+      <Image
+        src={headerIcon}
+        alt="Llamao Web Testnet"
+        width={64}
+        height={64}
+        className="size-4 sm:size-6 max-w-none"
+        priority={false}
+      />
+    );
+  }, [headerIcon]);
+
+  const computedSubHeader = useMemo(() => {
+    return subHeader ? subHeaderComponent : null;
+  }, [subHeader, subHeaderComponent]);
+
   return (
     <div className="w-full flex bg-background items-center justify-center px-2 sm:px-4 lg:px-6">
       <div
@@ -33,20 +56,10 @@ export default function MainLayout({
         )}
       >
         <Header
-          text={text || "Llamao Web Testnet"}
-          icon={
-            headerIcon ? (
-              <Image
-                src={headerIcon}
-                alt="Llamao Web Testnet"
-                width={64}
-                height={64}
-                className="size-4 sm:size-6 max-w-none"
-              />
-            ) : null
-          }
+          text={text}
+          icon={headerIconElement}
           className="w-full"
-          subHeader={subHeader && <SubHeaderHome />}
+          subHeader={computedSubHeader}
         />
         <div
           className={cn("p-2 sm:p-4 lg:p-6", className, boxShadowInner)}
@@ -57,4 +70,6 @@ export default function MainLayout({
       </div>
     </div>
   );
-}
+});
+
+export default MainLayout;
