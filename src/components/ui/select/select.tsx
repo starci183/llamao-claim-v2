@@ -7,7 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const selectContainer = cva(
-  "relative select-none transition-all duration-200 w-full bg-white border-2 border-t-[#dfdfdf] border-l-[#dfdfdf] border-r-[#808080] border-b-[#808080] max-w-[60] max-h-[22]",
+  "relative select-none transition-all duration-200 w-full bg-white border-2 border-t-[#dfdfdf] border-l-[#dfdfdf] border-r-[#808080] border-b-[#808080] max-w-[70]",
   {
     variants: {
       width: {
@@ -229,8 +229,8 @@ export default function Select({
       className={cn(selectContainer({  width, disabled }), className)}
     >
       {/* select optional label */}
-      <div className="flex items-center justify-between">
-        <span className="truncate text-black pl-1">
+      <div className="flex items-center justify-between w-full h-full">
+        <span className="truncate text-black pl-1 text-xs">
           {selectedOption ? selectedOption.label : placeholder}
         </span>
         <Button

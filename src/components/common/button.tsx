@@ -1,24 +1,22 @@
 import { cva, VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
+import Loading from "./loading";
 
 const button = cva(
-  "cursor-pointer text-sm transition-colors duration-300 disabled:cursor-not-allowed box-shadow-primary",
+  "cursor-pointer text-sm transition-colors duration-300 disabled:cursor-not-allowed box-shadow-primary px-2 py-4",
   {
     variants: {
       intent: {
-        primary: ["bg-[#C5C5C5] px-2 py-4 text-white", "btn-animation"],
+        primary: ["bg-[#C5C5C5]", "btn-animation"],
+        secondary: ["bg-[#C5C5C5] underline", "btn-animation"],
         gradient: [
-          "bg-gradient-to-r from-[#BFA6FF] to-[#FFACFF] px-2 py-4 text-black",
+          "bg-gradient-to-r from-[#BFA6FF] to-[#FFACFF] ",
           "btn-animation",
         ],
-        disabled: [
-          "bg-[#C5C5C5] px-2 py-4 text-[#535353]",
-          "cursor-not-allowed",
-          "btn-animation",
-        ],
+        disabled: ["bg-[#C5C5C5]", "cursor-not-allowed", "btn-animation"],
         ghost: [
-          "bg-transparent px-2 py-4 text-black  !shadow-none underline",
+          "bg-transparent !shadow-none underline",
           "disabled:opacity-50 disabled:shadow-none",
           "btn-animation",
         ],
@@ -51,6 +49,7 @@ type TCustomButtonProps = {
   icon?: React.ReactNode;
   iconOnly?: boolean;
   doubleIcon?: boolean;
+  loading?: boolean;
 };
 
 export type TButtonProps = TDefaultButtonProps &
@@ -65,6 +64,8 @@ export function Button({
   className,
   reverseIcon,
   doubleIcon = false,
+  loading = false,
+  textColor,
   ...props
 }: TButtonProps) {
   const iconChildren = (
@@ -86,11 +87,15 @@ export function Button({
 
   const commonProps = {
     className: cn(
-      button({ intent, icon: Boolean(icon), iconOnly, reverseIcon }),
+      button({ intent, icon: Boolean(icon), iconOnly, reverseIcon, textColor }),
       className
     ),
     children: icon ? iconChildren : children,
   };
 
-  return <button {...commonProps} {...props} />;
+  return (
+    <button {...commonProps} {...props}>
+      {loading ? <Loading /> : children}
+    </button>
+  );
 }
