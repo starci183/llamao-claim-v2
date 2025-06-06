@@ -12,7 +12,7 @@ export default function About() {
       <MainLayout
         subHeader={false}
         text="Homepage"
-        className="!px-0 !py-0.5 max-w-[720px] w-full h-auto"
+        className="!px-0 !py-0.5 max-w-full w-fit h-auto"
         boxShadowOuter="box-shadow-about"
         boxShadowInner=""
       >
@@ -22,11 +22,11 @@ export default function About() {
             alt="llamao_about_background"
             width={720}
             height={650}
-            className="w-full max-w-none mx-auto object-cover h-[800px]"
+            className="w-auto mx-auto object-cover h-[800px]"
             priority
             quality={100}
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 sm:gap-6 lg:gap-8">
             <div className="relative flex items-center justify-center">
               <Image
                 src="/gifs/llamao_zenmonad.gif"
