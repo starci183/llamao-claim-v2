@@ -9,19 +9,31 @@ type HomeLayoutProps = {
   subHeader?: boolean;
   children?: React.ReactNode;
   className?: string;
+  text?: string;
+  boxShadowOuter?: string;
+  boxShadowInner?: string;
 };
 
 export default function MainLayout({
   children,
+  text,
   headerIcon,
   subHeader = true,
   className = "",
+  boxShadowOuter = "box-shadow-primary",
+  boxShadowInner = "box-shadow-secondary",
+  ...props
 }: HomeLayoutProps) {
   return (
-    <div className="w-full flex bg-background items-center justify-center min-h-screen px-2 sm:px-4 lg:px-6">
-      <div className="box-shadow-primary p-1 bg-[#C3C3C3] w-full md:w-fit container">
+    <div className="w-full flex bg-background items-center justify-center px-2 sm:px-4 lg:px-6">
+      <div
+        className={cn(
+          "p-1 bg-[#C3C3C3] w-full md:w-fit container mx-auto",
+          boxShadowOuter
+        )}
+      >
         <Header
-          text="Portal"
+          text={text || "Llamao Web Testnet"}
           icon={
             headerIcon ? (
               <Image
@@ -37,7 +49,8 @@ export default function MainLayout({
           subHeader={subHeader && <SubHeaderHome />}
         />
         <div
-          className={cn("p-2 sm:p-4 lg:p-6 box-shadow-secondary", className)}
+          className={cn("p-2 sm:p-4 lg:p-6", className, boxShadowInner)}
+          {...props}
         >
           {children}
         </div>
