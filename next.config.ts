@@ -45,8 +45,6 @@ const nextConfig: NextConfig = {
       "clsx",
       "tailwind-merge",
     ],
-    // Enable partial prerendering for better performance
-    ppr: isDev ? false : "incremental",
     // Enable optimized CSS loading
     optimizeServerReact: true,
     // Enable serverActions for better form handling

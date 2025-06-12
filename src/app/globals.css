@@ -28,7 +28,7 @@ body {
 }
 .box-shadow-secondary-light {
   box-shadow: 1.13px 1.13px 0px 0px #808080 inset,
-    -1.13px -1.13px 0px 0px #FFFFFF inset;
+    -1.13px -1.13px 0px 0px #ffffff inset;
 }
 .box-shadow-tertiary-light {
   box-shadow: 2.21px 2.21px 0px 0px #000000 inset,
@@ -54,10 +54,6 @@ body {
     -1.13px -1.13px 0px 0px #ffffff inset;
 }
 
-.font-w95fa {
-  font-family: var(--font-w95fa), "Courier New", monospace;
-}
-
 /* Progress Bar Animation */
 @keyframes progress-stripes {
   0% {
@@ -65,5 +61,47 @@ body {
   }
   100% {
     background-position: 16px 0;
+  }
+}
+
+/* Showcase Card Box Shadows */
+.box-shadow-showcase-card {
+  box-shadow: -1.95px -1.95px 0px 0px #7e7e7e inset,
+    1.95px 1.95px 0px 0px #f0f0f0 inset;
+}
+
+.box-shadow-showcase-item {
+  box-shadow: 1.95px 1.95px 0px 0px #7e7e7e inset,
+    -1.95px -1.95px 0px 0px #f0f0f0 inset;
+}
+.box-shadow-showcase-pagination {
+  box-shadow: 6.12px 6.12px 0px 0px #7e7e7e inset,
+    -6.12px -6.12px 0px 0px #f0f0f0 inset;
+}
+
+/* Utility classes for text truncation */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Animation utilities */
+.animate-in {
+  animation-duration: 150ms;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
