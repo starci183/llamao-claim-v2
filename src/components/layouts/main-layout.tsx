@@ -9,6 +9,7 @@ type MainLayoutProps = {
   subHeader?: boolean;
   subHeaderComponent?: React.ReactNode;
   children?: React.ReactNode;
+  wrapperClassName?: string;
   className?: string;
   text?: string;
   boxShadowOuter?: string;
@@ -23,6 +24,7 @@ const MainLayout = memo<MainLayoutProps>(function MainLayout({
   headerIcon,
   subHeader = true,
   subHeaderComponent = DEFAULT_SUB_HEADER,
+  wrapperClassName = "",
   className = "",
   boxShadowOuter = "box-shadow-primary",
   boxShadowInner = "box-shadow-secondary",
@@ -52,6 +54,7 @@ const MainLayout = memo<MainLayoutProps>(function MainLayout({
       <div
         className={cn(
           "p-1 bg-[#C3C3C3] w-full md:w-fit container mx-auto",
+          wrapperClassName,
           boxShadowOuter
         )}
       >
