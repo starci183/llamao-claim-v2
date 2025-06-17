@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function About() {
   return (
-    <div className="flex flex-col gap-2 min-h-screen items-center justify-center">
+    <div className="flex flex-col gap-4 md:gap-12 min-h-screen items-center justify-evenly-start">
       <Navbar navbarItems={items} />
 
       <MainLayout

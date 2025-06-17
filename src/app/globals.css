@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+/* Font Face Definitions */
+@font-face {
+  font-family: "PP Mondwest";
+  src: url("/fonts/ppmondwest-regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PP NeueBit";
+  src: url("/fonts/ppneuebit-bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font Utility Classes */
+.font-pp-neuebit {
+  font-family: "PP NeueBit", Arial, sans-serif;
+}
+
+.font-pp-mondwest {
+  font-family: "PP Mondwest", Georgia, serif;
+}
+
 :root {
   --background: #704fc0;
   --foreground: #fff;
