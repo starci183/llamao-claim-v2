@@ -45,7 +45,7 @@ body {
 }
 /* Box Shadow */
 .box-shadow-primary {
-  box-shadow: -4.04px -4.04px 0px 0px #7e7e7e inset,
+  box-shadow: -3.03px -3.03px 0px 0px #7e7e7e inset,
     2.02px 2.02px 0px 0px #f0f0f0 inset, -2.02px -2.02px 0px 0px #262626 inset;
 }
 .box-shadow-secondary {
@@ -103,6 +103,19 @@ body {
 .box-shadow-showcase-pagination {
   box-shadow: 6.12px 6.12px 0px 0px #7e7e7e inset,
     -6.12px -6.12px 0px 0px #f0f0f0 inset;
+}
+
+/* active tab box shadow */
+.box-shadow-active-tabs {
+  box-shadow: 2.21px 2.21px 0px 0px #000000 inset,
+    -2.21px -2.21px 0px 0px #ffffff inset, 1.1px 1.1px 0px 0px #808080 inset,
+    -1.1px -1.1px 0px 0px #dbdbdb inset;
+}
+
+.box-shadow-inactive-tabs {
+  box-shadow: 2.21px 2.21px 0px 0px #dbdbdb inset,
+    -2.21px -2.21px 0px 0px #808080 inset, 1.1px 1.1px 0px 0px #ffffff inset,
+    -1.1px -1.1px 0px 0px #000000 inset;
 }
 
 /* Utility classes for text truncation */
