@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { cva, VariantProps } from "class-variance-authority";
+import { useState } from "react";
 
 const switchContainer = cva(
   "relative cursor-pointer select-none transition-all duration-200",
@@ -131,14 +131,16 @@ interface SwitchProps extends VariantProps<typeof switchContainer> {
   name?: string;
   id?: string;
   className?: string;
-  "aria-label"?: string;
-  "aria-labelledby"?: string;
   onText?: string;
   offText?: string;
   onIcon?: React.ReactNode;
   offIcon?: React.ReactNode;
   iconOnly?: boolean;
   width?: "fixed" | "full";
+  onValue?: string;
+  offValue?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
 }
 
 export default function Switch({
@@ -150,29 +152,41 @@ export default function Switch({
   name,
   id,
   className,
-  "aria-label": ariaLabel,
-  "aria-labelledby": ariaLabelledBy,
   onText = "ON",
   offText = "OFF",
   onIcon,
   offIcon,
   iconOnly = false,
+  // New props
+  onValue,
+  offValue,
+  value: controlledValue,
+  onValueChange,
 }: SwitchProps) {
   const [internalChecked, setInternalChecked] = useState(false);
+  const [internalValue, setInternalValue] = useState(offValue || offText);
 
   const isControlled = controlledChecked !== undefined;
+  const isValueControlled = controlledValue !== undefined;
   const checked = isControlled ? controlledChecked : internalChecked;
+  const currentValue = isValueControlled ? controlledValue : internalValue;
 
   const handleToggle = () => {
     if (disabled) return;
 
     const newChecked = !checked;
+    const newValue = newChecked ? onValue || onText : offValue || offText;
 
     if (!isControlled) {
       setInternalChecked(newChecked);
     }
 
+    if (!isValueControlled) {
+      setInternalValue(newValue);
+    }
+
     onCheckedChange?.(newChecked);
+    onValueChange?.(newValue);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -186,8 +200,6 @@ export default function Switch({
     <div
       role="switch"
       aria-checked={checked}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
       tabIndex={disabled ? -1 : 0}
       className={cn(switchContainer({ size, width, disabled }), className)}
       onClick={handleToggle}
@@ -237,6 +249,7 @@ export default function Switch({
           type="checkbox"
           name={name}
           checked={checked}
+          value={currentValue}
           onChange={() => {}}
           className="sr-only"
           tabIndex={-1}

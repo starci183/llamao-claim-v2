@@ -64,11 +64,19 @@ const processNavItems = (
   items: NavbarItem[],
   currentPath: string
 ): ProcessedNavItem[] => {
-  return items.map((item) => ({
-    ...item,
-    isActive: currentPath === item.href,
-    iconElement: item.icon ? createIconElement(item.icon, item.label) : null,
-  }));
+  return items.map((item) => {
+    let isActive = currentPath === item.href;
+
+    if (item.href === "/portal") {
+      isActive = currentPath === item.href || currentPath.startsWith("/mint");
+    }
+
+    return {
+      ...item,
+      isActive,
+      iconElement: item.icon ? createIconElement(item.icon, item.label) : null,
+    };
+  });
 };
 
 const NavItem = memo(

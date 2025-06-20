@@ -95,7 +95,7 @@ export function Button({
 
   return (
     <button {...commonProps} {...props}>
-      {loading ? <Loading /> : children}
+      {loading ? <Loading /> : icon ? iconChildren : children}
     </button>
   );
 }
