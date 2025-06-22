@@ -1,16 +1,27 @@
 import { Button } from "@/components/common/button";
-import Test from "@/components/common/text";
-import { InformationToast } from "@/components/ui/toast/custom-toast";
+import MainLayout from "@/components/layouts/main-layout";
+import Image from "next/image";
+import ConnectWalletButton from "./components/button-connect-wallet";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-4xl font-bold mb-4">Connect Wallet</h1>
-      <Button intent={"ghost"} className="text-lg">
-        W95FA font should be loaded now!
-      </Button>
-      <InformationToast message="Successfully logged in" />
-      <Test />
+    <div className="min-h-screen flex items-center justify-center">
+      <MainLayout headerIcon="/gifs/llamao_majestic_run.gif">
+        <Image
+          src={"/images/home.svg"}
+          alt="Llamao Web Testnet"
+          width={430}
+          height={320}
+          className="w-full md:w-[430] h-auto max-w-none mx-auto"
+          priority
+        />
+        <div className="flex flex-col mt-4 gap-2 text-center justify-center text-lg text-gray-700">
+          <ConnectWalletButton />
+          <Button intent="primary" className="text-3xl py-2">
+            Connect Later
+          </Button>
+        </div>
+      </MainLayout>
     </div>
   );
 }

@@ -1,0 +1,151 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import type { ReactElement } from "react";
+import { memo, useCallback, useMemo } from "react";
+import { Button } from "./button";
+
+// Constants
+const NAV_BUTTON_BASE_CLASSES =
+  "w-full min-w-20 md:min-w-32 flex items-center justify-center text-base";
+const ICON_SIZE = 24;
+
+// Types
+interface NavbarProps {
+  className?: string;
+  navbarItems?: NavbarItem[];
+  onNavigationStart?: () => void;
+  onNavigationEnd?: () => void;
+}
+
+interface NavbarItem {
+  label: string;
+  href: string;
+  icon?: string;
+  disabled?: boolean;
+}
+
+interface ProcessedNavItem extends NavbarItem {
+  isActive: boolean;
+  iconElement: ReactElement | null;
+}
+
+export const items: NavbarItem[] = [
+  {
+    label: "About",
+    href: "/about",
+  },
+  {
+    label: "Portal",
+    href: "/portal",
+    icon: "/icons/ball_1.svg",
+  },
+  {
+    label: "Showcase",
+    href: "/showcase",
+  },
+] as const;
+
+const createIconElement = (iconSrc: string, label: string): ReactElement => (
+  <Image
+    src={iconSrc}
+    alt={`${label} icon`}
+    width={ICON_SIZE}
+    height={ICON_SIZE}
+    className="w-6 h-6"
+    priority={false}
+  />
+);
+
+const processNavItems = (
+  items: NavbarItem[],
+  currentPath: string
+): ProcessedNavItem[] => {
+  return items.map((item) => ({
+    ...item,
+    isActive: currentPath === item.href,
+    iconElement: item.icon ? createIconElement(item.icon, item.label) : null,
+  }));
+};
+
+const NavItem = memo(
+  ({
+    item,
+    onNavigate,
+  }: {
+    item: ProcessedNavItem;
+    onNavigate: (href: string) => void;
+  }) => {
+    const handleClick = useCallback(() => {
+      onNavigate(item.href);
+    }, [item.href, onNavigate]);
+
+    const buttonElement = item.isActive ? (
+      <Button
+        intent="gradient"
+        className={NAV_BUTTON_BASE_CLASSES}
+        icon={item.iconElement}
+      >
+        {item.label}
+      </Button>
+    ) : (
+      <Button intent="secondary" className={NAV_BUTTON_BASE_CLASSES}>
+        {item.label}
+      </Button>
+    );
+
+    return (
+      <li>
+        <Link
+          href={item.href}
+          onClick={handleClick}
+          className="w-full"
+          aria-current={item.isActive ? "page" : undefined}
+        >
+          {buttonElement}
+        </Link>
+      </li>
+    );
+  }
+);
+
+NavItem.displayName = "NavItem";
+
+const Navbar = memo(function Navbar({ className, navbarItems }: NavbarProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const processedNavItems = useMemo(() => {
+    if (!navbarItems?.length) return [];
+    return processNavItems(navbarItems, pathname);
+  }, [navbarItems, pathname]);
+
+  const handleNavigation = useCallback(
+    (href: string) => {
+      if (href === pathname) return;
+      router.push(href);
+    },
+    [router, pathname]
+  );
+
+  if (!processedNavItems.length) {
+    return null;
+  }
+
+  return (
+    <nav className={cn("p-4", className)} role="navigation">
+      <ul className="flex items-center justify-center space-x-4">
+        {processedNavItems.map((item) => (
+          <NavItem key={item.href} item={item} onNavigate={handleNavigation} />
+        ))}
+      </ul>
+    </nav>
+  );
+});
+
+Navbar.displayName = "Navbar";
+
+export default Navbar;

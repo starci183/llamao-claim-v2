@@ -17,11 +17,53 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
-
-.btn-box-shadow {
+/* Box Shadow */
+.box-shadow-primary {
   box-shadow: -4.04px -4.04px 0px 0px #7e7e7e inset,
     2.02px 2.02px 0px 0px #f0f0f0 inset, -2.02px -2.02px 0px 0px #262626 inset;
 }
+.box-shadow-secondary {
+  box-shadow: -6.05px -6.05px 0px 0px #7e7e7e inset,
+    6.05px 6.05px 0px 0px #f0f0f0 inset;
+}
+.box-shadow-secondary-light {
+  box-shadow: 1.13px 1.13px 0px 0px #808080 inset,
+    -1.13px -1.13px 0px 0px #FFFFFF inset;
+}
+.box-shadow-tertiary-light {
+  box-shadow: 2.21px 2.21px 0px 0px #000000 inset,
+    -2.21px -2.21px 0px 0px #ffffff inset, 1.1px 1.1px 0px 0px #808080 inset,
+    -1.1px -1.1px 0px 0px #dbdbdb inset;
+}
+.box-shadow-switch-thumb {
+  box-shadow: 2.21px 2.21px 0px 0px #dbdbdb inset,
+    -2.21px -2.21px 0px 0px #808080 inset, 1.1px 1.1px 0px 0px #ffffff inset,
+    -1.1px -1.1px 0px 0px #000000 inset;
+}
+.box-shadow-tertiary {
+  box-shadow: 6px 6px 0px 0px #7e7e7e inset, -6px -6px 0px 0px #f0f0f0 inset;
+}
+.box-shadow-about {
+  box-shadow: 2.26px 2.26px 0px 0px #dfdfdf inset,
+    -2.26px -2.26px 0px 0px #7f7f7f inset, 1.13px 1.13px 0px 0px #ffffff inset,
+    -1.13px -1.13px 0px 0px #000000 inset;
+}
+.box-shadow-about-whiteboard {
+  box-shadow: 2.26px 2.26px 0px 0px #000000 inset,
+    -2.26px -2.26px 0px 0px #c1c1c1 inset, 1.13px 1.13px 0px 0px #808080 inset,
+    -1.13px -1.13px 0px 0px #ffffff inset;
+}
+
 .font-w95fa {
   font-family: var(--font-w95fa), "Courier New", monospace;
+}
+
+/* Progress Bar Animation */
+@keyframes progress-stripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 16px 0;
+  }
 }
