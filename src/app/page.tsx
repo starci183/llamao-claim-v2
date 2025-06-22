@@ -5,8 +5,8 @@ import ConnectWalletButton from "./components/button-connect-wallet";
 
 export default function Home() {
   return (
-    <MainLayout headerIcon="/gifs/llamao_majestic_run.gif">
-      <div className="p-2 md:p-4">
+    <div className="min-h-screen flex items-center justify-center">
+      <MainLayout headerIcon="/gifs/llamao_majestic_run.gif">
         <Image
           src={"/images/home.svg"}
           alt="Llamao Web Testnet"
@@ -15,13 +15,13 @@ export default function Home() {
           className="w-full md:w-[430] h-auto max-w-none mx-auto"
           priority
         />
-      </div>
-      <div className="flex flex-col p-4 gap-2 text-center justify-center text-lg text-gray-700">
-        <ConnectWalletButton />
-        <Button intent="primary" className="text-3xl">
-          Connect Later
-        </Button>
-      </div>
-    </MainLayout>
+        <div className="flex flex-col mt-4 gap-2 text-center justify-center text-lg text-gray-700">
+          <ConnectWalletButton />
+          <Button intent="primary" className="text-3xl py-2">
+            Connect Later
+          </Button>
+        </div>
+      </MainLayout>
+    </div>
   );
 }

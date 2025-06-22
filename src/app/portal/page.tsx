@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/common/button";
+import Navbar, { items } from "@/components/common/navbar";
 import MainLayout from "@/components/layouts/main-layout";
 import Mission from "@/components/layouts/portal/mission";
 import Select from "@/components/ui/select/select";
@@ -54,89 +55,93 @@ export default function Portal() {
   }
 
   return (
-    <MainLayout
-      headerIcon="/gifs/llamao_majestic_run.gif"
-      className="space-y-4"
-    >
-      <div className="px-2 md:px-4 space-y-2">
-        <div className="">
-          <Image
-            src={"/images/home.svg"}
-            alt="Llamao Web Testnet"
-            width={295}
-            height={219}
-            className="w-full md:w-[295px] h-auto max-w-none mx-auto"
-            priority
-          />
-        </div>
-        {/* Wallet Address */}
-        <div className="flex w-full flex-col text-center justify-center">
-          <AddressButton
-            hovered={hovered}
-            setHoveredAction={setHovered}
-            address={address}
-            walletInfo={walletInfo}
-          />
-        </div>
-        <div className="flex flex-col text-center items-center justify-center gap-2">
-          <Switch
-            size={"lg"}
-            width={"full"}
-            onText="Llamao-ism"
-            offText="Eligibility"
-            onIcon={
-              <Image
-                src={"/icons/ball_1.svg"}
-                alt="Llamao Icon"
-                width={24}
-                height={24}
-                className="w-6 h-auto"
-              />
-            }
-            offIcon={
-              <Image
-                src={"/icons/ball_1.svg"}
-                alt="Eligibility Icon"
-                width={24}
-                height={24}
-                className="w-6 h-auto"
-              />
-            }
-          />
-        </div>
-        <div className="flex flex-row items-center justify-between gap-2">
-          <h1 className="text-sm md:text-base text-black">Filter Status</h1>
-          <Select
-            options={statusOptions}
-            value={filterStatus}
-            onChange={setFilterStatus}
-            placeholder=""
-            size="sm"
-            defaultValue="all"
-            width="fixed"
-          />
-        </div>
-        <div className="flex flex-col items-center justify-center gap-2">
-          <Mission missions={missions} />
-        </div>
-        <Button
-          icon={
+    <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
+      <Navbar navbarItems={items} />
+      <MainLayout
+        text="Portal"
+        headerIcon="/gifs/llamao_majestic_run.gif"
+        className="space-y-4"
+      >
+        <div className="px-2 md:px-4 space-y-2">
+          <div className="">
             <Image
-              src={"/gifs/llamao_zenmonad.gif"}
-              alt="llamao_zenmonad"
-              width={24}
-              height={24}
-              className="w-6 h-auto"
+              src={"/images/home.svg"}
+              alt="Llamao Web Testnet"
+              width={295}
+              height={219}
+              className="w-full md:w-[295px] h-auto max-w-none mx-auto"
               priority
             />
-          }
-          doubleIcon
-          intent={"gradient"}
-          className="w-full flex items-center justify-center text-base py-2"
-        >
-          Let’s Llamao
-        </Button>
-      </div>
-    </MainLayout>
+          </div>
+          {/* Wallet Address */}
+          <div className="flex w-full flex-col text-center justify-center">
+            <AddressButton
+              hovered={hovered}
+              setHoveredAction={setHovered}
+              address={address}
+              walletInfo={walletInfo}
+            />
+          </div>
+          <div className="flex flex-col text-center items-center justify-center gap-2">
+            <Switch
+              size={"lg"}
+              width={"full"}
+              onText="Llamao-ism"
+              offText="Eligibility"
+              onIcon={
+                <Image
+                  src={"/icons/ball_1.svg"}
+                  alt="Llamao Icon"
+                  width={24}
+                  height={24}
+                  className="w-6 h-auto"
+                />
+              }
+              offIcon={
+                <Image
+                  src={"/icons/ball_1.svg"}
+                  alt="Eligibility Icon"
+                  width={24}
+                  height={24}
+                  className="w-6 h-auto"
+                />
+              }
+            />
+          </div>
+          <div className="flex flex-row items-center justify-between gap-2 whitespace-nowrap">
+            <h1 className="text-sm md:text-base text-black">Filter Status</h1>
+            <Select
+              options={statusOptions}
+              value={filterStatus}
+              onChange={setFilterStatus}
+              placeholder=""
+              size="sm"
+              defaultValue="all"
+              width="fixed"
+            />
+          </div>
+          <div className="flex flex-col items-center justify-center gap-2">
+            <Mission missions={missions} />
+          </div>
+          <Button
+            icon={
+              <Image
+                src={"/gifs/llamao_zenmonad.gif"}
+                alt="llamao_zenmonad"
+                width={24}
+                height={24}
+                className="w-6 h-auto"
+                priority
+              />
+            }
+            doubleIcon
+            intent={"gradient"}
+            className="w-full flex items-center justify-center text-base py-2"
+          >
+            Let&apos;s Llamao
+          </Button>
+        </div>
+      </MainLayout>
+    </div>
   );
 }
