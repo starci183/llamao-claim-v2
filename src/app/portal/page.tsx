@@ -6,9 +6,11 @@ import MainLayout from "@/components/layouts/main-layout";
 import Mission from "@/components/layouts/portal/mission";
 import Select from "@/components/ui/select/select";
 import Switch from "@/components/ui/switch/switch";
-import { Block } from "@/svg";
 import Image from "next/image";
 import { useState } from "react";
+import AddressButton from "./components/address-button";
+import { useAppKitAccount, useWalletInfo } from "@reown/appkit/react";
+import Loading from "../loading";
 
 const missions = [
   {
@@ -34,11 +36,11 @@ const missions = [
 ];
 
 export default function Portal() {
-  const [walletInfo, setWalletInfo] = useState("Foo");
-  const [walletConnected, setWalletConnected] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [filterStatus, setFilterStatus] = useState("");
+
+  const { address } = useAppKitAccount();
+  const { walletInfo } = useWalletInfo();
 
   const statusOptions = [
     { value: "all", label: "All Status" },
@@ -47,6 +49,10 @@ export default function Portal() {
     { value: "completed", label: "Completed" },
     { value: "failed", label: "Failed" },
   ];
+
+  if (!address || !walletInfo) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
@@ -69,36 +75,12 @@ export default function Portal() {
           </div>
           {/* Wallet Address */}
           <div className="flex w-full flex-col text-center justify-center">
-            <Button
-              intent={"gradient"}
-              doubleIcon
-              className={`text-2xl p-2 flex items-center justify-center gap-2`}
-              style={
-                hovered
-                  ? {
-                      background:
-                        "linear-gradient(90deg, #FF575A 0%, #FFACFF 100%)",
-                    }
-                  : {}
-              }
-              icon={
-                hovered ? (
-                  <Block className="w-6" />
-                ) : (
-                  <Image
-                    src={"/icons/wallet.svg"}
-                    alt="Connect Wallet"
-                    width={24}
-                    height={24}
-                    className="w-6 h-auto"
-                  />
-                )
-              }
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
-            >
-              {walletConnected && (hovered ? "Log Out" : walletInfo)}
-            </Button>
+            <AddressButton
+              hovered={hovered}
+              setHoveredAction={setHovered}
+              address={address}
+              walletInfo={walletInfo}
+            />
           </div>
           <div className="flex flex-col text-center items-center justify-center gap-2">
             <Switch
@@ -156,7 +138,7 @@ export default function Portal() {
             intent={"gradient"}
             className="w-full flex items-center justify-center text-base py-2"
           >
-            Let’s Llamao
+            Let&apos;s Llamao
           </Button>
         </div>
       </MainLayout>
