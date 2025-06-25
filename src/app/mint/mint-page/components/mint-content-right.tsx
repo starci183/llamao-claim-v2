@@ -1,3 +1,9 @@
+import MintButton from "./mint-button";
+
 export default function MintContentRightPage() {
-  return <div>mint-content-right</div>;
+  return (
+    <div>
+      <MintButton />
+    </div>
+  );
 }

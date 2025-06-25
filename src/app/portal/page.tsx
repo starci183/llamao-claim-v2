@@ -16,6 +16,15 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
 import Loading from "../loading";
+import {
+  useAppKit,
+  useAppKitAccount,
+  useAppKitProvider,
+  useWalletInfo,
+  type ConnectedWalletInfo,
+} from "@reown/appkit/react";
+import { truncateAddress } from "@/lib/utils";
+import AddressButton from "./components/address-button";
 
 const missions = [
   {
@@ -43,12 +52,8 @@ const missions = [
 export default function Portal() {
   const [hovered, setHovered] = useState(false);
   const [filterStatus, setFilterStatus] = useState("");
-  const [switchValue, setSwitchValue] = useState(false);
-  const [walletConnected, setWalletConnected] = useState(true);
-  const [address, setAddress] = useState(
-    "0x1234567890abcdef1234567890abcdef12345678"
-  );
-  const [walletInfo, setWalletInfo] = useState("Llamao Wallet");
+  const { address } = useAppKitAccount();
+  const { walletInfo } = useWalletInfo();
 
   const statusOptions = [
     { value: "all", label: "All Status" },
@@ -83,36 +88,12 @@ export default function Portal() {
           </motion.div>
           {/* Wallet Address */}
           <motion.div className="flex w-full flex-col text-center justify-center">
-            <Button
-              intent={"gradient"}
-              doubleIcon
-              className={`text-2xl p-2 flex items-center justify-center gap-2`}
-              style={
-                hovered
-                  ? {
-                      background:
-                        "linear-gradient(90deg, #FF575A 0%, #FFACFF 100%)",
-                    }
-                  : {}
-              }
-              icon={
-                hovered ? (
-                  <Block className="w-6" />
-                ) : (
-                  <Image
-                    src={"/icons/wallet.svg"}
-                    alt="Connect Wallet"
-                    width={24}
-                    height={24}
-                    className="w-6 h-auto"
-                  />
-                )
-              }
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
-            >
-              {walletConnected && (hovered ? "Log Out" : walletInfo)}
-            </Button>
+            <AddressButton
+              hovered={hovered}
+              setHoveredAction={setHovered}
+              address={address}
+              walletInfo={walletInfo}
+            />
           </motion.div>
           <motion.div className="flex flex-col text-center justify-center gap-2">
             <Tabs defaultValue="eligibility">
@@ -149,7 +130,7 @@ export default function Portal() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="eligibility">
-                {walletConnected ? (
+                {address ? (
                   <Tabs defaultValue="social">
                     <TabsList background="secondary">
                       <TabsTrigger value="social" variant="primary">
@@ -204,7 +185,7 @@ export default function Portal() {
                 ) : null}
               </TabsContent>
               <TabsContent value="llamaoism">
-                {walletConnected ? (
+                {address ? (
                   <>
                     <motion.div className="flex flex-row items-center justify-between gap-2 whitespace-nowrap">
                       <h1 className="text-sm md:text-base text-black">
