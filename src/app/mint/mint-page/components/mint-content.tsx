@@ -9,7 +9,7 @@ export default function MintContent() {
         <MintContentLeftPage />
       </div>
       {/* right page */}
-      <div className="absolute top-0 left-[5%] xs:left-[3%] sm:left-[2%] md:left-0 lg:left-0 w-full h-full flex items-center justify-center">
+      <div className="absolute top-20 left-[41%] w-full h-full flex items-center justify-center">
         <MintContentRightPage />
       </div>
     </div>
