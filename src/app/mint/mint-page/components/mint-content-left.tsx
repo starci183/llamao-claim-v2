@@ -1,4 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface MintContentLeftPageProps {
@@ -15,21 +16,26 @@ interface MintContentLeftPageProps {
 export default function MintContentLeftPage({
   className = "",
   storyNumber = 1,
-  storyTitle = "Default Story Title",
-  storyImage = "/gifs/llamao_about_background.gif",
-  totalMinted = 0,
+  storyTitle = "Llamao’s Last Supper",
+  storyImage = "/gifs/llamao_last_supper.gif",
+  totalMinted = 10,
   currentPage = 1,
   totalPages = 10,
-  minting = false,
+  // minting = false,
   loading = false,
 }: MintContentLeftPageProps) {
   return (
-    <div className="flex flex-col gap-2 justify-center items-center">
-      <h1 className="text-[#B2A280] font-pp-mondwest text-lg sm:text-xl md:text-2xl">
+    <div
+      className={cn(
+        "flex flex-col justify-center items-center w-full h-full mt-1.5 gap-1.5 sm:gap-4",
+        className
+      )}
+    >
+      <h1 className="text-[#B2A280] font-pp-mondwest text-xs sm:text-xl md:text-2xl">
         Story {storyNumber}
       </h1>
       {/* image */}
-      <div className="">
+      <div>
         {loading ? (
           <Skeleton />
         ) : (
@@ -38,16 +44,61 @@ export default function MintContentLeftPage({
             alt={storyTitle}
             width={120}
             height={60}
-            className="min-w-[240px] max-h-[122px]"
+            className="min-w-[95px] sm:min-w-[190px] md:min-w-[200px] lg:min-w-[230px] max-h-[120px] aspect-[230/120] object-contain"
           />
         )}
       </div>
       {/* title */}
-      <h3 className="text-[#CF573C]">
-        {loading ? <Skeleton className="w-1/2" /> : storyTitle}
-      </h3>
+      <div
+        className="flex items-center justify-center w-full h-4 sm:h-6 md:h-10 lg:h-12 font-pp-mondwest text-[#B2A280] sm:text-xs md:text-sm lg:text-md xl:text-lg 2xl:text-xl"
+        style={{
+          backgroundImage: "url(/images/llamao_retangle_small.svg)",
+          backgroundSize: "cover",
+        }}
+      >
+        <p className="text-[#CF573C] text-[10px] sm:text-lg">
+          {loading ? <Skeleton className="w-1/2" /> : `"${storyTitle}"`}
+        </p>
+      </div>
       {/* progress */}
+      <div className="w-full">
+        <div className="flex items-center justify-between w-full px-1">
+          <p className="text-[9px] sm:text-sm text-[#CF573C] font-pp-mondwest">
+            Total Minted: {totalMinted}
+          </p>
+          {/* Tính phần trăm progress */}
+          <span className="text-[9px] sm:text-sm text-[#B2A280] font-pp-mondwest">
+            {totalPages > 0
+              ? ((totalMinted / (totalPages * 10)) * 100).toFixed(2)
+              : 0}
+            %
+          </span>
+        </div>
+        <div className="mx-2 h-1 md:h-2 bg-[#AD7757] relative overflow-hidden">
+          <div
+            className="h-full bg-[#D7B594] transition-all duration-500"
+            style={{
+              width: `${
+                totalPages > 0 ? (totalMinted / (totalPages * 10)) * 100 : 0
+              }%`,
+            }}
+          />
+        </div>
+      </div>
       {/* pagination */}
+      <div className="flex items-center w-full flex-0">
+        <div className="flex-1 h-0.5 md:h-1 bg-[#CF573C]" />
+        <div className="border-2 h-2 md:h-3 lg:h-4 border-t-0 border-b-0 border-l-[#CF573C] border-r-[#CF573C] flex items-center justify-center">
+          <span className="mx-2 text-[9px] sm:text-sm md:text-lg font-pp-mondwest text-[#CF573C] drop-shadow-lg">
+            {loading ? (
+              <Skeleton className="w-6 h-6" />
+            ) : (
+              `${currentPage}/${totalPages}`
+            )}
+          </span>
+        </div>
+        <div className="flex-1 h-0.5 md:h-1 bg-[#CF573C]" />
+      </div>
     </div>
   );
 }
