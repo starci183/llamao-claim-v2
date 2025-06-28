@@ -28,7 +28,7 @@ export default function MintButton() {
     };
 
     fetchBalance();
-  }, [walletProvider, address]);
+  }, [walletProvider, address, chainId]);
 
   const handleMintNFT = async () => {
     if (!address) return;

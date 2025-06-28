@@ -47,7 +47,7 @@ export default function Mint() {
                   src="/images/llamao_logo_text.svg"
                   width={452}
                   height={161}
-                  className="w-[50%] sm:w-[55%] md:w-[60%] lg:w-[65%] xl:w-[70%] h-auto"
+                  className="w-[55%] md:w-[60%] lg:w-[65%] xl:w-[70%] h-auto"
                 />
               </div>
 
@@ -60,20 +60,20 @@ export default function Mint() {
 
               {/* name book */}
               <div className="absolute bottom-[44%] lg:bottom-[45%] left-1/2 -translate-x-[45%] px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2.5">
-                <span className="font-pp-mondwest text-[#B2A280] text-3xl md:text-4xl tracking-wider">
+                <span className="font-pp-mondwest text-[#B2A280] text-lg sm:text-2xl md:text-4xl tracking-wider">
                   LLAMAOISM
                 </span>
               </div>
 
               {/* Button */}
-              <div className="absolute bottom-0 left-[48%] -translate-x-1/2 -translate-y-full mb-2 sm:mb-3 md:mb-4 lg:mb-6 w-full flex items-center justify-center">
+              <div className="absolute bottom-0 left-1/2 md:left-[calc(50%+10px)] -translate-x-1/2 -translate-y-full mb-2 sm:mb-3 md:mb-4 lg:mb-6 flex items-center justify-center">
                 <Link href={"/mint/mint-page"}>
                   <Image
                     alt="llamao_enter_button"
                     src="/images/llamao_enter_button.svg"
-                    width={134.4067840576172}
-                    height={67.2033920288086}
-                    className="w-[140%] sm:w-[150%] md:w-[160%] lg:w-[180%] h-auto cursor-pointer max-w-none"
+                    width={180}
+                    height={90}
+                    className="w-full h-auto cursor-pointer"
                   />
                 </Link>
               </div>
