@@ -1,7 +1,7 @@
 import { Button } from "@/components/common/button";
-import React from "react";
+import { memo } from "react";
 
-export default function SubHeaderHome() {
+const SubHeaderHome = memo(function SubHeaderHome() {
   return (
     <nav className="flex items-center justify-start gap-2 sm:gap-4 px-2 sm:px-3 py-2 bg-[#C3C3C3] overflow-x-auto">
       <Button
@@ -18,4 +18,6 @@ export default function SubHeaderHome() {
       </Button>
     </nav>
   );
-}
+});
+
+export default SubHeaderHome;
