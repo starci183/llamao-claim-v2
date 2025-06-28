@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/common/button";
+import { useToast } from "@/hooks/use-toast";
 import axiosClient from "@/service/axios-client";
 import {
   useAppKit,
@@ -16,15 +18,22 @@ export default function MintButton() {
   const { chainId } = useAppKitNetworkCore();
   const { open } = useAppKit();
   const { address, isConnected } = useAppKitAccount();
-  const [balance, setBalance] = useState<string>("");
+  const { toast } = useToast();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setBalance] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchBalance = async () => {
-      if (!walletProvider || !address) return;
-      const provider = new BrowserProvider(walletProvider, chainId);
-      const signer = new JsonRpcSigner(provider, address);
-      const rawBalance = await signer.provider.getBalance(address);
-      setBalance(formatEther(rawBalance));
+      try {
+        if (!walletProvider || !address) return;
+        const provider = new BrowserProvider(walletProvider, chainId);
+        const signer = new JsonRpcSigner(provider, address);
+        const rawBalance = await signer.provider.getBalance(address);
+        setBalance(formatEther(rawBalance));
+      } catch (err) {
+        console.error("Error fetching balance:", err);
+      }
     };
 
     fetchBalance();
@@ -32,6 +41,9 @@ export default function MintButton() {
 
   const handleMintNFT = async () => {
     if (!address) return;
+
+    setLoading(true);
+
     try {
       const { data } = await axiosClient.post("/mint-nft", {
         chain: "monad-testnet",
@@ -57,42 +69,60 @@ export default function MintButton() {
           value: BigInt(data.steps[0].params.value),
         });
 
-        console.log("Transaction hash:", tx.hash);
+        toast({
+          title: "Minted",
+          message: "You have minted successfully with tx hash: " + tx.hash,
+          action: (
+            <button
+              onClick={() =>
+                window.open(`https://testnet.monad.xyz/tx/${tx.hash}`, "_blank")
+              }
+            >
+              View on explorer
+            </button>
+          ),
+          variant: "success",
+        });
       } catch (signError) {
         if (
           (signError as Error).message?.includes("user rejected") ||
           (signError as Error).message?.includes("User rejected")
         ) {
-          console.log("User rejected the transaction");
+          throw new Error("You rejected the transaction.");
         } else {
           console.error("Transaction signing failed:", signError);
+          throw new Error("Transaction signing failed. Please try again.");
         }
       }
-    } catch (error) {
-      console.error("Mint failed:", error);
+    } catch (err) {
+      console.error("Mint failed:", err);
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      toast({
+        message: errorMessage,
+        variant: "error",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div>
-      <h1>Reown AppKit Mint Demo</h1>
-
       {isConnected ? (
         <>
-          <p>
-            <strong>Connected address:</strong> {address}
-          </p>
-          <p>
-            <strong>Balance:</strong> {balance} MON
-          </p>
+          <Button
+            intent="gradient"
+            onClick={handleMintNFT}
+            disabled={loading}
+            className="max-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg"
+          >
+            {loading ? "Processing..." : "Llamao"}
+          </Button>
+          {/* {error && <p className="text-red-500 text-sm mt-2">{error}</p>} */}
         </>
       ) : (
         <button onClick={() => open()}>Connect Wallet</button>
       )}
-
-      <button onClick={handleMintNFT} className="mt-4">
-        Mint NFT
-      </button>
     </div>
   );
 }

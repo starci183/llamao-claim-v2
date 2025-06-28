@@ -1,7 +1,8 @@
+"use client";
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_END_POINT,
 });
 
 export default axiosClient;

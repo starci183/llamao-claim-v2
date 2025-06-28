@@ -1,4 +1,3 @@
-// components/StepNavigator.tsx
 import { Button } from "@/components/common/button";
 import React from "react";
 
@@ -6,12 +5,16 @@ interface StepNavigatorProps {
   currentLabel: string;
   onBack: () => void;
   onNext: () => void;
+  onMain?: () => void;
+  mainButton?: React.ReactNode;
 }
 
 export const StepNavigator: React.FC<StepNavigatorProps> = ({
   currentLabel,
   onBack,
   onNext,
+  onMain,
+  mainButton,
 }) => {
   return (
     <div className="flex items-center justify-center gap-4 w-full max-w-lg mx-auto">
@@ -24,12 +27,17 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
         ← Back
       </Button>
 
-      <Button
-        intent="gradient"
-        className="max-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg"
-      >
-        {currentLabel}
-      </Button>
+      {onMain ? (
+        <Button
+          intent="gradient"
+          onClick={onMain}
+          className="max-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg"
+        >
+          {currentLabel}
+        </Button>
+      ) : (
+        mainButton
+      )}
 
       {/* Next button */}
       <Button

@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import MintContent from "./components/mint-content";
 import { StepNavigator } from "./components/step-navigator";
+import MintButton from "./components/mint-button";
 
 export default function MintPage() {
   const { slug } = useParams();
@@ -31,6 +32,7 @@ export default function MintPage() {
       </div>
       <StepNavigator
         currentLabel="Llamao"
+        mainButton={<MintButton />}
         onBack={() => {}}
         onNext={() => {}}
       />
