@@ -29,6 +29,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "via.placeholder.com",
       },
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+      },
     ],
   },
 
@@ -115,7 +119,6 @@ const nextConfig: NextConfig = {
 
   //   return config
   // },
-
 
   // Redirects for URL management
   async redirects() {

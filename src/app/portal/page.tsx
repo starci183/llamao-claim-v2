@@ -11,20 +11,16 @@ import Tabs, {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs/tabs";
-import { Block } from "@/svg";
+import {
+  useAppKitAccount,
+  useWalletInfo
+} from "@reown/appkit/react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
 import Loading from "../loading";
-import {
-  useAppKit,
-  useAppKitAccount,
-  useAppKitProvider,
-  useWalletInfo,
-  type ConnectedWalletInfo,
-} from "@reown/appkit/react";
-import { truncateAddress } from "@/lib/utils";
 import AddressButton from "./components/address-button";
+import LlamaoismContent from "./components/llamaoism";
 
 const missions = [
   {
@@ -68,7 +64,7 @@ export default function Portal() {
   }
 
   return (
-    <motion.div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
+    <motion.div className="flex flex-col gap-2 md:gap-4 lg:gap-6">
       <Navbar navbarItems={items} />
       <MainLayout
         text="Portal"
@@ -82,7 +78,7 @@ export default function Portal() {
               alt="Llamao Web Testnet"
               width={295}
               height={219}
-              className="w-full md:w-[295px] h-auto max-w-none mx-auto"
+              className="w-full md:min-w-[330px] h-auto max-w-none mx-auto"
               priority
             />
           </motion.div>
@@ -185,46 +181,7 @@ export default function Portal() {
                 ) : null}
               </TabsContent>
               <TabsContent value="llamaoism">
-                {address ? (
-                  <>
-                    <motion.div className="flex flex-row items-center justify-between gap-2 whitespace-nowrap">
-                      <h1 className="text-sm md:text-base text-black">
-                        Filter Status
-                      </h1>
-                      <Select
-                        options={statusOptions}
-                        value={filterStatus}
-                        onChange={setFilterStatus}
-                        placeholder=""
-                        size="sm"
-                        defaultValue="all"
-                        width="fixed"
-                      />
-                    </motion.div>
-                    <motion.div className="flex flex-col items-center justify-center gap-2">
-                      <Mission missions={missions} />
-                    </motion.div>
-                    <motion.div>
-                      <Button
-                        icon={
-                          <Image
-                            src={"/gifs/llamao_zenmonad.gif"}
-                            alt="llamao_zenmonad"
-                            width={24}
-                            height={24}
-                            className="w-6 h-auto"
-                            priority
-                          />
-                        }
-                        doubleIcon
-                        intent={"gradient"}
-                        className="w-full flex items-center justify-center text-base py-2"
-                      >
-                        Let’s Llamao
-                      </Button>
-                    </motion.div>
-                  </>
-                ) : null}
+                {address ? <LlamaoismContent /> : null}
               </TabsContent>
             </Tabs>
           </motion.div>

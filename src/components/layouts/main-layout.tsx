@@ -53,7 +53,7 @@ const MainLayout = memo<MainLayoutProps>(function MainLayout({
     <div className="w-full flex bg-background items-center justify-center px-2 sm:px-4 lg:px-6">
       <div
         className={cn(
-          "p-1 bg-[#C3C3C3] w-full md:w-fit container mx-auto",
+          "p-1 bg-[#C3C3C3] w-[80%] md:w-fit container mx-auto",
           wrapperClassName,
           boxShadowOuter
         )}
