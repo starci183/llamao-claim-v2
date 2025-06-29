@@ -1,3 +1,4 @@
+import Progress from "@/components/common/progess";
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -18,10 +19,8 @@ export default function MintContentLeftPage({
   storyNumber = 1,
   storyTitle = "Llamao’s Last Supper",
   storyImage = "/gifs/llamao_last_supper.gif",
-  totalMinted = 10,
   currentPage = 1,
   totalPages = 10,
-  // minting = false,
   loading = false,
 }: MintContentLeftPageProps) {
   return (
@@ -37,7 +36,7 @@ export default function MintContentLeftPage({
       {/* image */}
       <div>
         {loading ? (
-          <Skeleton />
+          <Skeleton className="min-w-[95px] sm:min-w-[190px] md:min-w-[200px] lg:min-w-[230px] max-h-[120px]" />
         ) : (
           <Image
             src={storyImage}
@@ -56,35 +55,13 @@ export default function MintContentLeftPage({
           backgroundSize: "cover",
         }}
       >
-        <p className="text-[#CF573C] text-[10px] sm:text-lg">
+        <span className="text-[#CF573C] text-[10px] sm:text-lg">
           {loading ? <Skeleton className="w-1/2" /> : `"${storyTitle}"`}
-        </p>
+        </span>
       </div>
       {/* progress */}
-      <div className="w-full">
-        <div className="flex items-center justify-between w-full px-1">
-          <p className="text-[9px] sm:text-sm text-[#CF573C] font-pp-mondwest">
-            Total Minted: {totalMinted}
-          </p>
-          {/* Tính phần trăm progress */}
-          <span className="text-[9px] sm:text-sm text-[#B2A280] font-pp-mondwest">
-            {totalPages > 0
-              ? ((totalMinted / (totalPages * 10)) * 100).toFixed(2)
-              : 0}
-            %
-          </span>
-        </div>
-        <div className="mx-2 h-1 md:h-2 bg-[#AD7757] relative overflow-hidden">
-          <div
-            className="h-full bg-[#D7B594] transition-all duration-500"
-            style={{
-              width: `${
-                totalPages > 0 ? (totalMinted / (totalPages * 10)) * 100 : 0
-              }%`,
-            }}
-          />
-        </div>
-      </div>
+      <Progress max={100} value={10} label="Total Minted" />
+
       {/* pagination */}
       <div className="flex items-center w-full flex-0">
         <div className="flex-1 h-0.5 md:h-1 bg-[#CF573C]" />

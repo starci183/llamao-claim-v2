@@ -1,8 +1,8 @@
 import { Button } from "@/components/common/button";
+import EnterButton from "@/components/common/enter-button";
 import Navbar, { items } from "@/components/common/navbar";
 import MainLayout from "@/components/layouts/main-layout";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function MintPlaybook() {
   return (
@@ -58,17 +58,7 @@ export default function MintPlaybook() {
               </div>
 
               {/* Button */}
-              <div className="absolute bottom-0 left-[48%] -translate-x-1/2 -translate-y-full mb-1 sm:mb-2 md:mb-3 lg:mb-4 w-full flex items-center justify-center">
-                <Link href={"/mint-page"}>
-                  <Image
-                    alt="llamao_enter_button"
-                    src="/images/llamao_enter_button.svg"
-                    width={134.4067840576172}
-                    height={67.2033920288086}
-                    className="w-[120%] sm:w-[140%] md:w-[160%] lg:w-[180%] h-auto cursor-pointer max-w-none"
-                  />
-                </Link>
-              </div>
+              <EnterButton link="/mint-playbook/mint-playbook-page" />
             </div>
           </div>
         </div>
