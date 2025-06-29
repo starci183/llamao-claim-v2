@@ -1,4 +1,5 @@
 import MissionCard from "./mission-card";
+import { useRouter } from "next/navigation";
 
 type MissionProps = {
   missions: {
@@ -9,6 +10,7 @@ type MissionProps = {
 };
 
 export default function Mission({ missions }: MissionProps) {
+  const router = useRouter();
   return (
     <>
       {missions.map((mission, index) => (
@@ -17,6 +19,9 @@ export default function Mission({ missions }: MissionProps) {
           text={mission.text}
           link={mission.link}
           status={mission.status}
+          onClick={() => {
+            if (!mission.status) router.push(mission.link);
+          }}
         />
       ))}
     </>
