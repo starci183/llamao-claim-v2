@@ -7,6 +7,7 @@ interface StepNavigatorProps {
   onNext: () => void;
   onMain?: () => void;
   mainButton?: React.ReactNode;
+  isLastStep?: boolean;
 }
 
 export const StepNavigator: React.FC<StepNavigatorProps> = ({
@@ -15,6 +16,7 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
   onNext,
   onMain,
   mainButton,
+  isLastStep = false,
 }) => {
   return (
     <div className="flex items-center justify-center gap-4 w-full max-w-lg mx-auto">
@@ -22,7 +24,11 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
       <Button
         onClick={onBack}
         intent="primary"
-        className="max-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg"
+        className={
+          `max-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg` +
+          (currentLabel === "1" ? " opacity-50 cursor-not-allowed" : "")
+        }
+        disabled={currentLabel === "1"}
       >
         ← Back
       </Button>
@@ -43,7 +49,11 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
       <Button
         onClick={onNext}
         intent="primary"
-        className="max-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg"
+        className={
+          "max-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg" +
+          (isLastStep ? " opacity-50 cursor-not-allowed" : "")
+        }
+        disabled={isLastStep}
       >
         Next →
       </Button>

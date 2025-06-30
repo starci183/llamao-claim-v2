@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/common/button";
+import EnterButton from "@/components/common/enter-button";
 import Navbar, { items } from "@/components/common/navbar";
 import MainLayout from "@/components/layouts/main-layout";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Mint() {
@@ -66,17 +66,7 @@ export default function Mint() {
               </div>
 
               {/* Button */}
-              <div className="absolute bottom-0 left-1/2 md:left-[calc(50%+10px)] -translate-x-1/2 -translate-y-full mb-2 sm:mb-3 md:mb-4 lg:mb-6 flex items-center justify-center">
-                <Link href={"/mint/mint-page"}>
-                  <Image
-                    alt="llamao_enter_button"
-                    src="/images/llamao_enter_button.svg"
-                    width={180}
-                    height={90}
-                    className="w-full h-auto cursor-pointer"
-                  />
-                </Link>
-              </div>
+              <EnterButton link="/mint/mint-page" />
             </div>
           </div>
         </div>

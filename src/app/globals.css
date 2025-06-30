@@ -118,6 +118,11 @@ body {
     -1.1px -1.1px 0px 0px #000000 inset;
 }
 
+.box-shadow-mint-playbook {
+  box-shadow: 3.2px 3.2px 0px 0px #7e7e7e inset,
+    -3.2px -3.2px 0px 0px #f0f0f0 inset;
+}
+
 /* Utility classes for text truncation */
 .line-clamp-2 {
   display: -webkit-box;

@@ -12,6 +12,9 @@ import {
 } from "@reown/appkit/react";
 import { BrowserProvider, JsonRpcSigner, formatEther } from "ethers";
 import { useEffect, useState } from "react";
+import Smile from "@/svg/Smile";
+import Block from "@/svg/Block";
+import { cn } from "@/lib/utils";
 
 export default function MintButton() {
   const { walletProvider } = useAppKitProvider<Provider>("eip155");
@@ -22,6 +25,9 @@ export default function MintButton() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setBalance] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [mintStatus, setMintStatus] = useState<
+    "idle" | "pending" | "minted" | "failed"
+  >("idle");
 
   useEffect(() => {
     const fetchBalance = async () => {
@@ -43,6 +49,7 @@ export default function MintButton() {
     if (!address) return;
 
     setLoading(true);
+    setMintStatus("pending");
 
     try {
       const { data } = await axiosClient.post("/mint-nft", {
@@ -68,7 +75,7 @@ export default function MintButton() {
           data: data.steps[0].params.data,
           value: BigInt(data.steps[0].params.value),
         });
-
+        setMintStatus("minted");
         toast({
           title: "Minted",
           message: "You have minted successfully with tx hash: " + tx.hash,
@@ -91,6 +98,7 @@ export default function MintButton() {
           throw new Error("You rejected the transaction.");
         } else {
           console.error("Transaction signing failed:", signError);
+          setMintStatus("failed");
           throw new Error("Transaction signing failed. Please try again.");
         }
       }
@@ -101,10 +109,34 @@ export default function MintButton() {
         message: errorMessage,
         variant: "error",
       });
+      setMintStatus("failed");
     } finally {
       setLoading(false);
     }
   };
+
+  let buttonContent;
+  if (mintStatus === "pending") {
+    buttonContent = (
+      <div className="">
+        <span className="loader mr-1" /> Pending
+      </div>
+    );
+  } else if (mintStatus === "minted") {
+    buttonContent = (
+      <div className="flex items-center gap-1">
+        <Smile className="w-4 h-4" /> Minted <Smile className="w-4 h-4" />
+      </div>
+    );
+  } else if (mintStatus === "failed") {
+    buttonContent = (
+      <div className="flex items-center gap-1">
+        <Block className="w-4 h-4" /> Failed <Block className="w-4 h-4" />
+      </div>
+    );
+  } else {
+    buttonContent = loading ? "Processing..." : "Llamao";
+  }
 
   return (
     <div>
@@ -113,12 +145,19 @@ export default function MintButton() {
           <Button
             intent="gradient"
             onClick={handleMintNFT}
-            disabled={loading}
-            className="max-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg"
+            disabled={loading || mintStatus === "pending"}
+            className={cn(
+              "min-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg",
+              mintStatus === "pending" &&
+                "bg-[linear-gradient(90deg,_#FFFFFF_0%,_#757575_100%)] text-black",
+              mintStatus === "minted" &&
+                "bg-[linear-gradient(90deg,_#ACFFC4_0%,_#E2FFCB_100%)] text-black",
+              mintStatus === "failed" &&
+                "bg-[linear-gradient(90deg,_#FFACAD_0%,_#FF5E61_100%)] text-black"
+            )}
           >
-            {loading ? "Processing..." : "Llamao"}
+            {buttonContent}
           </Button>
-          {/* {error && <p className="text-red-500 text-sm mt-2">{error}</p>} */}
         </>
       ) : (
         <button onClick={() => open()}>Connect Wallet</button>
