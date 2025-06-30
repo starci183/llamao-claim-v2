@@ -4,6 +4,7 @@ import { useState } from "react";
 import MainLayout from "@/components/layouts/main-layout";
 import CategoriesShowcase from "@/components/layouts/showcase/categories-showcase";
 import ShowcaseTable from "@/components/layouts/showcase/showcase-table";
+import Navbar, { items } from "@/components/common/navbar";
 
 export default function Showcase() {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -20,7 +21,8 @@ export default function Showcase() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-2">
+    <div className="min-h-screen flex flex-col items-center justify-center px-2">
+      <Navbar navbarItems={items} />
       <MainLayout
         headerIcon="/gifs/llamao_majestic_run.gif"
         text="Showcase"
