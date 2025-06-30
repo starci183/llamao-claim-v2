@@ -20,7 +20,7 @@ const missionGroups = [
     bg: "bg-[url('/gifs/llamao_newpope.gif')] bg-cover",
     missions: [
       { text: "1. LLAMAO", status: true, link: "/mint" },
-      { text: "2. LLAMAO", status: true, link: "/mint" },
+      { text: "2. LLAMAO", status: false, link: "/mint-playbook" },
     ],
   },
 ];
