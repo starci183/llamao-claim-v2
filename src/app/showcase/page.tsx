@@ -1,48 +1,51 @@
 "use client";
 
-import { useState } from "react";
-import MainLayout from "@/components/layouts/main-layout";
 import CategoriesShowcase from "@/components/layouts/showcase/categories-showcase";
 import ShowcaseTable from "@/components/layouts/showcase/showcase-table";
-import Navbar, { items } from "@/components/common/navbar";
+import { useWalletAddress } from "@/hooks/use-wallet-address";
+import { useState } from "react";
 
 export default function Showcase() {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { address, isConnected } = useWalletAddress();
 
   const handleCategoryChange = (category: string) => {
-    setIsLoading(true);
     setSelectedCategory(category);
-
-    // Simulate loading delay for better UX
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 300);
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-2">
-      <Navbar navbarItems={items} />
-      <MainLayout
-        headerIcon="/gifs/llamao_majestic_run.gif"
-        text="Showcase"
-        subHeader={false}
-        className="w-full h-full p-2 sm:p-4 lg:p-6"
-        wrapperClassName="w-full max-w-sm sm:max-w-md md:max-w-2xl"
-      >
-        <div className="space-y-6">
-          <CategoriesShowcase
-            selectedCategory={selectedCategory}
-            onCategoryChange={handleCategoryChange}
-          />
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <CategoriesShowcase
+          selectedCategory={selectedCategory}
+          onCategoryChange={handleCategoryChange}
+        />
 
-          <ShowcaseTable
-            category={selectedCategory || undefined}
-            loading={isLoading}
-            className="animate-in fade-in duration-300"
-          />
-        </div>
-      </MainLayout>
+        {/* Toggle for showing only user's items */}
+        {/* {isConnected && (
+              <div className="flex items-center gap-2">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={showOnlyMyItems}
+                    onChange={handleToggleMyItems}
+                    className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    My Items Only
+                  </span>
+                </label>
+              </div>
+            )} */}
+      </div>
+
+      <ShowcaseTable
+        category={selectedCategory || undefined}
+        userAddress={isConnected ? address : undefined}
+        showOnlyMyItems={true}
+        className="animate-in fade-in duration-300"
+        itemsPerPage={9}
+      />
     </div>
   );
 }
