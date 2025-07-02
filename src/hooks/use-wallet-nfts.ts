@@ -1,11 +1,11 @@
 import { getWalletNFTCollection, NFTCollection } from "@/lib/nft-utils";
 import { ethers } from "ethers";
-import { useCallback, useEffect, useState } from "react";
+import useSWR from "swr";
 
 interface UseWalletNFTsParams {
   walletAddress?: string;
   contractAddresses: string[];
-  erc1155TokenIds?: { [contractAddress: string]: string[] };
+  tokenIds?: { [contractAddress: string]: string[] };
   enabled?: boolean;
 }
 
@@ -16,74 +16,57 @@ interface UseWalletNFTsReturn {
   refetch: () => void;
 }
 
+function getRpcUrl() {
+  if (process.env.NEXT_PUBLIC_RPC_URL) {
+    return process.env.NEXT_PUBLIC_RPC_URL;
+  }
+  const publicRpcs = [
+    "https://eth.llamarpc.com",
+    "https://rpc.flashbots.net",
+    "https://ethereum.publicnode.com",
+    "https://1rpc.io/eth",
+    "https://eth.rpc.blxrbdn.com",
+  ];
+  return publicRpcs[Math.floor(Math.random() * publicRpcs.length)];
+}
+
+async function fetchNFTsFn([
+  walletAddress,
+  contractAddresses,
+  tokenIds,
+]: [string, string[], { [contractAddress: string]: string[] }?]) {
+  if (!walletAddress || !contractAddresses.length) return [];
+  const provider = new ethers.JsonRpcProvider(getRpcUrl());
+  return getWalletNFTCollection(
+    walletAddress,
+    contractAddresses,
+    provider,
+    tokenIds || {}
+  );
+}
+
 export function useWalletNFTs({
   walletAddress,
   contractAddresses,
-  erc1155TokenIds = {},
+  tokenIds = {},
   enabled = true,
 }: UseWalletNFTsParams): UseWalletNFTsReturn {
-  const [collections, setCollections] = useState<NFTCollection[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchNFTs = useCallback(async () => {
-    if (!walletAddress || !enabled || contractAddresses.length === 0) {
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Use public RPC endpoints that don't require API keys
-      const getRpcUrl = () => {
-        if (process.env.NEXT_PUBLIC_RPC_URL) {
-          return process.env.NEXT_PUBLIC_RPC_URL;
-        }
-
-        // Fallback to public RPCs (these are free but may have rate limits)
-        const publicRpcs = [
-          "https://eth.llamarpc.com", // Llama RPC (public)
-          "https://rpc.flashbots.net", // Flashbots (public)
-          "https://ethereum.publicnode.com", // PublicNode (public)
-          "https://1rpc.io/eth", // 1RPC (public)
-          "https://eth.rpc.blxrbdn.com", // bloXroute (public)
-        ];
-
-        // Randomly select one to distribute load
-        return publicRpcs[Math.floor(Math.random() * publicRpcs.length)];
-      };
-
-      const provider = new ethers.JsonRpcProvider(getRpcUrl());
-
-      const nftCollections = await getWalletNFTCollection(
-        walletAddress,
-        contractAddresses,
-        provider,
-        erc1155TokenIds
-      );
-
-      setCollections(nftCollections);
-    } catch (err) {
-      console.error("Error fetching NFTs:", err);
-      setError(err instanceof Error ? err.message : "Failed to fetch NFTs");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [walletAddress, contractAddresses, enabled, erc1155TokenIds]);
-
-  useEffect(() => {
-    fetchNFTs();
-  }, [fetchNFTs]);
-
-  const refetch = useCallback(() => {
-    fetchNFTs();
-  }, [fetchNFTs]);
+  const shouldFetch = Boolean(
+    walletAddress && contractAddresses.length && enabled
+  );
+  const { data, error, isLoading, mutate } = useSWR(
+    shouldFetch ? [walletAddress, contractAddresses, tokenIds] : null,
+    fetchNFTsFn
+  );
 
   return {
-    collections,
-    isLoading,
-    error,
-    refetch,
+    collections: data || [],
+    isLoading: isLoading || false,
+    error: error
+      ? error instanceof Error
+        ? error.message
+        : "Failed to fetch NFTs"
+      : null,
+    refetch: mutate,
   };
 }

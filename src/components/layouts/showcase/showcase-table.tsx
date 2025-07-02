@@ -48,7 +48,6 @@ export default function ShowcaseTable({
     userAddress: !showOnlyMyItems ? userAddress : address,
   });
 
-  // Calculate pagination for combined items
   const totalItems = showcaseItems.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -57,8 +56,8 @@ export default function ShowcaseTable({
     startIndex + itemsPerPage
   );
 
-  // Determine loading and error states
   const isLoading = showOnlyMyItems ?? showcaseLoading;
+  const error = showcaseError;
 
   // Reset to first page when category changes
   useEffect(() => {
@@ -105,6 +104,23 @@ export default function ShowcaseTable({
                 : category
                 ? `No items in the "${category}" category yet.`
                 : "No showcase items available."}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={cn("w-full", wrapperClassName)}>
+        <div className="flex flex-col items-center justify-center py-12">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-red-600 mb-2">
+              Error Loading Items
+            </h3>
+            <p className="text-sm text-gray-500">
+              {error.message || "An unexpected error occurred."}
             </p>
           </div>
         </div>

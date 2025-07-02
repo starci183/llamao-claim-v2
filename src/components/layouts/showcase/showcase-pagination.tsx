@@ -13,8 +13,8 @@ interface ShowcasePaginationProps {
   disabled?: boolean;
   showPageNumbers?: boolean;
   maxVisiblePages?: number;
-  isValidating?: boolean; // For SWR loading states
-  keepPreviousData?: boolean; // Indicates if we're using keepPreviousData
+  isValidating?: boolean;
+  keepPreviousData?: boolean;
 }
 
 const ShowcasePagination = memo(function ShowcasePagination({
@@ -75,7 +75,6 @@ const ShowcasePagination = memo(function ShowcasePagination({
     let start = Math.max(1, currentPage - half);
     const end = Math.min(totalPages, start + maxVisiblePages - 1);
 
-    // Adjust start if we're near the end
     if (end - start + 1 < maxVisiblePages) {
       start = Math.max(1, end - maxVisiblePages + 1);
     }
@@ -83,7 +82,6 @@ const ShowcasePagination = memo(function ShowcasePagination({
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }, [currentPage, totalPages, maxVisiblePages]);
 
-  // Don't render if there's only one page or no pages
   if (totalPages <= 1) {
     return null;
   }
@@ -95,7 +93,6 @@ const ShowcasePagination = memo(function ShowcasePagination({
   const showLastEllipsis =
     visiblePages[visiblePages.length - 1] < totalPages - 1;
 
-  // Determine if controls should be disabled (either explicitly disabled or validating without keepPreviousData)
   const controlsDisabled = disabled || (isValidating && !keepPreviousData);
 
   return (
