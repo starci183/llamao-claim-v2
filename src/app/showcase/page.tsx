@@ -23,7 +23,7 @@ export default function Showcase() {
         onCategoryChange={handleCategoryChange}
       /> */}
 
-      <Tabs defaultValue="eligibility">
+      <Tabs defaultValue="llamaoism">
         <TabsList>
           <TabsTrigger
             value="llamaoism"
