@@ -147,7 +147,7 @@ export default function MintButton() {
             onClick={handleMintNFT}
             disabled={loading || mintStatus === "pending"}
             className={cn(
-              "min-w-[116.7796630859375px] w-full max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg",
+              "min-w-[80px] md:min-w-[116.7796630859375px] w-full max-h-[23.27118682861328px] md:max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg",
               mintStatus === "pending" &&
                 "bg-[linear-gradient(90deg,_#FFFFFF_0%,_#757575_100%)] text-black",
               mintStatus === "minted" &&

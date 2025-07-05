@@ -17,7 +17,7 @@ export default function MintContentRightPage({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center w-full h-full pl-2 sm:pl-5 pt-6 sm:pt-6",
+        "flex flex-col items-center justify-center w-full h-full",
         className
       )}
     >

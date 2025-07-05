@@ -1,30 +1,94 @@
 "use client";
 
-import CategoriesShowcase from "@/components/layouts/showcase/categories-showcase";
-import ShowcasePagination from "@/components/layouts/showcase/showcase-pagination";
 import ShowcaseTable from "@/components/layouts/showcase/showcase-table";
-import { useWalletAddress } from "@/hooks/use-wallet-address";
+import Tabs, {
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs/tabs";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function Showcase() {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const { address, isConnected } = useWalletAddress();
 
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-  };
+  // const handleCategoryChange = (category: string) => {
+  //   setSelectedCategory(category);
+  // };
 
   return (
     <div className="space-y-6">
-      <CategoriesShowcase
+      {/* <CategoriesShowcase
         selectedCategory={selectedCategory}
         onCategoryChange={handleCategoryChange}
-      />
+      /> */}
 
-      <ShowcaseTable
-        category={selectedCategory || undefined}
-        className="animate-in fade-in duration-300"
-      />
+      <Tabs defaultValue="eligibility">
+        <TabsList>
+          <TabsTrigger
+            value="llamaoism"
+            icon={
+              <Image
+                alt="ball"
+                src="/icons/ball_1.svg"
+                width={24}
+                height={24}
+                className="w-6 h-auto"
+              />
+            }
+            iconPosition="right"
+          >
+            Llamao-ism
+          </TabsTrigger>
+          <TabsTrigger
+            value="community"
+            icon={
+              <Image
+                alt="ball"
+                src="/icons/ball_1.svg"
+                width={24}
+                height={24}
+                className="w-6 h-auto"
+              />
+            }
+            iconPosition="right"
+          >
+            Community
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="llamaoism">
+          <Tabs defaultValue="ideology">
+            <TabsList className="bg-transparent">
+              <TabsTrigger value="ideology" variant="primary">
+                Ideology
+              </TabsTrigger>
+              <TabsTrigger value="playbook" variant="primary">
+                Playbook
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="ideology">
+              <ShowcaseTable
+                category={selectedCategory || undefined}
+                className="animate-in fade-in duration-300"
+              />
+            </TabsContent>
+
+            <TabsContent value="playbook">
+              <ShowcaseTable
+                category={selectedCategory || undefined}
+                className="animate-in fade-in duration-300"
+              />
+            </TabsContent>
+          </Tabs>
+        </TabsContent>
+        <TabsContent value="community">
+          <ShowcaseTable
+            category={selectedCategory || undefined}
+            className="animate-in fade-in duration-300"
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

@@ -1,10 +1,10 @@
 "use client";
 
+import { StepNavigator } from "@/components/common/step-navigator";
 import { useContract, type NftMetadata } from "@/hooks/use-contract";
+import { useEffect, useState } from "react";
 import MintButton from "./components/mint-button";
 import MintContent from "./components/mint-content";
-import { StepNavigator } from "./components/step-navigator";
-import { useEffect, useState } from "react";
 
 export default function MintPage() {
   const { contractURI } = useContract();
@@ -35,23 +35,25 @@ export default function MintPage() {
     >
       <div className="flex items-center justify-center overflow-hidden w-full h-full">
         <div
-          className="w-full h-full flex items-center justify-center bg-no-repeat bg-center bg-cover pointer-events-none aspect-[4/3] md:aspect-[3/2]"
+          className="w-full h-full flex items-center justify-center bg-no-repeat bg-center bg-cover pointer-events-none aspect-[4/3]"
           style={{
-            backgroundImage: "url(/gifs/llamao_open_book.gif)",
+            backgroundImage: "url(/images/llamao_web_openbook.svg)",
           }}
         >
-          <div className="flex w-[80%] md:w-[70%] h-full items-center justify-center pointer-events-auto">
+          <div className="flex w-[95%] md:w-[80%] h-full items-center justify-center pointer-events-auto">
             {nftMetadata && <MintContent nftMetadata={nftMetadata} />}
           </div>
         </div>
       </div>
 
-      <StepNavigator
-        currentLabel="Llamao"
-        mainButton={<MintButton />}
-        onBack={() => {}}
-        onNext={() => {}}
-      />
+      <div className="mb-4">
+        <StepNavigator
+          currentLabel="Llamao"
+          mainButton={<MintButton />}
+          onBack={() => {}}
+          onNext={() => {}}
+        />
+      </div>
     </div>
   );
 }

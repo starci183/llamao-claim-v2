@@ -1,8 +1,8 @@
 import { Button } from "@/components/common/button";
-import EnterButton from "@/components/common/enter-button";
 import Navbar, { items } from "@/components/common/navbar";
 import MainLayout from "@/components/layouts/main-layout";
 import Image from "next/image";
+import EnterButton from "./components/enter-button";
 
 export default function MintPlaybook() {
   return (
@@ -28,12 +28,12 @@ export default function MintPlaybook() {
             <div className="relative max-w-[550px] sm:max-w-[650px] md:max-w-[750px] lg:max-w-[850px] xl:max-w-[900px] aspect-[679px/402px] w-full">
               <Image
                 alt="book_cover"
-                src="/images/llamao_scrollbook.svg"
+                src="/images/scroll_llamao.svg"
                 width={679.7457885742188}
                 height={402.11865234375}
                 quality={100}
                 priority
-                className="w-full h-auto mt-3 sm:mt-4 md:mt-6 lg:mt-10"
+                className="w-full h-auto"
               />
 
               {/* llamao image text */}
@@ -48,14 +48,14 @@ export default function MintPlaybook() {
               </div>
 
               {/* name book */}
-              <div className="absolute bottom-[42%] lg:bottom-[43%] left-1/2 -translate-x-[45%] px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2.5 flex flex-col items-center">
+              {/* <div className="absolute bottom-[42%] lg:bottom-[43%] left-1/2 -translate-x-[45%] px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2.5 flex flex-col items-center">
                 <span className="font-pp-mondwest text-[#7D4200] text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-wider">
                   PLAYBOOK
                 </span>
                 <span className="font-pp-mondwest text-[#7D4200] text-md sm:text-lg md:text-xl lg:text-2xl">
                   ~ how to be a llamao ~
                 </span>
-              </div>
+              </div> */}
 
               {/* Button */}
               <EnterButton link="/mint-playbook/mint-playbook-page" />
