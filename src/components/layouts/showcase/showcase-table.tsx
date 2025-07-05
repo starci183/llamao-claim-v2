@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { useState, useMemo, useEffect } from "react";
 import ShowcaseCard from "./showcase-card";
 import ShowcasePagination from "./showcase-pagination";
+import { useContract, NftMetadata } from "@/hooks/use-contract";
+import { useRouter } from "next/navigation";
 
 interface ShowcaseItem {
   id: string;
@@ -140,6 +142,20 @@ export default function ShowcaseTable({
   itemsPerPage = 6,
 }: ShowcaseTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
+  const { tokenURI, balance, contractAddress } = useContract();
+  const [nftMetadata, setNftMetadata] = useState<NftMetadata | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!tokenURI) return;
+    fetch(tokenURI)
+      .then((res) => res.json())
+      .then((data) => setNftMetadata(data))
+      .catch((err) => {
+        setNftMetadata(null);
+        console.error("Error fetching NFT metadata:", err);
+      });
+  }, [tokenURI]);
 
   const filteredItems = useMemo(() => {
     return category
@@ -211,7 +227,7 @@ export default function ShowcaseTable({
           className
         )}
       >
-        {currentItems.map((item, index) => (
+        {/* {currentItems.map((item, index) => (
           <ShowcaseCard
             key={item.id}
             imgSrc={item.image}
@@ -221,7 +237,23 @@ export default function ShowcaseTable({
             wrapperClassName="h-full"
             className="w-full h-auto object-cover"
           />
-        ))}
+        ))} */}
+        {nftMetadata && (
+          <ShowcaseCard
+            onClick={() => {
+              window.open(
+                `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
+                "_blank"
+              );
+            }}
+            imgSrc={nftMetadata.image}
+            text={nftMetadata.name + " " + "x" + balance}
+            state="nft"
+            description={nftMetadata.description}
+            wrapperClassName="mb-4"
+            className="w-full h-auto object-cover"
+          />
+        )}
       </div>
 
       {/* Pagination Component */}
