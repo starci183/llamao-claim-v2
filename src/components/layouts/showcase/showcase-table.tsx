@@ -1,12 +1,11 @@
 "use client";
 
-import { Skeleton } from "@/components/ui/skeleton/skeleton";
-import { useShowcaseData } from "@/hooks/use-showcase-data";
-import { useWalletAddress } from "@/hooks/use-wallet-address";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import ShowcaseCard from "./showcase-card";
 import ShowcasePagination from "./showcase-pagination";
+import { useContract, NftMetadata } from "@/hooks/use-contract";
+import { useRouter } from "next/navigation";
 
 interface ShowcaseItem {
   id: string;
@@ -19,50 +18,161 @@ interface ShowcaseItem {
 interface ShowcaseTableProps {
   className?: string;
   wrapperClassName?: string;
+  items?: ShowcaseItem[];
   category?: string;
+  loading?: boolean;
   itemsPerPage?: number;
-  userAddress?: string;
-  showOnlyMyItems?: boolean;
 }
+
+// Sample data for demonstration
+const SAMPLE_SHOWCASE_ITEMS: ShowcaseItem[] = [
+  {
+    id: "1",
+    title: "Llamao Meme #1",
+    image: "/gifs/llamao_majestic_run.gif",
+    category: "meme",
+    description: "Epic Llamao running animation",
+  },
+  {
+    id: "2",
+    title: "Community Art #1",
+    image: "/gifs/llamao_zenmonad.gif",
+    category: "community",
+    description: "Zen Llamao meditation",
+  },
+  {
+    id: "3",
+    title: "Llamao Banner",
+    image: "/gifs/llamao_promote_banner.gif",
+    category: "arts",
+    description: "Promotional banner design",
+  },
+  {
+    id: "4",
+    title: "About Background",
+    image: "/gifs/llamao_about_background.gif",
+    category: "arts",
+    description: "Background animation for about page",
+  },
+  {
+    id: "5",
+    title: "Llamao PFP #1",
+    image: "/images/llamao_logo_text.svg",
+    category: "pfps",
+    description: "Classic Llamao profile picture",
+  },
+  {
+    id: "6",
+    title: "Llamao PFP #2",
+    image: "/images/home.svg",
+    category: "pfps",
+    description: "Home themed profile picture",
+  },
+  {
+    id: "7",
+    title: "Llamao Meme #2",
+    image: "/gifs/llamao_majestic_run.gif",
+    category: "meme",
+    description: "Another epic Llamao animation",
+  },
+  {
+    id: "8",
+    title: "Community Art #2",
+    image: "/gifs/llamao_zenmonad.gif",
+    category: "community",
+    description: "More community artwork",
+  },
+  {
+    id: "9",
+    title: "Llamao Art #3",
+    image: "/gifs/llamao_promote_banner.gif",
+    category: "arts",
+    description: "Creative art piece",
+  },
+  {
+    id: "10",
+    title: "Background Art",
+    image: "/gifs/llamao_about_background.gif",
+    category: "arts",
+    description: "Background design artwork",
+  },
+  {
+    id: "11",
+    title: "Profile Picture #3",
+    image: "/images/llamao_logo_text.svg",
+    category: "pfps",
+    description: "Another profile picture option",
+  },
+  {
+    id: "12",
+    title: "Home Design",
+    image: "/images/home.svg",
+    category: "pfps",
+    description: "Home design themed picture",
+  },
+  {
+    id: "13",
+    title: "Llamao Meme #3",
+    image: "/gifs/llamao_majestic_run.gif",
+    category: "meme",
+    description: "Third meme in the collection",
+  },
+  {
+    id: "14",
+    title: "Community Contribution",
+    image: "/gifs/llamao_zenmonad.gif",
+    category: "community",
+    description: "Community contributed content",
+  },
+  {
+    id: "15",
+    title: "Art Collection #4",
+    image: "/gifs/llamao_promote_banner.gif",
+    category: "arts",
+    description: "Fourth art piece in collection",
+  },
+];
 
 export default function ShowcaseTable({
   className,
   wrapperClassName = "w-full",
+  items = SAMPLE_SHOWCASE_ITEMS,
   category,
+  loading = false,
   itemsPerPage = 6,
-  userAddress,
-  showOnlyMyItems = false,
 }: ShowcaseTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { address, isConnected } = useWalletAddress();
+  const { tokenURI, balance, contractAddress } = useContract();
+  const [nftMetadata, setNftMetadata] = useState<NftMetadata | null>(null);
+  const router = useRouter();
 
-  // Use the showcase data hook for regular items
-  const {
-    items: showcaseItems,
-    isLoading: showcaseLoading,
-    error: showcaseError,
-  } = useShowcaseData({
-    page: currentPage,
-    itemsPerPage,
-    category: category !== "nft" ? category : undefined,
-    userAddress: !showOnlyMyItems ? userAddress : address,
-  });
+  useEffect(() => {
+    if (!tokenURI) return;
+    fetch(tokenURI)
+      .then((res) => res.json())
+      .then((data) => setNftMetadata(data))
+      .catch((err) => {
+        setNftMetadata(null);
+        console.error("Error fetching NFT metadata:", err);
+      });
+  }, [tokenURI]);
 
-  const totalItems = showcaseItems.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const filteredItems = useMemo(() => {
+    return category
+      ? items.filter((item) => item.category === category)
+      : items;
+  }, [items, category]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedItems = showcaseItems.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
-
-  const isLoading = showOnlyMyItems ?? showcaseLoading;
-  const error = showcaseError;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = filteredItems.slice(startIndex, endIndex);
 
   // Reset to first page when category changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [category, showOnlyMyItems]);
+  }, [category]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -70,16 +180,18 @@ export default function ShowcaseTable({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className={cn("w-full", wrapperClassName)}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {Array.from({ length: itemsPerPage }).map((_, index) => (
-            <div key={index} className="space-y-3">
-              <Skeleton className="h-28 w-full rounded-lg" />
-              <div className="space-y-2 p-4">
-                <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-3 w-1/2" />
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              key={index}
+              className="animate-pulse bg-gray-200 rounded-lg h-64"
+            >
+              <div className="h-48 bg-gray-300 rounded-t-lg"></div>
+              <div className="p-4">
+                <div className="h-4 bg-gray-300 rounded w-3/4"></div>
               </div>
             </div>
           ))}
@@ -88,39 +200,18 @@ export default function ShowcaseTable({
     );
   }
 
-  if (paginatedItems.length === 0) {
+  if (filteredItems.length === 0) {
     return (
       <div className={cn("w-full", wrapperClassName)}>
         <div className="flex flex-col items-center justify-center py-12">
           <div className="text-center">
             <h3 className="text-lg font-semibold text-gray-600 mb-2">
-              {showOnlyMyItems
-                ? "No Items in Your Collection"
-                : "No items found"}
+              No items found
             </h3>
             <p className="text-sm text-gray-500">
-              {showOnlyMyItems
-                ? "Connect your wallet and own some NFTs to see them here."
-                : category
+              {category
                 ? `No items in the "${category}" category yet.`
                 : "No showcase items available."}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={cn("w-full", wrapperClassName)}>
-        <div className="flex flex-col items-center justify-center py-12">
-          <div className="text-center">
-            <h3 className="text-lg font-semibold text-red-600 mb-2">
-              Error Loading Items
-            </h3>
-            <p className="text-sm text-gray-500">
-              {error.message || "An unexpected error occurred."}
             </p>
           </div>
         </div>
@@ -136,17 +227,33 @@ export default function ShowcaseTable({
           className
         )}
       >
-        {paginatedItems.map((item: ShowcaseItem, index: number) => (
+        {/* {currentItems.map((item, index) => (
           <ShowcaseCard
-            key={item.id || index}
+            key={item.id}
             imgSrc={item.image}
             text={item.title}
             state={item.category}
-            priority={index < 3}
+            priority={index < 3} // Prioritize loading for first 3 items
             wrapperClassName="h-full"
             className="w-full h-auto object-cover"
           />
-        ))}
+        ))} */}
+        {nftMetadata && (
+          <ShowcaseCard
+            onClick={() => {
+              window.open(
+                `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
+                "_blank"
+              );
+            }}
+            imgSrc={nftMetadata.image}
+            text={nftMetadata.name + " " + "x" + balance}
+            state="nft"
+            description={nftMetadata.description}
+            wrapperClassName="mb-4"
+            className="w-full h-auto object-cover"
+          />
+        )}
       </div>
 
       {/* Pagination Component */}
@@ -155,7 +262,7 @@ export default function ShowcaseTable({
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
-          disabled={isLoading}
+          disabled={loading}
         />
       )}
     </div>

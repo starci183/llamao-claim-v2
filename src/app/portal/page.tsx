@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { Button } from "@/components/common/button";
@@ -11,10 +10,7 @@ import Tabs, {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs/tabs";
-import {
-  useAppKitAccount,
-  useWalletInfo
-} from "@reown/appkit/react";
+import { useAppKitAccount, useWalletInfo } from "@reown/appkit/react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";

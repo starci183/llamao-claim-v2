@@ -5,12 +5,14 @@ type MintContentRightPageProps = {
   className?: string;
   endDate?: string;
   maximumLlamaoPerWallet?: number;
+  description?: string;
 };
 
 export default function MintContentRightPage({
   className,
   endDate,
   maximumLlamaoPerWallet,
+  description,
 }: MintContentRightPageProps) {
   return (
     <div
@@ -92,10 +94,8 @@ export default function MintContentRightPage({
           {/* content */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8px] md:text-sm text-[#602C2C] font-pp-neuebit w-full px-3 md:px-4 truncate max-w-[120vw] whitespace-normal sm:max-w-full">
             <span className="block sm:hidden">
-              Llamao is a collection of 10,000 unique llamas on the Solana
-              blockchain, each with its own distinct traits and characteristics.
+              {description}
               <span className="inline">
-                {/* Ẩn phần sau trên mobile */}
                 <span className="sr-only">
                   These digital collectibles are designed to be fun, engaging,
                   and visually appealing, making them perfect for collectors and
@@ -104,13 +104,7 @@ export default function MintContentRightPage({
                 ...
               </span>
             </span>
-            <span className="hidden sm:block">
-              Llamao is a collection of 10,000 unique llamas on the Solana
-              blockchain, each with its own distinct traits and characteristics.
-              These digital collectibles are designed to be fun, engaging, and
-              visually appealing, making them perfect for collectors and
-              enthusiasts alike.
-            </span>
+            <span className="hidden sm:block">{description}</span>
           </div>
         </div>
       </div>

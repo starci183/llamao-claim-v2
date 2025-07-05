@@ -1,4 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
+import type { NftMetadata } from "@/hooks/use-contract";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -12,6 +13,7 @@ interface MintContentLeftPageProps {
   totalPages?: number;
   minting?: boolean;
   loading?: boolean;
+  nftMetadata?: NftMetadata;
 }
 export default function MintContentLeftPage({
   className = "",
@@ -23,7 +25,9 @@ export default function MintContentLeftPage({
   totalPages = 10,
   // minting = false,
   loading = false,
+  nftMetadata,
 }: MintContentLeftPageProps) {
+  console.log("nftMetadata", nftMetadata);
   return (
     <div
       className={cn(

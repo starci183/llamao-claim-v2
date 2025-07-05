@@ -4,11 +4,13 @@ import { Button } from "@/components/common/button";
 import EnterButton from "@/components/common/enter-button";
 import Navbar, { items } from "@/components/common/navbar";
 import MainLayout from "@/components/layouts/main-layout";
+import { useContract } from "@/hooks/use-contract";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Mint() {
   const navigation = useRouter();
+  const { ipfsID } = useContract();
   return (
     <div className="flex flex-col gap-2 sm:gap-4 md:gap-6 min-h-screen items-center justify-start">
       <Navbar navbarItems={items} />
@@ -66,7 +68,7 @@ export default function Mint() {
               </div>
 
               {/* Button */}
-              <EnterButton link="/mint/mint-page" />
+              <EnterButton link={`/mint/${ipfsID}`} />
             </div>
           </div>
         </div>
