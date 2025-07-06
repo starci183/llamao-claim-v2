@@ -43,9 +43,9 @@ export default function CategoriesShowcase({
             key={index}
             onClick={() => handleCategoryClick(category.state)}
             className={cn(
-              "!shadow-none transition-all duration-300 text-black w-full p-1 sm:p-2 max-w-16 sm:max-w-20 md:max-w-28 hover:scale-105",
+              "!shadow-none bg-transparent transition-all duration-300 text-black w-full p-1 sm:p-2 min-w-14 sm:min-w-16 md:min-w-20 hover:scale-105",
               isSelected
-                ? " border-b-[#AAAAAA] border-b-2 sm:border-b-3 md:border-b-4"
+                ? " border-b-[#AAAAAA] border-b-1 sm:border-b-2 md:border-b-3"
                 : "",
               className
             )}

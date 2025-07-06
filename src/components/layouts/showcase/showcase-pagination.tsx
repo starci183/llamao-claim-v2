@@ -13,6 +13,8 @@ interface ShowcasePaginationProps {
   disabled?: boolean;
   showPageNumbers?: boolean;
   maxVisiblePages?: number;
+  isValidating?: boolean;
+  keepPreviousData?: boolean;
 }
 
 const ShowcasePagination = memo(function ShowcasePagination({
@@ -23,27 +25,44 @@ const ShowcasePagination = memo(function ShowcasePagination({
   disabled = false,
   showPageNumbers = true,
   maxVisiblePages = 5,
+  isValidating = false,
+  keepPreviousData = true,
 }: ShowcasePaginationProps) {
-  // Handle navigation
+  // Handle navigation with SWR considerations
   const handlePrevious = useCallback(() => {
-    if (currentPage > 1 && !disabled) {
+    if (currentPage > 1 && !disabled && (!isValidating || keepPreviousData)) {
       onPageChange(currentPage - 1);
     }
-  }, [currentPage, disabled, onPageChange]);
+  }, [currentPage, disabled, onPageChange, isValidating, keepPreviousData]);
 
   const handleNext = useCallback(() => {
-    if (currentPage < totalPages && !disabled) {
+    if (
+      currentPage < totalPages &&
+      !disabled &&
+      (!isValidating || keepPreviousData)
+    ) {
       onPageChange(currentPage + 1);
     }
-  }, [currentPage, totalPages, disabled, onPageChange]);
+  }, [
+    currentPage,
+    totalPages,
+    disabled,
+    onPageChange,
+    isValidating,
+    keepPreviousData,
+  ]);
 
   const handlePageClick = useCallback(
     (page: number) => {
-      if (page !== currentPage && !disabled) {
+      if (
+        page !== currentPage &&
+        !disabled &&
+        (!isValidating || keepPreviousData)
+      ) {
         onPageChange(page);
       }
     },
-    [currentPage, disabled, onPageChange]
+    [currentPage, disabled, onPageChange, isValidating, keepPreviousData]
   );
 
   // Calculate visible page numbers
@@ -56,7 +75,6 @@ const ShowcasePagination = memo(function ShowcasePagination({
     let start = Math.max(1, currentPage - half);
     const end = Math.min(totalPages, start + maxVisiblePages - 1);
 
-    // Adjust start if we're near the end
     if (end - start + 1 < maxVisiblePages) {
       start = Math.max(1, end - maxVisiblePages + 1);
     }
@@ -64,7 +82,6 @@ const ShowcasePagination = memo(function ShowcasePagination({
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }, [currentPage, totalPages, maxVisiblePages]);
 
-  // Don't render if there's only one page or no pages
   if (totalPages <= 1) {
     return null;
   }
@@ -76,23 +93,35 @@ const ShowcasePagination = memo(function ShowcasePagination({
   const showLastEllipsis =
     visiblePages[visiblePages.length - 1] < totalPages - 1;
 
+  const controlsDisabled = disabled || (isValidating && !keepPreviousData);
+
   return (
     <div
       className={cn(
-        "flex items-center justify-center gap-1 sm:gap-2 p-2 bg-[#C3C3C3] box-shadow-showcase-pagination",
+        "relative flex items-center justify-center gap-1 sm:gap-2 p-2 bg-[#C3C3C3] box-shadow-showcase-pagination",
+        // Add subtle animation when validating with keepPreviousData
+        isValidating &&
+          keepPreviousData &&
+          "ring-2 ring-blue-200 ring-opacity-50",
         className
       )}
       role="navigation"
       aria-label="Pagination Navigation"
     >
+      {/* Loading indicator for SWR validation */}
+      {isValidating && keepPreviousData && (
+        <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+      )}
+
       {/* Previous Button */}
       <Button
         intent="primary"
         onClick={handlePrevious}
-        disabled={currentPage === 1 || disabled}
+        disabled={currentPage === 1 || controlsDisabled}
         className={cn(
           "flex items-center justify-center p-1 sm:p-2 min-w-8 sm:min-w-10 h-8 sm:h-8 text-xs sm:text-sm",
-          (currentPage === 1 || disabled) && "opacity-50 cursor-not-allowed"
+          (currentPage === 1 || controlsDisabled) &&
+            "opacity-50 cursor-not-allowed"
         )}
         aria-label="Go to previous page"
       >
@@ -105,10 +134,10 @@ const ShowcasePagination = memo(function ShowcasePagination({
           <Button
             intent={1 === currentPage ? "gradient" : "primary"}
             onClick={() => handlePageClick(1)}
-            disabled={disabled}
+            disabled={controlsDisabled}
             className={cn(
               "flex items-center justify-center min-w-8 sm:min-w-10 h-8 sm:h-8 text-xs sm:text-sm font-bold",
-              disabled && "opacity-50 cursor-not-allowed"
+              controlsDisabled && "opacity-50 cursor-not-allowed"
             )}
             aria-label={`Go to page 1`}
             aria-current={1 === currentPage ? "page" : undefined}
@@ -130,10 +159,10 @@ const ShowcasePagination = memo(function ShowcasePagination({
             key={page}
             intent={page === currentPage ? "gradient" : "primary"}
             onClick={() => handlePageClick(page)}
-            disabled={disabled}
+            disabled={controlsDisabled}
             className={cn(
               "flex items-center justify-center min-w-8 sm:min-w-10 h-8 sm:h-8 text-xs sm:text-sm font-bold",
-              disabled && "opacity-50 cursor-not-allowed"
+              controlsDisabled && "opacity-50 cursor-not-allowed"
             )}
             aria-label={`Go to page ${page}`}
             aria-current={page === currentPage ? "page" : undefined}
@@ -153,10 +182,10 @@ const ShowcasePagination = memo(function ShowcasePagination({
           <Button
             intent={totalPages === currentPage ? "gradient" : "primary"}
             onClick={() => handlePageClick(totalPages)}
-            disabled={disabled}
+            disabled={controlsDisabled}
             className={cn(
               "flex items-center justify-center min-w-8 sm:min-w-10 h-8 sm:h-8 text-xs sm:text-sm font-bold",
-              disabled && "opacity-50 cursor-not-allowed"
+              controlsDisabled && "opacity-50 cursor-not-allowed"
             )}
             aria-label={`Go to page ${totalPages}`}
             aria-current={totalPages === currentPage ? "page" : undefined}
@@ -170,10 +199,10 @@ const ShowcasePagination = memo(function ShowcasePagination({
       <Button
         intent="primary"
         onClick={handleNext}
-        disabled={currentPage === totalPages || disabled}
+        disabled={currentPage === totalPages || controlsDisabled}
         className={cn(
           "flex items-center justify-center p-1 sm:p-2 min-w-8 sm:min-w-10 h-8 sm:h-8 text-xs sm:text-sm",
-          (currentPage === totalPages || disabled) &&
+          (currentPage === totalPages || controlsDisabled) &&
             "opacity-50 cursor-not-allowed"
         )}
         aria-label="Go to next page"

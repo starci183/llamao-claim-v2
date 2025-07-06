@@ -26,18 +26,18 @@ const DefaultToast: FC<TDefaultToast> = ({
       <Header icon={<Folder />} text="Notification">
         <div className="flex w-full items-center gap-4 bg-white box-shadow-tertiary mt-1 p-2 max-w-3xl">
           {icon}
-            <span className={cn("text-16 font-semibold", textClassName)}>
-              {message}
-            </span>
-            {action && (
-              <Button
-                intent="ghost"
-                onClick={action}
-                className="text-blue-600 hover:underline"
-              >
-                Action
-              </Button>
-            )}
+          <span className={cn("text-16 font-semibold", textClassName)}>
+            {message}
+          </span>
+          {action && (
+            <Button
+              intent="ghost"
+              onClick={action}
+              className="text-blue-600 hover:underline"
+            >
+              Action
+            </Button>
+          )}
         </div>
       </Header>
     </div>

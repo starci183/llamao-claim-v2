@@ -31,19 +31,19 @@ export default function Mint() {
             quality={100}
           />
           <div className="absolute inset-0 flex items-center justify-center p-2 sm:p-4">
-            <div className="relative max-w-[350px] sm:max-w-[450px] md:max-w-[520px] lg:max-w-[593px] aspect-[593px/506px] w-full">
+            <div className="relative max-w-[350px] sm:max-w-[450px] md:max-w-[450px] aspect-[4/3] w-full">
               <Image
                 alt="book_cover"
-                src="/images/llamao_book_cover.svg"
-                width={593}
-                height={506}
+                src="/images/book_from_llamao.svg"
+                width={550}
+                height={450}
                 quality={100}
                 priority
                 className="w-full h-auto mt-3 sm:mt-4 md:mt-6 lg:mt-10"
               />
 
               {/* llamao image text */}
-              <div className="absolute top-0 left-0 -translate-x-1 -translate-y-4 sm:-translate-y-5 md:-translate-y-6 text-center aspect-[452px/161px] w-full h-auto flex items-center justify-center">
+              <div className="absolute top-0 left-0 translate-x-[2%] -translate-y-[45%] text-center aspect-[4/3] w-full h-auto flex items-center justify-center">
                 <Image
                   alt="llamao_text"
                   src="/images/llamao_logo_text.svg"
@@ -53,22 +53,22 @@ export default function Mint() {
                 />
               </div>
 
-              {/* current year label */}
+              {/* current year label
               <div className="absolute top-[27%] sm:top-[28%] md:top-[29%] lg:top-[31%] left-1/2 -translate-x-1/2 ml-1.5 sm:ml-2 md:ml-2.5 px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2.5">
                 <span className="font-pp-neuebit font-bold text-[#663931] text-2xl sm:text-3xl tracking-wider">
                   2025
                 </span>
-              </div>
+              </div> */}
 
               {/* name book */}
-              <div className="absolute bottom-[44%] lg:bottom-[45%] left-1/2 -translate-x-[45%] px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2.5">
+              <div className="absolute bottom-1/2 left-1/2 -translate-x-[40%] -translate-y-[90%] px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2.5 bg-[#663931] flex items-center justify-center">
                 <span className="font-pp-mondwest text-[#B2A280] text-lg sm:text-2xl md:text-4xl tracking-wider">
                   LLAMAOISM
                 </span>
               </div>
 
               {/* Button */}
-              <EnterButton link={`/mint/${ipfsID}`} />
+              <EnterButton link={`/mint/${ipfsID}`} className="left-1/2" />
             </div>
           </div>
         </div>
