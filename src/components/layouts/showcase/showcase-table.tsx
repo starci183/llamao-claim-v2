@@ -1,11 +1,10 @@
 "use client";
 
+import { NftMetadata, useContract } from "@/hooks/use-contract";
 import { cn } from "@/lib/utils";
-import { useState, useMemo, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ShowcaseCard from "./showcase-card";
 import ShowcasePagination from "./showcase-pagination";
-import { useContract, NftMetadata } from "@/hooks/use-contract";
-import { useRouter } from "next/navigation";
 
 interface ShowcaseItem {
   id: string;
@@ -144,7 +143,6 @@ export default function ShowcaseTable({
   const [currentPage, setCurrentPage] = useState(1);
   const { tokenURI, balance, contractAddress } = useContract();
   const [nftMetadata, setNftMetadata] = useState<NftMetadata | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     if (!tokenURI) return;
@@ -165,9 +163,9 @@ export default function ShowcaseTable({
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentItems = filteredItems.slice(startIndex, endIndex);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const endIndex = startIndex + itemsPerPage;
+  // const currentItems = filteredItems.slice(startIndex, endIndex);
 
   // Reset to first page when category changes
   useEffect(() => {

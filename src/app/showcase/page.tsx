@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function Showcase() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedCategory] = useState<string>("");
 
   // const handleCategoryChange = (category: string) => {
   //   setSelectedCategory(category);
