@@ -27,44 +27,53 @@ export default function MintPage() {
 
   return (
     <div
-      className="
-         w-full 
-        aspect-video sm:aspect-[4/3] 
-        max-h-[60vh] sm:max-h-[75vh] md:max-h-[85vh] 
-        min-h-[300px] sm:min-h-[480px] md:min-h-[580px] 
-        overflow-hidden 
-        bg-center bg-cover flex flex-col
-      "
+      className="flex flex-col items-center justify-between 
+      w-full min-w-[290px] sm:min-w-[600px] md:min-w-[700px]
+      h-full min-h-[350px] sm:min-h-[550px] 
+      bg-no-repeat bg-cover bg-center"
       style={{ backgroundImage: "url(/gifs/llamao_homepage.gif)" }}
     >
-      <div className="relative w-full h-full flex items-center justify-center">
-        {/* Lớp nền sách */}
-        <div
-          className="absolute inset-0 bg-center bg-cover pointer-events-none"
-          style={{
-            backgroundImage: "url(/images/llamao_web_openbook.svg)",
-          }}
+      <div className="relative mx-auto max-w-[550px] sm:max-w-[650px] md:max-w-[750px] lg:max-w-[850px] xl:max-w-[900px] aspect-square md:aspect-[4/3] w-full h-full flex items-center justify-center">
+        <Image
+          src="/images/llamao_web_openbook.svg"
+          alt="book background"
+          fill
+          priority
+          className="object-contain sms:scale-115 sm:scale-none"
         />
+        {/* Book tag */}
+        <Image
+          src="/images/book_tag_llamao.svg"
+          alt="book tag"
+          width={100}
+          height={50}
+          className="
+            absolute w-20 sm:w-24 md:w-28 lg:w-32 xl:w-36
+            sms:top-[18.5%]        
+            sms:left-[14%]
 
-        {/* Tag sách */}
-        <div className="absolute top-3 left-14 sm:top-6 sm:left-24 md:left-28 pointer-events-none">
-          <Image
-            alt="book tag"
-            src="/images/book_tag_llamao.svg"
-            width={240}
-            height={240}
-            className="w-24 sm:w-32 md:w-40 lg:w-48 h-auto"
-          />
-        </div>
+            smm:top-[19.8%]        
+            smm:left-[16%]
 
-        {/* Nội dung mint */}
-        <div className="relative flex items-center justify-center pointer-events-auto transform sm:transform-none sm:scale-100 scale-75 origin-center w-[95%] sm:w-[80%] md:w-[80%] h-full">
+            sml:top-[21%]       
+            sml:left-[18%]
+
+            sm:top-[17.2%]       
+            sm:left-[22%]
+
+            md:top-[17.2%]      
+
+            lg:top-[15.2%]       
+          "
+        />
+        {/* Nội dung mint nằm trong sách */}
+        <div className="relative z-10 w-[80%] sm:w-[68%] md:w-[70%] lg:w-[72%] h-full max-w-full max-h-full flex items-center justify-center overflow-hidden">
           {nftMetadata && <MintContent nftMetadata={nftMetadata} />}
         </div>
       </div>
 
       {/* Điều hướng bước */}
-      <div className="mt-auto px-4 py-2">
+      <div className="mt-auto px-2 py-2 mx-auto">
         <StepNavigator
           currentLabel="Llamao"
           mainButton={<MintButton />}

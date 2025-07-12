@@ -20,7 +20,7 @@ export default function Mint() {
         className="p-1 sm:p-2 lg:p-4"
         wrapperClassName="max-w-full sm:max-w-[95%] md:max-w-[85%] lg:max-w-[75%] xl:max-w-[65%] 2xl:max-w-[70%] mx-auto"
       >
-        <div className="relative w-full aspect-[690/606] max-h-[70vh] xs:max-h-[75vh] sm:max-h-[80vh] md:max-h-[85vh] min-h-[350px] sm:min-h-[450px] md:min-h-[500px] lg:min-h-[550px] overflow-hidden">
+        <div className="relative w-full aspect-[690/606] max-h-[70vh] xs:max-h-[75vh] sm:max-h-[80vh] md:max-h-[85vh] min-h-[350px] sm:min-h-[450px] md:min-h-[550px] lg:min-h-[580px] overflow-hidden">
           <Image
             src="/gifs/llamao_homepage.gif"
             alt="llamao_about_background"
@@ -49,7 +49,7 @@ export default function Mint() {
                   src="/images/llamao_logo_text.svg"
                   width={452}
                   height={161}
-                  className="w-[55%] md:w-[60%] lg:w-[65%] xl:w-[70%] h-auto"
+                  className="w-[70%] xl:w-[75%] h-auto"
                 />
               </div>
 

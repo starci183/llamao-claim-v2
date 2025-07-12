@@ -19,13 +19,13 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
   isLastStep = false,
 }) => {
   return (
-    <div className="flex items-center justify-center gap-4 w-full max-w-lg mx-auto">
+    <div className="flex items-center justify-center gap-4 w-full md:max-w-lg mx-auto">
       {/* Back button */}
       <Button
         onClick={onBack}
         intent="primary"
         className={
-          `max-w-[80px] md:max-w-[116.7796630859375px] w-full max-h-[23.27118682861328px] md:max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg` +
+          `max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base text-nowrap` +
           (currentLabel === "1" ? " opacity-50 cursor-not-allowed" : "")
         }
         disabled={currentLabel === "1"}
@@ -37,7 +37,7 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
         <Button
           intent="gradient"
           onClick={onMain}
-          className="max-w-[80px] md:max-w-[116.7796630859375px] w-full max-h-[23.27118682861328px] md:max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg"
+          className="max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base text-nowrap"
         >
           {currentLabel}
         </Button>
@@ -50,7 +50,7 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
         onClick={onNext}
         intent="primary"
         className={
-          "max-w-[80px] md:max-w-[116.7796630859375px] w-full max-h-[23.27118682861328px] md:max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg" +
+          "max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base text-nowrap" +
           (isLastStep ? " opacity-50 cursor-not-allowed" : "")
         }
         disabled={isLastStep}

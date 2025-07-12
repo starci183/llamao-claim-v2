@@ -114,7 +114,7 @@ export default function MintButton() {
             intent="gradient"
             onClick={handleMintNFT}
             disabled={loading}
-            className="min-w-[80px] md:min-w-[116.7796630859375px] w-full max-h-[23.27118682861328px] md:max-h-[46.27118682861328px] h-full flex items-center justify-center text-sm sm:text-base md:text-lg"
+            className="max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base"
           >
             {loading ? "Processing..." : "Llamao"}
           </Button>
