@@ -39,7 +39,7 @@ export default function MintPage() {
           alt="book background"
           fill
           priority
-          className="object-contain sms:scale-115 sm:scale-none"
+          className="object-contain scale-115 sm:scale-none"
         />
         {/* Book tag */}
         <Image
@@ -47,24 +47,7 @@ export default function MintPage() {
           alt="book tag"
           width={100}
           height={50}
-          className="
-            absolute w-20 sm:w-24 md:w-28 lg:w-32 xl:w-36
-            sms:top-[18.5%]        
-            sms:left-[14%]
-
-            smm:top-[19.8%]        
-            smm:left-[16%]
-
-            sml:top-[21%]       
-            sml:left-[18%]
-
-            sm:top-[17.2%]       
-            sm:left-[22%]
-
-            md:top-[17.2%]      
-
-            lg:top-[15.2%]       
-          "
+          className="absolute left-[16%] top-[19%] smm:top-[20%] sml:left-[16%] sml:top-[21%] sm:left-[16%] sm:top-[25.5%] md:left-[16%] md:top-[17%] lg:left-[16%] lg:top-[15%] w-20 sm:w-24 md:w-28 lg:w-32 xl:w-36"
         />
         {/* Nội dung mint nằm trong sách */}
         <div className="relative z-10 w-[80%] sm:w-[68%] md:w-[70%] lg:w-[72%] h-full max-w-full max-h-full flex items-center justify-center overflow-hidden">

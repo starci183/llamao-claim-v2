@@ -66,14 +66,14 @@ export default function MintContentLeftPage({
             alt="llamao_retangle_large_new"
             width={350}
             height={100}
-            className="w-full h-[28px] sm:h-[52px] md:h-[64px] lg:h-[72px] object-contain"
+            className="w-full h-[24px] sml:h-[28px] sm:h-[52px] md:h-[58px] lg:h-[62px] object-contain"
             quality={100}
             priority
           />
           <span
             className="
             absolute text-[#CF573C] text-nowrap
-            text-[9px] sml:text-[10px] sm:text-lg md:text-xl xl:text-2xl
+            text-[9px] sml:text-[10px] sm:text-base md:text-lg xl:text-xl
             font-pp-mondwest
             top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
             "
@@ -85,11 +85,11 @@ export default function MintContentLeftPage({
       {/* progress */}
       <div className="w-full">
         <div className="flex items-center justify-between w-full px-1">
-          <p className="text-[9px] sm:text-sm text-[#CF573C] font-pp-mondwest">
+          <p className="text-[7px] sml:text-[9px] sm:text-sm text-[#CF573C] font-pp-mondwest">
             Total Minted: {totalMinted}
           </p>
           {/* Tính phần trăm progress */}
-          <span className="text-[9px] sm:text-sm text-[#B2A280] font-pp-mondwest">
+          <span className="text-[7px] sml:text-[9px] sm:text-sm text-[#B2A280] font-pp-mondwest">
             {totalPages > 0
               ? ((totalMinted / (totalPages * 10)) * 100).toFixed(2)
               : 0}
