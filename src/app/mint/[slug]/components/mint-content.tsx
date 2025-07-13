@@ -8,7 +8,7 @@ export default function MintContent({
   nftMetadata: NftMetadata;
 }) {
   return (
-    <div className="grid grid-cols-2 gap-16 sm:gap-20 w-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-6xl mx-auto items-stretch justify-center">
+    <div className="grid grid-cols-2 gap-6 w-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-6xl mx-auto items-stretch justify-center">
       {/* left page */}
       <div className="flex items-center justify-center">
         <MintContentLeftPage

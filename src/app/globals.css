@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@theme {
+  /* các giá trị dùng rem để đảm bảo thứ tự các breakpoint luôn đúng */
+  --breakpoint-sms: 20rem; /* 320px  */
+  --breakpoint-smm: 23.4375rem; /* 375px  */
+  --breakpoint-sml: 26.5625rem; /* 425px  */
+}
+
 /* Font Face Definitions */
 @font-face {
   font-family: "PP Mondwest";

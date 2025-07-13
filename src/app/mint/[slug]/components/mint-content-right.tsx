@@ -21,30 +21,28 @@ export default function MintContentRightPage({
         className
       )}
     >
-      <div className="flex flex-col items-start justify-center w-full h-full font-pp-mondwest text-[#602C2C] pl-1 sm:pl-2">
+      <div className="flex flex-col items-start justify-center w-full h-full font-pp-mondwest text-[#602C2C] gap-1 md:gap-2.5 pt-2 pl-0.5 sm:pl-1.5">
         {/* end date */}
-        <div className="flex flex-row items-center justify-between w-full gap-1 xs:gap-2">
-          <h6 className="text-[9px] sm:text-sm whitespace-nowrap pointer-events-none">
+        <div className="flex flex-row items-center justify-between w-full gap-1 xs:gap-2 h-3">
+          <h6 className="text-[8px] sml:text-[9px] sm:text-sm whitespace-nowrap pointer-events-none">
             Ends In
           </h6>
           <div
-            className="flex items-center justify-center mr-0.5"
+            className="flex items-center justify-center sml:mr-0.5 bg-no-repeat bg-contain md:bg-cover bg-center py-0.5 px-1 md:w-[80px]"
             style={{
-              backgroundImage: 'url("/images/llamao_retangle_small.svg")',
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
+              backgroundImage: 'url("/images/llamao_retangle_small_new.png")',
             }}
           >
-            <span className="text-[8px] sm:text-xs w-full m-1 sm:m-1.5">
+            <span className="text-[6px] sml:text-[8px] sm:text-xs">
               {endDate || "April 28th, 2025"}
             </span>
           </div>
         </div>
         {/* maximum llamao per wallet */}
-        <div className="flex flex-row items-center justify-between w-full gap-1 xs:gap-2">
+        <div className="flex flex-row items-center justify-between w-full gap-1 xs:gap-2 h-3">
           <div className="flex flex-row items-center gap-1 xs:gap-2 relative group">
             <h6
-              className="text-[9px] sm:text-sm whitespace-nowrap max-w-[80px] md:max-w-[120px] truncate pointer-events-none"
+              className="text-[8px] sml:text-[9px] sm:text-sm whitespace-nowrap max-w-[80px] md:max-w-[120px] truncate pointer-events-none"
               title="Maximum Llamao per Wallet"
             >
               Maximum Llamao per Wallet
@@ -64,15 +62,13 @@ export default function MintContentRightPage({
               <span>You can only mint once.</span>
             </div>
           </div>
-          <div className="relative">
-            <Image
-              src="/images/llamao_square.svg"
-              alt="llamao retangle"
-              width={24}
-              height={24}
-              className="mx-auto w-[18px] sm:w-[24px] h-auto"
-            />
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8px] sm:text-xs flex items-center justify-center">
+          <div
+            className="flex items-center justify-center mr-1 bg-no-repeat bg-center bg-contain px-1 md:px-2"
+            style={{
+              backgroundImage: 'url("/images/llamao_square_new.png")',
+            }}
+          >
+            <span className="text-[6px] sml:text-[8px] sm:text-xs">
               {maximumLlamaoPerWallet || 1}
             </span>
           </div>
@@ -82,17 +78,17 @@ export default function MintContentRightPage({
       <div className="relative flex flex-col items-center justify-center w-full mt-2">
         <div className="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md h-auto flex items-center justify-center">
           <Image
-            src="/images/llamao_description.svg"
+            src="/images/llamao_description_new.png"
             alt="llamao description"
             width={240}
             height={128}
             className="w-full h-auto pointer-events-none"
           />
-          <h5 className="absolute top-[10%] left-[22%] -translate-x-1/2 -translate-y-1/2 text-[8px] sm:text-sm md:text-md text-[#B2A280] font-pp-mondwest font-bold z-10 whitespace-nowrap">
+          <h5 className="absolute top-[16%] left-[21%] -translate-x-1/2 -translate-y-1/2 text-[6px] sml:text-[8px] sm:text-sm md:text-md text-[#FFFFFF] font-pp-mondwest font-bold z-10 whitespace-nowrap">
             Description
           </h5>
           {/* content */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8px] md:text-sm text-[#602C2C] font-pp-neuebit w-full px-3 md:px-4 truncate max-w-[120vw] whitespace-normal sm:max-w-full">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6px] sml:text-[8px] md:text-sm text-[#602C2C] font-pp-neuebit w-full px-3.5 sml:px-4 sm:px-6 md:px-8 truncate max-w-[120vw] whitespace-normal sm:max-w-full">
             <span className="block sm:hidden">
               {description}
               <span className="inline">

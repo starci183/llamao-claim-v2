@@ -19,7 +19,7 @@ export default function MintPageLayout({ children }: MintPageLayoutProps) {
         text="Mint"
         subHeader={false}
         className="p-1 sm:p-2 lg:p-4"
-        wrapperClassName="w-full mx-auto"
+        wrapperClassName="w-full h-full mx-auto"
       >
         {children}
       </MainLayout>
