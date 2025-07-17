@@ -5,5 +5,10 @@ export default function PortalLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return (
+    <div>
+      {children}
+      <div className="h-12"></div>
+    </div>
+  );
 }
