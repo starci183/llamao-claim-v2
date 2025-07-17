@@ -4,7 +4,7 @@ import type { ShowcaseItem } from "@/hooks/use-showcase-data";
 import { useShowcaseData } from "@/hooks/use-showcase-data";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import ShowcaseCard from "./showcase-card";
+import { ShowcaseCard } from "./showcase-card";
 import ShowcasePagination from "./showcase-pagination";
 
 interface ShowcaseTableProps {

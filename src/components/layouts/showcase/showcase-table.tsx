@@ -3,7 +3,7 @@
 import { NftMetadata, useContract } from "@/hooks/use-contract";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
-import ShowcaseCard from "./showcase-card";
+import { ShowcaseCard } from "./showcase-card";
 import ShowcasePagination from "./showcase-pagination";
 
 interface ShowcaseItem {
@@ -141,7 +141,9 @@ export default function ShowcaseTable({
   itemsPerPage = 6,
 }: ShowcaseTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { tokenURI, balance, contractAddress } = useContract();
+  const { tokenURI, balance, contractAddress } = useContract(
+    "0x913bf9751fe18762b0fd6771edd512c7137e42bb"
+  );
   const [nftMetadata, setNftMetadata] = useState<NftMetadata | null>(null);
 
   useEffect(() => {
@@ -236,22 +238,22 @@ export default function ShowcaseTable({
             className="w-full h-auto object-cover"
           />
         ))} */}
-        {nftMetadata && (
-          <ShowcaseCard
-            onClick={() => {
-              window.open(
-                `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
-                "_blank"
-              );
-            }}
-            imgSrc={nftMetadata.image}
-            text={nftMetadata.name + " " + "x" + balance}
-            state="nft"
-            description={nftMetadata.description}
-            wrapperClassName="mb-4"
-            className="w-full h-auto object-cover"
-          />
-        )}
+
+        <ShowcaseCard
+          onClick={() => {
+            window.open(
+              `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
+              "_blank"
+            );
+          }}
+          imgSrc={nftMetadata?.image}
+          text={nftMetadata?.name + " " + "x" + balance}
+          state="nft"
+          description={nftMetadata?.description}
+          wrapperClassName="mb-4"
+          className="w-full h-auto object-cover"
+          loading={loading}
+        />
       </div>
 
       {/* Pagination Component */}

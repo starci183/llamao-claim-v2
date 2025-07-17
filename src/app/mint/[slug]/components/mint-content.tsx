@@ -4,9 +4,12 @@ import MintContentRightPage from "./mint-content-right";
 
 export default function MintContent({
   nftMetadata,
+  totalMinted,
 }: {
   nftMetadata: NftMetadata;
+  totalMinted: number;
 }) {
+  console.log("nftMetadataasdfasdf", nftMetadata);
   return (
     <div className="grid grid-cols-2 gap-6 w-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-6xl mx-auto items-stretch justify-center">
       {/* left page */}
@@ -14,6 +17,7 @@ export default function MintContent({
         <MintContentLeftPage
           storyImage={nftMetadata?.image}
           storyTitle={nftMetadata?.name}
+          totalMinted={totalMinted}
         />
       </div>
       {/* right page */}

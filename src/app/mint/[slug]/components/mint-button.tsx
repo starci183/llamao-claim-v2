@@ -1,48 +1,18 @@
 "use client";
 
 import { Button } from "@/components/common/button";
+import { useSigner } from "@/hooks/use-signer";
 import { useToast } from "@/hooks/use-toast";
 import axiosClient from "@/service/axios-client";
-import {
-  useAppKit,
-  useAppKitAccount,
-  useAppKitNetworkCore,
-  useAppKitProvider,
-  type Provider,
-} from "@reown/appkit/react";
-import { BrowserProvider, JsonRpcSigner, formatEther } from "ethers";
-import { useEffect, useState } from "react";
+import { useAppKit } from "@reown/appkit/react";
 
 export default function MintButton() {
-  const { walletProvider } = useAppKitProvider<Provider>("eip155");
-  const { chainId } = useAppKitNetworkCore();
   const { open } = useAppKit();
-  const { address, isConnected } = useAppKitAccount();
+  const { address, isConnected, loading, sendTransaction } = useSigner();
   const { toast } = useToast();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setBalance] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchBalance = async () => {
-      try {
-        if (!walletProvider || !address) return;
-        const provider = new BrowserProvider(walletProvider, chainId);
-        const signer = new JsonRpcSigner(provider, address);
-        const rawBalance = await signer.provider.getBalance(address);
-        setBalance(formatEther(rawBalance));
-      } catch (err) {
-        console.error("Error fetching balance:", err);
-      }
-    };
-
-    fetchBalance();
-  }, [walletProvider, address, chainId]);
 
   const handleMintNFT = async () => {
     if (!address) return;
-
-    setLoading(true);
 
     try {
       const { data } = await axiosClient.post("/mint-nft", {
@@ -58,11 +28,8 @@ export default function MintButton() {
         tokenId: 0,
       });
 
-      const provider = new BrowserProvider(walletProvider, chainId);
-      const signer = new JsonRpcSigner(provider, address);
-
       try {
-        const tx = await signer.sendTransaction({
+        const tx = await sendTransaction({
           to: data.steps[0].params.to,
           from: data.steps[0].params.from,
           data: data.steps[0].params.data,
@@ -73,15 +40,21 @@ export default function MintButton() {
           title: "Minted",
           message: "You have minted successfully with tx hash: " + tx.hash,
           action: (
-            <button
+            <Button
+              intent="primary"
               onClick={() =>
-                window.open(`https://testnet.monad.xyz/tx/${tx.hash}`, "_blank")
+                window.open(
+                  `https://monad-testnet.socialscan.io/tx/${tx.hash}`,
+                  "_blank"
+                )
               }
+              className=" text-white transition px-3 py-1 rounded-md text-xs"
             >
               View on explorer
-            </button>
+            </Button>
           ),
           variant: "success",
+          duration: 10000,
         });
       } catch (signError) {
         if (
@@ -101,8 +74,6 @@ export default function MintButton() {
         message: errorMessage,
         variant: "error",
       });
-    } finally {
-      setLoading(false);
     }
   };
 

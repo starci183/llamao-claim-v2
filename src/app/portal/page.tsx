@@ -20,22 +20,22 @@ import LlamaoismContent from "./components/llamaoism";
 
 const missions = [
   {
-    text: "Complete your profile",
-    link: "/portal/profile",
-    status: true,
-  },
-  {
-    text: "Join the community",
-    link: "/portal/community",
+    text: "Follow Llamao on X",
+    link: "https://x.com/intent/follow?screen_name=cifarmonsol",
     status: false,
   },
   {
-    text: "Participate in events",
-    link: "/portal/events",
+    text: "Join our Llamao’s Discord",
+    link: "https://discord.gg/dYHEMU4b",
     status: false,
   },
   {
-    text: "Earn rewards",
+    text: "Like X Posts",
+    link: "",
+    status: false,
+  },
+  {
+    text: "Comment on X",
     link: "/portal/rewards",
     status: false,
   },

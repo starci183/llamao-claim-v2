@@ -13,7 +13,7 @@ export type NftMetadata = {
     description: string;
 };
 
-const CONTRACT_ADDRESS = "0x913bF9751Fe18762B0fD6771eDD512c7137e42bB";
+// const CONTRACT_ADDRESS = "0x913bF9751Fe18762B0fD6771eDD512c7137e42bB";
 const CHAIN_ID = 10143;
 
 type ContractData = {
@@ -23,9 +23,12 @@ type ContractData = {
     tokenURI?: string;
     balance?: string;
     ipfsID?: string;
+    totalMinted?: string;
 };
 
-export const useContract = () => {
+export const useContract = (
+    contractAddress: string,
+) => {
     const { address } = useAppKitAccount();
     const { walletProvider } = useAppKitProvider<Provider>("eip155");
     const [data, setData] = useState<ContractData>({});
@@ -38,22 +41,26 @@ export const useContract = () => {
 
             try {
                 const provider = new BrowserProvider(walletProvider, CHAIN_ID);
-                const contract = new ethers.Contract(CONTRACT_ADDRESS, erc1155Abi, provider);
+                const contract = new ethers.Contract(contractAddress, erc1155Abi, provider);
 
-                const [contractURI, tokenURI, balance] = await Promise.all([
+                const [contractURI, tokenURI, balance, totalSupply] = await Promise.all([
                     contract.contractURI(),
                     contract.uri(0),
                     contract.balanceOf(address, 0),
+                    contract.totalSupply(0)
                 ]);
+
+                console.log("totalSupply", Number(totalSupply));
 
                 if (isMounted) {
                     setData({
                         contract,
-                        contractAddress: CONTRACT_ADDRESS,
+                        contractAddress: contractAddress,
                         contractURI,
                         tokenURI,
                         balance: balance.toString(),
                         ipfsID: tokenURI.split("/").pop(),
+                        totalMinted: totalSupply.toString(),
                     });
                 }
             } catch (error) {

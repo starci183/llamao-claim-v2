@@ -10,7 +10,9 @@ import { useRouter } from "next/navigation";
 
 export default function Mint() {
   const navigation = useRouter();
-  const { ipfsID } = useContract();
+  const { contractAddress } = useContract(
+    "0x913bF9751Fe18762B0fD6771eDD512c7137e42bB"
+  );
   return (
     <div className="flex flex-col gap-2 sm:gap-4 md:gap-6 min-h-screen items-center justify-start">
       <Navbar navbarItems={items} />
@@ -68,7 +70,10 @@ export default function Mint() {
               </div>
 
               {/* Button */}
-              <EnterButton link={`/mint/${ipfsID}`} className="left-1/2" />
+              <EnterButton
+                link={`/mint/${contractAddress}`}
+                className="left-1/2"
+              />
             </div>
           </div>
         </div>
