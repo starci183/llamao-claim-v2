@@ -3,9 +3,8 @@
 import { NftMetadata, useContract } from "@/hooks/use-contract";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
-import ShowcaseCard from "./showcase-card";
+import { ShowcaseCard } from "./showcase-card";
 import ShowcasePagination from "./showcase-pagination";
-import { Skeleton } from "@/components/ui/skeleton/skeleton";
 
 interface ShowcaseItem {
   id: string;
@@ -240,24 +239,21 @@ export default function ShowcaseTable({
           />
         ))} */}
 
-        {nftMetadata ? (
-          <ShowcaseCard
-            onClick={() => {
-              window.open(
-                `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
-                "_blank"
-              );
-            }}
-            imgSrc={nftMetadata.image}
-            text={nftMetadata.name + " " + "x" + balance}
-            state="nft"
-            description={nftMetadata.description}
-            wrapperClassName="mb-4"
-            className="w-full h-auto object-cover"
-          />
-        ) : (
-          <Skeleton className="w-[267px] h-[311px]"></Skeleton>
-        )}
+        <ShowcaseCard
+          onClick={() => {
+            window.open(
+              `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
+              "_blank"
+            );
+          }}
+          imgSrc={nftMetadata?.image}
+          text={nftMetadata?.name + " " + "x" + balance}
+          state="nft"
+          description={nftMetadata?.description}
+          wrapperClassName="mb-4"
+          className="w-full h-auto object-cover"
+          loading={loading}
+        />
       </div>
 
       {/* Pagination Component */}
