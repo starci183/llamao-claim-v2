@@ -1,29 +1,19 @@
 "use client";
 
 import { StepNavigator } from "@/components/common/step-navigator";
-import { useContract, type NftMetadata } from "@/hooks/use-contract";
+import { useContract } from "@/hooks/use-contract";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import MintButton from "./components/mint-button";
 import MintContent from "./components/mint-content";
+import { useParams } from "next/navigation";
+import Loading from "@/components/common/loading";
+import { useNftMetadata } from "@/hooks/use-nft-meta-data";
 
 export default function MintPage() {
-  const { contractURI } = useContract();
-  const [nftMetadata, setNftMetadata] = useState<NftMetadata | null>(null);
-
-  useEffect(() => {
-    if (!contractURI) return;
-    const fetchMetadata = async () => {
-      try {
-        const res = await fetch(contractURI);
-        const data: NftMetadata = await res.json();
-        setNftMetadata(data);
-      } catch (error) {
-        console.error("Error fetching NFT metadata:", error);
-      }
-    };
-    fetchMetadata();
-  }, [contractURI]);
+  const { slug } = useParams();
+  const { contractURI, totalMinted } = useContract(slug as string);
+  const { data: nftMetadata, loading } = useNftMetadata(contractURI);
+  console.log("nftMetadata", nftMetadata);
 
   return (
     <div
@@ -51,7 +41,16 @@ export default function MintPage() {
         />
         {/* Nội dung mint nằm trong sách */}
         <div className="relative z-10 w-[80%] sm:w-[68%] md:w-[70%] lg:w-[72%] h-full max-w-full max-h-full flex items-center justify-center overflow-hidden">
-          {nftMetadata && <MintContent nftMetadata={nftMetadata} />}
+          {loading ? (
+            <div className="flex items-center justify-center h-full">
+              <Loading />
+            </div>
+          ) : nftMetadata ? (
+            <MintContent
+              nftMetadata={nftMetadata}
+              totalMinted={Number(totalMinted) || 0}
+            />
+          ) : null}
         </div>
       </div>
 

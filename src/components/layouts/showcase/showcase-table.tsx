@@ -141,7 +141,9 @@ export default function ShowcaseTable({
   itemsPerPage = 6,
 }: ShowcaseTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { tokenURI, balance, contractAddress } = useContract();
+  const { tokenURI, balance, contractAddress } = useContract(
+    "0x913bf9751fe18762b0fd6771edd512c7137e42bb"
+  );
   const [nftMetadata, setNftMetadata] = useState<NftMetadata | null>(null);
 
   useEffect(() => {

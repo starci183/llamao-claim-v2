@@ -42,13 +42,15 @@ export default function AddressButton({
         hovered ? (
           <Block />
         ) : (
-          <Image
-            src={walletInfo.icon || "/images/wallet.svg"}
-            alt="wallet"
-            width={24}
-            height={24}
-            className="w-6"
-          />
+          walletInfo.icon && (
+            <Image
+              src={walletInfo.icon}
+              alt="wallet"
+              width={24}
+              height={24}
+              className="w-6"
+            />
+          )
         )
       }
       onMouseEnter={() => setHoveredAction(true)}

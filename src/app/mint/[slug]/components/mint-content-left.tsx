@@ -90,19 +90,22 @@ export default function MintContentLeftPage({
           </p>
           {/* Tính phần trăm progress */}
           <span className="text-[7px] sml:text-[9px] sm:text-sm text-[#B2A280] font-pp-mondwest">
-            {totalPages > 0
+            {/* TODO: Implement this with real data */}
+            {/* {totalPages > 0
               ? ((totalMinted / (totalPages * 10)) * 100).toFixed(2)
-              : 0}
-            %
+              : 0} */}
+            80 %
           </span>
         </div>
         <div className="mx-2 h-1 md:h-2 bg-[#AD7757] relative overflow-hidden">
           <div
             className="h-full bg-[#D7B594] transition-all duration-500"
             style={{
-              width: `${
-                totalPages > 0 ? (totalMinted / (totalPages * 10)) * 100 : 0
-              }%`,
+              // TODO: Implement this with real data
+              // width: `${
+              //   totalPages > 0 ? (totalMinted / (totalPages * 10)) * 100 : 0
+              // }%`,
+              width: "80%",
             }}
           />
         </div>
