@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import ShowcaseCard from "./showcase-card";
 import ShowcasePagination from "./showcase-pagination";
+import { Skeleton } from "@/components/ui/skeleton/skeleton";
 
 interface ShowcaseItem {
   id: string;
@@ -238,7 +239,8 @@ export default function ShowcaseTable({
             className="w-full h-auto object-cover"
           />
         ))} */}
-        {nftMetadata && (
+
+        {nftMetadata ? (
           <ShowcaseCard
             onClick={() => {
               window.open(
@@ -253,6 +255,8 @@ export default function ShowcaseTable({
             wrapperClassName="mb-4"
             className="w-full h-auto object-cover"
           />
+        ) : (
+          <Skeleton className="w-[267px] h-[311px]"></Skeleton>
         )}
       </div>
 
