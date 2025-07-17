@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function About() {
   const navigation = useRouter();
   return (
-    <div className="flex flex-col gap-4 md:gap-12 min-h-screen items-center justify-evenly-start">
+    <div className="flex flex-col gap-4 md:gap-6 min-h-screen items-center justify-evenly-start">
       <Navbar navbarItems={items} />
 
       <MainLayout
@@ -20,19 +20,19 @@ export default function About() {
         boxShadowOuter="box-shadow-about"
         boxShadowInner=""
       >
-        <div className="relative w-full min-h-[500px] sm:min-h-[600px] lg:min-h-[650px] overflow-hidden">
+        <div className="relative w-full min-h-[500px] sm:min-h-[550px] lg:min-h-[600px] overflow-hidden">
           <Image
             src="/gifs/llamao_about_background.gif"
             alt="llamao_about_background"
             width={720}
             height={650}
-            className="w-full h-full object-cover min-h-[500px] sm:min-h-[600px] lg:min-h-[650px]"
+            className="w-full h-full object-cover min-h-[500px] sm:min-h-[550px] lg:min-h-[600px]"
             priority
             quality={100}
             unoptimized
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-0 sml:gap-2 sm:gap-4 py-4 px-2 overflow-hidden">
-            <div className="relative flex items-center justify-center w-full max-w-xs sm:max-w-sm lg:max-w-md shrink-0  ">
+            <div className="relative flex items-center justify-center w-full max-w-xs sm:max-w-sm lg:max-w-md shrink-0 ">
               <Image
                 src="/gifs/llamao_zenmonad.gif"
                 alt="llamao_zenmonad"
@@ -53,7 +53,7 @@ export default function About() {
                 priority
               />
             </div>
-            <div className="flex items-center justify-center w-full px-0 sm:px-2 pb-4">
+            <div className="flex items-center justify-center w-full pb-4">
               <div className="w-full max-w-xs sm:max-w-sm lg:max-w-lg">
                 <MainLayout
                   subHeader={false}
