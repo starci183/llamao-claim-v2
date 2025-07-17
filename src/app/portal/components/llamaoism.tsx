@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 const missionGroups = [
   {
-    title: "A. LLAMAO-ISM GUIDEBOOK",
+    title: "A. Llamaoism Guidebook",
     bg: "bg-[url('/gifs/llamao_newpope.gif')] bg-cover",
     missions: [
       { text: "1. LLAMAO", status: true, link: "/mint" },
@@ -16,7 +16,7 @@ const missionGroups = [
     ],
   },
   {
-    title: "B. LLAMAO-ISM GUIDEBOOK",
+    title: "B. Llamaoism Guidebook",
     bg: "bg-[url('/gifs/llamao_newpope.gif')] bg-cover",
     missions: [
       { text: "1. LLAMAO", status: true, link: "/mint" },
@@ -42,7 +42,7 @@ export default function LlamaoismContent() {
       {missionGroups.map((group) => (
         <div key={group.title} className=" overflow-hidden mb-2 space-y-2">
           <div
-            className={`text-xs md:text-sm h-full font-bold p-2 box-shadow-primary ${group.bg} text-black/80`}
+            className={`text-xs md:text-sm h-full font-bold p-2 box-shadow-primary ${group.bg} text-white bg-center`}
           >
             {group.title}
           </div>
@@ -76,7 +76,7 @@ export default function LlamaoismContent() {
         intent={"gradient"}
         className="w-full flex items-center justify-center text-base py-2"
       >
-        Let’s Llamao
+        Let’s llamao
       </Button>
     </div>
   );

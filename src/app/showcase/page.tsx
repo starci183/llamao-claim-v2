@@ -38,7 +38,7 @@ export default function Showcase() {
             }
             iconPosition="right"
           >
-            Llamao-ism
+            Llamaoism
           </TabsTrigger>
           <TabsTrigger
             value="community"

@@ -118,7 +118,7 @@ export default function Portal() {
                   }
                   iconPosition="right"
                 >
-                  Llamao-ism
+                  Llamaoism
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="eligibility">
@@ -155,6 +155,9 @@ export default function Portal() {
                       </motion.div>
                       <motion.div className="mt-2">
                         <Button
+                          onClick={() => {
+                            window.location.href = "/mint";
+                          }}
                           icon={
                             <Image
                               src={"/gifs/llamao_zenmonad.gif"}
@@ -169,7 +172,7 @@ export default function Portal() {
                           intent={"gradient"}
                           className="w-full flex items-center justify-center text-base py-2"
                         >
-                          Let’s Llamao
+                          Let’s llamao
                         </Button>
                       </motion.div>
                     </TabsContent>

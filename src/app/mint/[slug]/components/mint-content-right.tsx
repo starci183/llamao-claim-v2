@@ -88,19 +88,8 @@ export default function MintContentRightPage({
             Description
           </h5>
           {/* content */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6px] sml:text-[8px] md:text-sm text-[#602C2C] font-pp-neuebit w-full px-3.5 sml:px-4 sm:px-6 md:px-8 truncate max-w-[120vw] whitespace-normal sm:max-w-full">
-            <span className="block sm:hidden">
-              {description}
-              <span className="inline">
-                <span className="sr-only">
-                  These digital collectibles are designed to be fun, engaging,
-                  and visually appealing, making them perfect for collectors and
-                  enthusiasts alike.
-                </span>
-                ...
-              </span>
-            </span>
-            <span className="hidden sm:block">{description}</span>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-4 sml:-translate-y-5 md:-translate-y-8 text-[6px] sml:text-[8px] md:text-sm text-[#602C2C] font-pp-neuebit w-full px-3.5 sml:px-5 sm:px-6 md:px-8 max-w-[120vw] max-h-[45px] sml:max-h-[60px] md:max-h-[100px] whitespace-normal sm:max-w-full overflow-auto">
+            <span className="block">{description}</span>
           </div>
         </div>
       </div>

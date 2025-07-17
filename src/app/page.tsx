@@ -19,7 +19,11 @@ export default function Home() {
         />
         <div className="flex flex-col mt-4 gap-2 text-center justify-center text-lg text-gray-700">
           <ConnectWalletButton />
-          <Button intent="primary" className="text-3xl py-2">
+          <Button
+            intent="primary"
+            className="text-3xl py-2"
+            onClick={() => (window.location.href = "/portal")}
+          >
             Connect Later
           </Button>
         </div>

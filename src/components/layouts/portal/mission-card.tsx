@@ -28,20 +28,45 @@ export default function MissionCard({
         {text}
       </div>
       {/* status */}
-      <div className="bg-white border-0.5 border-black/50 w-full h-full text-black flex justify-center items-center">
+      <div className="w-full h-full">
         {status ? (
-          <Tick className="w-6" />
+          <div
+            className={cn(
+              "bg-white border-0.5 border-black/50 w-full h-full text-black flex justify-center items-center hover:shadow-md hover:scale-3d active:scale-95 focus:outline-none"
+            )}
+          >
+            <Tick className="w-6" />
+          </div>
         ) : onClick ? (
           <button
             onClick={onClick}
-            className="p-0 m-0 bg-transparent border-none cursor-pointer"
+            className={cn(
+              "w-full h-full flex justify-center items-center cursor-pointer transition-all duration-150 hover:box-shadow-primary hover:scale-95 active:scale-95 focus:outline-none",
+              "bg-white border-0.5 border-black/50 text-black"
+            )}
+            aria-label="Go to mission"
           >
             <ChevronRight className="w-6 pl-1" />
           </button>
-        ) : (
-          <Link href={link}>
+        ) : link ? (
+          <Link
+            href={link}
+            className={cn(
+              "w-full h-full flex justify-center items-center cursor-pointer transition-all duration-150 hover:box-shadow-primary hover:scale-95 active:scale-95 focus:outline-none",
+              "bg-white border-0.5 border-black/50 text-black"
+            )}
+            aria-label="Go to mission"
+          >
             <ChevronRight className="w-6 pl-1" />
           </Link>
+        ) : (
+          <div
+            className={cn(
+              "bg-white border-0.5 border-black/50 w-full h-full text-black flex justify-center items-center opacity-50 cursor-not-allowed"
+            )}
+          >
+            <ChevronRight className="w-6 pl-1" />
+          </div>
         )}
       </div>
     </div>
