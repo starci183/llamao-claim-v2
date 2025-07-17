@@ -19,6 +19,7 @@ export default function RootLayout({
         className={`${w95fa.variable} ${ppNeueBit.variable} ${ppMondwest.variable} ${w95fa.className} antialiased`}
       >
         <RootProviders>{children}</RootProviders>
+        <div className="h-12"></div>
       </body>
     </html>
   );
