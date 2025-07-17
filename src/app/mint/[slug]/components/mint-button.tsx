@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/common/button";
-import { useToast } from "@/hooks/use-toast";
 import { useSigner } from "@/hooks/use-signer";
+import { useToast } from "@/hooks/use-toast";
 import axiosClient from "@/service/axios-client";
 import { useAppKit } from "@reown/appkit/react";
 
@@ -40,15 +40,21 @@ export default function MintButton() {
           title: "Minted",
           message: "You have minted successfully with tx hash: " + tx.hash,
           action: (
-            <button
+            <Button
+              intent="primary"
               onClick={() =>
-                window.open(`https://testnet.monad.xyz/tx/${tx.hash}`, "_blank")
+                window.open(
+                  `https://monad-testnet.socialscan.io/tx/${tx.hash}`,
+                  "_blank"
+                )
               }
+              className=" text-white transition px-3 py-1 rounded-md text-xs"
             >
               View on explorer
-            </button>
+            </Button>
           ),
           variant: "success",
+          duration: 10000,
         });
       } catch (signError) {
         if (
