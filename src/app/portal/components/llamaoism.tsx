@@ -31,10 +31,18 @@ export default function LlamaoismContent() {
     <div className="w-full max-w-[400px] mx-auto flex flex-col gap-2">
       <Tabs defaultValue="new">
         <TabsList className="bg-transparent">
-          <TabsTrigger value="new" variant="primary" className="bg-none">
+          <TabsTrigger
+            value="new"
+            variant="primary"
+            className="bg-none transform transition-all hover:scale-105"
+          >
             New
           </TabsTrigger>
-          <TabsTrigger value="minted" variant="primary">
+          <TabsTrigger
+            value="minted"
+            variant="primary"
+            className="transform transition-all hover:scale-105"
+          >
             Minted
           </TabsTrigger>
         </TabsList>
@@ -74,7 +82,7 @@ export default function LlamaoismContent() {
         }
         doubleIcon
         intent={"gradient"}
-        className="w-full flex items-center justify-center text-base py-2"
+        className="w-full flex items-center justify-center text-base py-2 transform transition-all hover:scale-105"
       >
         Let’s llamao
       </Button>

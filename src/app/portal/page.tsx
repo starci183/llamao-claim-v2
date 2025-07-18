@@ -168,7 +168,7 @@ export default function Portal() {
                       }
                       doubleIcon
                       intent={"gradient"}
-                      className="w-full flex items-center justify-center text-base py-2"
+                      className="w-full flex items-center justify-center text-base py-2 transform transition-all hover:scale-105"
                       onClick={() => {
                         if (!isConnected) {
                           toast({
