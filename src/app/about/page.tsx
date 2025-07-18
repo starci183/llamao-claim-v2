@@ -3,12 +3,15 @@
 import { Button } from "@/components/common/button";
 import Navbar, { items } from "@/components/common/navbar";
 import MainLayout from "@/components/layouts/main-layout";
+import { useDisconnect } from "@reown/appkit/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function About() {
   const navigation = useRouter();
+  const { disconnect } = useDisconnect();
+
   return (
     <div className="flex flex-col gap-4 md:gap-6 min-h-screen items-center justify-evenly-start">
       <Navbar navbarItems={items} />
@@ -121,6 +124,8 @@ export default function About() {
           </div>
         </div>
       </MainLayout>
+
+      {/* #7 Thêm nút back về trang connect wallet */}
       <Button
         intent="gradient"
         className="px-4 py-1 sm:px-6 sm:py-2.5 md:px-8 md:py-2 min-w-[150px] sm:min-w-[200px] md:min-w-[250px] lg:min-w-[300px] flex items-center justify-center text-sm sm:text-base md:text-lg"
@@ -135,7 +140,15 @@ export default function About() {
             className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6"
           />
         }
-        onClick={() => navigation.push("/")}
+        onClick={() => {
+          try {
+            disconnect();
+          } catch {
+            //TODO: handle error logging
+          } finally {
+            navigation.push("/");
+          }
+        }}
       >
         Back
       </Button>

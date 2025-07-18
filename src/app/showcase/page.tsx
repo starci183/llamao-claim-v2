@@ -23,6 +23,7 @@ export default function Showcase() {
         onCategoryChange={handleCategoryChange}
       /> */}
 
+      {/* Chỉ còn mỗi llamaoism ở trang about*/}
       <Tabs defaultValue="llamaoism">
         <TabsList>
           <TabsTrigger
@@ -40,49 +41,8 @@ export default function Showcase() {
           >
             Llamaoism
           </TabsTrigger>
-          <TabsTrigger
-            value="community"
-            icon={
-              <Image
-                alt="ball"
-                src="/icons/ball_1.svg"
-                width={24}
-                height={24}
-                className="w-6 h-auto"
-              />
-            }
-            iconPosition="right"
-          >
-            Community
-          </TabsTrigger>
         </TabsList>
         <TabsContent value="llamaoism">
-          <Tabs defaultValue="ideology">
-            <TabsList className="bg-transparent">
-              <TabsTrigger value="ideology" variant="primary">
-                Ideology
-              </TabsTrigger>
-              <TabsTrigger value="playbook" variant="primary">
-                Playbook
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="ideology">
-              <ShowcaseTable
-                category={selectedCategory || undefined}
-                className="animate-in fade-in duration-300"
-              />
-            </TabsContent>
-
-            <TabsContent value="playbook">
-              <ShowcaseTable
-                category={selectedCategory || undefined}
-                className="animate-in fade-in duration-300"
-              />
-            </TabsContent>
-          </Tabs>
-        </TabsContent>
-        <TabsContent value="community">
           <ShowcaseTable
             category={selectedCategory || undefined}
             className="animate-in fade-in duration-300"

@@ -18,7 +18,7 @@ export default function Home() {
           priority
         />
         <div className="flex flex-col mt-4 gap-2 text-center justify-center text-lg text-gray-700">
-          <ConnectWalletButton />
+          <ConnectWalletButton className="py-3" />
           <Button
             intent="primary"
             className="text-3xl py-2"

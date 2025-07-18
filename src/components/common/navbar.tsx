@@ -7,10 +7,11 @@ import { usePathname, useRouter } from "next/navigation";
 import type { ReactElement } from "react";
 import { memo, useCallback, useMemo } from "react";
 import { Button } from "./button";
+import { useWalletContext } from "@/context/wallet-context";
 
 // Constants
 const NAV_BUTTON_BASE_CLASSES =
-  "w-full min-w-20 md:min-w-32 flex items-center justify-center text-base";
+  "w-full min-w-20 md:min-w-32 flex items-center justify-center text-base transform transition-all hover:scale-105";
 const ICON_SIZE = 24;
 
 // Types
@@ -88,19 +89,25 @@ const NavItem = memo(
     onNavigate: (href: string) => void;
   }) => {
     const handleClick = useCallback(() => {
+      if (item.disabled) return;
       onNavigate(item.href);
-    }, [item.href, onNavigate]);
+    }, [item.href, item.disabled, onNavigate]);
 
     const buttonElement = item.isActive ? (
       <Button
         intent="gradient"
         className={NAV_BUTTON_BASE_CLASSES}
         icon={item.iconElement}
+        disabled={item.disabled}
       >
         {item.label}
       </Button>
     ) : (
-      <Button intent="secondary" className={NAV_BUTTON_BASE_CLASSES}>
+      <Button
+        intent="secondary"
+        className={NAV_BUTTON_BASE_CLASSES}
+        disabled={item.disabled}
+      >
         {item.label}
       </Button>
     );
@@ -125,11 +132,17 @@ NavItem.displayName = "NavItem";
 const Navbar = memo(function Navbar({ className, navbarItems }: NavbarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { isConnected } = useWalletContext();
 
   const processedNavItems = useMemo(() => {
     if (!navbarItems?.length) return [];
-    return processNavItems(navbarItems, pathname);
-  }, [navbarItems, pathname]);
+    const updatedItems = navbarItems.map((item) =>
+      item.href === "/showcase" && !isConnected
+        ? { ...item, disabled: true }
+        : item
+    );
+    return processNavItems(updatedItems, pathname);
+  }, [navbarItems, pathname, isConnected]);
 
   const handleNavigation = useCallback(
     (href: string) => {

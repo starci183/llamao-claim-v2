@@ -38,6 +38,7 @@ export default function MissionCard({
             <Tick className="w-6" />
           </div>
         ) : onClick ? (
+          // thêm hover vào 
           <button
             onClick={onClick}
             className={cn(

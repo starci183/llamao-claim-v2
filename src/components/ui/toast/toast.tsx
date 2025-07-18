@@ -39,13 +39,14 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
 const toastVariants = cva(
-  "group pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden rounded-2xl px-4 py-5 shadow-lg transition-all data-[state=closed]:animate-down data-[state=open]:animate-up",
+  "group pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden px-4 py-5 shadow-lg transition-all data-[state=closed]:animate-down data-[state=open]:animate-up",
   {
     variants: {
       variant: {
-        comingSoon: "bg-white",
+        comingSoon: "",
         success: "",
-        error: "border border-red-500 bg-red-50",
+        error: "",
+        warning: "",
       },
     },
     defaultVariants: {
