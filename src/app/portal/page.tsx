@@ -11,6 +11,7 @@ import Tabs, {
   TabsTrigger,
 } from "@/components/ui/tabs/tabs";
 import { useWalletContext } from "@/context/wallet-context";
+import { useToast } from "@/hooks/use-toast";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,6 @@ import { useState } from "react";
 import ConnectWalletButton from "../components/button-connect-wallet";
 import AddressButton from "./components/address-button";
 import LlamaoismContent from "./components/llamaoism";
-import { useToast } from "@/hooks/use-toast";
 
 const missions = [
   {
@@ -176,7 +176,7 @@ export default function Portal() {
                           });
                           return;
                         }
-                        navigation.push("/portal/rewards");
+                        navigation.push("/mint");
                       }}
                     >
                       Let’s Llamao
