@@ -48,7 +48,7 @@ export default function MintContentLeftPage({
             alt={storyTitle}
             width={120}
             height={60}
-            className="min-w-[95px] sm:min-w-[190px] md:min-w-[200px] lg:min-w-[220px] max-h-[60px] md:max-h-[90px] aspect-[4/3] object-contain"
+            className="min-w-[95px] sm:min-w-[190px] md:min-w-[200px] lg:min-w-[220px] max-h-[50px] sml:max-h-[60px] md:max-h-[90px] aspect-[4/3] object-contain"
           />
         )}
       </div>

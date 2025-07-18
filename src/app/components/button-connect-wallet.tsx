@@ -1,13 +1,20 @@
 "use client";
 import { Button } from "@/components/common/button";
 import { useSigner } from "@/hooks/use-signer";
+import { cn } from "@/lib/utils";
 import axiosClient from "@/service/axios-client";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ConnectWalletButton() {
+type ConnectWalletButtonProps = {
+  className?: string;
+};
+
+export default function ConnectWalletButton({
+  className,
+}: ConnectWalletButtonProps) {
   const { open } = useAppKit();
   const { address, isConnected } = useAppKitAccount();
   const { signer } = useSigner();
@@ -62,7 +69,10 @@ export default function ConnectWalletButton() {
   return (
     <Button
       intent="gradient"
-      className="text-3xl flex items-center justify-center gap-2"
+      className={cn(
+        "text-3xl flex items-center justify-center gap-2",
+        className
+      )}
       doubleIcon
       onClick={() => {
         open();

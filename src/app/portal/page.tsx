@@ -10,13 +10,15 @@ import Tabs, {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs/tabs";
-import { useAppKitAccount, useWalletInfo } from "@reown/appkit/react";
+import { useWalletContext } from "@/context/wallet-context";
 import { motion } from "motion/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Loading from "../loading";
+import ConnectWalletButton from "../components/button-connect-wallet";
 import AddressButton from "./components/address-button";
 import LlamaoismContent from "./components/llamaoism";
+import { useToast } from "@/hooks/use-toast";
 
 const missions = [
   {
@@ -44,8 +46,9 @@ const missions = [
 export default function Portal() {
   const [hovered, setHovered] = useState(false);
   const [filterStatus, setFilterStatus] = useState("");
-  const { address } = useAppKitAccount();
-  const { walletInfo } = useWalletInfo();
+  const { isConnected, address, walletInfo } = useWalletContext();
+  const navigation = useRouter();
+  const { toast } = useToast();
 
   const statusOptions = [
     { value: "all", label: "All Status" },
@@ -54,10 +57,6 @@ export default function Portal() {
     { value: "completed", label: "Completed" },
     { value: "failed", label: "Failed" },
   ];
-
-  if (!address || !walletInfo) {
-    return <Loading />;
-  }
 
   return (
     <motion.div className="flex flex-col gap-2 md:gap-4 lg:gap-6">
@@ -80,12 +79,16 @@ export default function Portal() {
           </motion.div>
           {/* Wallet Address */}
           <motion.div className="flex w-full flex-col text-center justify-center">
-            <AddressButton
-              hovered={hovered}
-              setHoveredAction={setHovered}
-              address={address}
-              walletInfo={walletInfo}
-            />
+            {isConnected && address && walletInfo ? (
+              <AddressButton
+                hovered={hovered}
+                setHoveredAction={setHovered}
+                address={address}
+                walletInfo={walletInfo}
+              />
+            ) : (
+              <ConnectWalletButton className="py-2 text-xl hover:scale-105 transform transition-all" />
+            )}
           </motion.div>
           <motion.div className="flex flex-col text-center justify-center gap-2">
             <Tabs defaultValue="eligibility">
@@ -102,6 +105,7 @@ export default function Portal() {
                     />
                   }
                   iconPosition="right"
+                  className="hover:scale-105 hover:text-primary transform transition-all"
                 >
                   Eligibility
                 </TabsTrigger>
@@ -117,54 +121,71 @@ export default function Portal() {
                     />
                   }
                   iconPosition="right"
+                  className="hover:scale-105 hover:text-primary transform transition-all"
+                  onClick={(e) => {
+                    if (!isConnected) {
+                      e.preventDefault();
+                      toast({
+                        message:
+                          "Please connect your wallet to view Llamaoism.",
+                      });
+                    }
+                  }}
                 >
-                  Llamao-ism
+                  Llamaoism
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="eligibility">
-                {address ? (
-                  <>
-                    <motion.div className="flex flex-row items-center justify-between gap-2 whitespace-nowrap">
-                      <h1 className="text-sm md:text-base text-black">
-                        Filter Status
-                      </h1>
-                      <Select
-                        options={statusOptions}
-                        value={filterStatus}
-                        onChange={setFilterStatus}
-                        placeholder=""
-                        size="sm"
-                        defaultValue="all"
-                        width="fixed"
-                      />
-                    </motion.div>
-                    <motion.div className="flex flex-col items-center justify-center gap-2">
-                      <Mission missions={missions} />
-                    </motion.div>
-                    <motion.div className="mt-2">
-                      <Button
-                        icon={
-                          <Image
-                            src={"/gifs/llamao_zenmonad.gif"}
-                            alt="llamao_zenmonad"
-                            width={24}
-                            height={24}
-                            className="w-6 h-auto"
-                            priority
-                          />
+                <>
+                  <motion.div className="flex flex-row items-center justify-between gap-2 whitespace-nowrap">
+                    <h1 className="text-sm md:text-base text-black">
+                      Filter Status
+                    </h1>
+                    <Select
+                      options={statusOptions}
+                      value={filterStatus}
+                      onChange={setFilterStatus}
+                      placeholder=""
+                      size="sm"
+                      defaultValue="all"
+                      width="fixed"
+                    />
+                  </motion.div>
+                  <motion.div className="flex flex-col items-center justify-center gap-2">
+                    <Mission missions={missions} />
+                  </motion.div>
+                  <motion.div className="mt-2">
+                    <Button
+                      icon={
+                        <Image
+                          src={"/gifs/llamao_zenmonad.gif"}
+                          alt="llamao_zenmonad"
+                          width={24}
+                          height={24}
+                          className="w-6 h-auto"
+                          priority
+                        />
+                      }
+                      doubleIcon
+                      intent={"gradient"}
+                      className="w-full flex items-center justify-center text-base py-2 transform transition-all hover:scale-105"
+                      onClick={() => {
+                        if (!isConnected) {
+                          toast({
+                            message: "Please connect your wallet to proceed.",
+                          });
+                          return;
                         }
-                        doubleIcon
-                        intent={"gradient"}
-                        className="w-full flex items-center justify-center text-base py-2"
-                      >
-                        Let’s Llamao
-                      </Button>
-                    </motion.div>
-                  </>
-                ) : null}
+                        navigation.push("/portal/rewards");
+                      }}
+                    >
+                      Let’s Llamao
+                    </Button>
+                  </motion.div>
+                </>
               </TabsContent>
               <TabsContent value="llamaoism">
-                {address ? <LlamaoismContent /> : null}
+                <LlamaoismContent />
               </TabsContent>
             </Tabs>
           </motion.div>

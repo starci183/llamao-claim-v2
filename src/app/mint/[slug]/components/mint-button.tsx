@@ -37,7 +37,6 @@ export default function MintButton() {
         });
 
         toast({
-          title: "Minted",
           message: "You have minted successfully with tx hash: " + tx.hash,
           action: (
             <Button
