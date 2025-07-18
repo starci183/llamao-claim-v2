@@ -11,6 +11,7 @@ import Tabs, {
   TabsTrigger,
 } from "@/components/ui/tabs/tabs";
 import { useWalletContext } from "@/context/wallet-context";
+import { useToast } from "@/hooks/use-toast";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,6 @@ import { useState } from "react";
 import ConnectWalletButton from "../components/button-connect-wallet";
 import AddressButton from "./components/address-button";
 import LlamaoismContent from "./components/llamaoism";
-import { useToast } from "@/hooks/use-toast";
 
 const missions = [
   {
@@ -46,6 +46,8 @@ const missions = [
 export default function Portal() {
   const [hovered, setHovered] = useState(false);
   const [filterStatus, setFilterStatus] = useState("");
+  const [tabValue, setTabValue] = useState("eligibility");
+
   const { isConnected, address, walletInfo } = useWalletContext();
   const navigation = useRouter();
   const { toast } = useToast();
@@ -91,7 +93,18 @@ export default function Portal() {
             )}
           </motion.div>
           <motion.div className="flex flex-col text-center justify-center gap-2">
-            <Tabs defaultValue="eligibility">
+            <Tabs
+              value={tabValue}
+              onValueChange={(value) => {
+                if (!isConnected && value === "llamaoism") {
+                  toast({
+                    message: "Please connect your wallet to view Llamaoism.",
+                  });
+                  return;
+                }
+                setTabValue(value);
+              }}
+            >
               <TabsList>
                 <TabsTrigger
                   value="eligibility"
@@ -122,15 +135,6 @@ export default function Portal() {
                   }
                   iconPosition="right"
                   className="hover:scale-105 hover:text-primary transform transition-all"
-                  onClick={(e) => {
-                    if (!isConnected) {
-                      e.preventDefault();
-                      toast({
-                        message:
-                          "Please connect your wallet to view Llamaoism.",
-                      });
-                    }
-                  }}
                 >
                   Llamaoism
                 </TabsTrigger>
