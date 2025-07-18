@@ -176,7 +176,7 @@ export default function Portal() {
                           });
                           return;
                         }
-                        navigation.push("/portal/rewards");
+                        navigation.push("/mint");
                       }}
                     >
                       Let’s Llamao
