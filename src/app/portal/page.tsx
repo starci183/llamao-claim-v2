@@ -122,15 +122,7 @@ export default function Portal() {
                   }
                   iconPosition="right"
                   className="hover:scale-105 hover:text-primary transform transition-all"
-                  onClick={(e) => {
-                    if (!isConnected) {
-                      e.preventDefault();
-                      toast({
-                        message:
-                          "Please connect your wallet to view Llamaoism.",
-                      });
-                    }
-                  }}
+                  disabled={!isConnected}
                 >
                   Llamaoism
                 </TabsTrigger>
