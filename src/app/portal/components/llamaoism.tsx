@@ -3,6 +3,8 @@
 import { Button } from "@/components/common/button";
 import MissionCard from "@/components/layouts/portal/mission-card";
 import Tabs, { TabsList, TabsTrigger } from "@/components/ui/tabs/tabs";
+import { useWalletContext } from "@/context/wallet-context";
+import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -27,6 +29,8 @@ const missionGroups = [
 
 export default function LlamaoismContent() {
   const router = useRouter();
+  const { isConnected } = useWalletContext();
+  const { toast } = useToast();
   return (
     <div className="w-full max-w-[400px] mx-auto flex flex-col gap-2">
       <Tabs defaultValue="new">
@@ -83,6 +87,24 @@ export default function LlamaoismContent() {
         doubleIcon
         intent={"gradient"}
         className="w-full flex items-center justify-center text-base py-2 transform transition-all hover:scale-105"
+        onClick={() => {
+          if (!isConnected) {
+            toast({
+              message: "Please connect your wallet to proceed.",
+            });
+            return;
+          }
+          try {
+            router.push("/mint");
+          } catch (error) {
+            toast({
+              message: "An error occurred while navigating.",
+            });
+            console.error("Navigation error:", error);
+          } finally {
+            // Additional cleanup or logging if needed
+          }
+        }}
       >
         Let’s llamao
       </Button>
