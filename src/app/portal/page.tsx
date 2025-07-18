@@ -46,6 +46,8 @@ const missions = [
 export default function Portal() {
   const [hovered, setHovered] = useState(false);
   const [filterStatus, setFilterStatus] = useState("");
+  const [tabValue, setTabValue] = useState("eligibility");
+
   const { isConnected, address, walletInfo } = useWalletContext();
   const navigation = useRouter();
   const { toast } = useToast();
@@ -91,7 +93,18 @@ export default function Portal() {
             )}
           </motion.div>
           <motion.div className="flex flex-col text-center justify-center gap-2">
-            <Tabs defaultValue="eligibility">
+            <Tabs
+              value={tabValue}
+              onValueChange={(value) => {
+                if (!isConnected && value === "llamaoism") {
+                  toast({
+                    message: "Please connect your wallet to view Llamaoism.",
+                  });
+                  return;
+                }
+                setTabValue(value);
+              }}
+            >
               <TabsList>
                 <TabsTrigger
                   value="eligibility"
@@ -122,7 +135,6 @@ export default function Portal() {
                   }
                   iconPosition="right"
                   className="hover:scale-105 hover:text-primary transform transition-all"
-                  disabled={!isConnected}
                 >
                   Llamaoism
                 </TabsTrigger>
