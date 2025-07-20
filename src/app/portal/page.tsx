@@ -45,7 +45,7 @@ const missions = [
 
 export default function Portal() {
   const [hovered, setHovered] = useState(false);
-  const [filterStatus, setFilterStatus] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
   const [tabValue, setTabValue] = useState("eligibility");
 
   const { isConnected, address, walletInfo } = useWalletContext();
@@ -53,7 +53,7 @@ export default function Portal() {
   const { toast } = useToast();
 
   const statusOptions = [
-    { value: "all", label: "All Status" },
+    { value: "all", label: "All" },
     { value: "active", label: "Active" },
     { value: "pending", label: "Pending" },
     { value: "completed", label: "Completed" },

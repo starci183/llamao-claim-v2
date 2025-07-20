@@ -37,10 +37,10 @@ export default function MintPage() {
           alt="book tag"
           width={100}
           height={50}
-          className="absolute left-[16%] top-[19%] smm:top-[20%] sml:left-[16%] sml:top-[21%] sm:left-[16%] sm:top-[25.5%] md:left-[16%] md:top-[17%] lg:left-[16%] lg:top-[15%] w-20 sm:w-24 md:w-28 lg:w-32 xl:w-36"
+          className="absolute left-[16%] top-[19%] smm:top-[20%] sml:left-[16%] sml:top-[21%] sm:left-[16%] sm:top-[25.5%] md:left-[16%] md:top-[17%] lg:left-[20%] lg:top-[15%] xl:left-[20%] xl:top-[14%] 2xl:left-[20%] 2xl:top-[13%] w-20 sm:w-24 md:w-28 lg:w-36 xl:w-40 2xl:w-44"
         />
         {/* Nội dung mint nằm trong sách */}
-        <div className="relative z-10 w-[80%] sm:w-[68%] md:w-[70%] lg:w-[72%] h-full max-w-full max-h-full flex items-center justify-center overflow-hidden">
+        <div className="relative z-10 w-[80%] sm:w-[68%] md:w-[70%] lg:w-[72%] h-[50%] max-w-full max-h-full flex items-center justify-center overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-full">
               <Loading />
@@ -52,17 +52,24 @@ export default function MintPage() {
             />
           ) : null}
         </div>
+        <div className="absolute bottom-0 px-2 py-2 mx-auto">
+          <StepNavigator
+            currentLabel="Llamao"
+            mainButton={<MintButton />}
+            onBack={() => {}}
+            onNext={() => {}}
+          />
+        </div>
       </div>
-
       {/* Điều hướng bước */}
-      <div className="mt-auto px-2 py-2 mx-auto">
+      {/* <div className="mt-auto pb-10 px-2 py-2 mx-auto">
         <StepNavigator
           currentLabel="Llamao"
           mainButton={<MintButton />}
           onBack={() => {}}
           onNext={() => {}}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

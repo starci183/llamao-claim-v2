@@ -247,9 +247,13 @@ export default function ShowcaseTable({
             );
           }}
           imgSrc={nftMetadata?.image}
-          text={nftMetadata?.name + " " + "x" + balance}
+          text={nftMetadata?.name ? `${nftMetadata?.name}` : "NFT"}
           state="nft"
-          description={nftMetadata?.description}
+          description={
+            nftMetadata?.description
+              ? `${nftMetadata?.description}\nYou have: ${balance} nft`
+              : `You have: ${balance} nft`
+          }
           wrapperClassName="mb-4"
           className="w-full h-auto object-cover"
           loading={loading}
