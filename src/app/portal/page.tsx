@@ -19,6 +19,7 @@ import { useState } from "react";
 import ConnectWalletButton from "../components/button-connect-wallet";
 import AddressButton from "./components/address-button";
 import LlamaoismContent from "./components/llamaoism";
+import Carousel from "./components/carousel";
 
 const missions = [
   {
@@ -195,6 +196,7 @@ export default function Portal() {
           </motion.div>
         </div>
       </MainLayout>
+      <Carousel />
     </motion.div>
   );
 }

@@ -7,6 +7,25 @@
   --breakpoint-sml: 26.5625rem; /* 425px  */
 }
 
+@layer utilities {
+  @keyframes infiniteScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-25%);
+    }
+  }
+  .animate-scroll {
+    animation: infiniteScroll 5s linear infinite;
+    will-change: transform;
+    display: flex;
+  }
+  .scroll-pause-on-hover:hover .animate-scroll {
+    animation-play-state: paused;
+  }
+}
+
 /* Font Face Definitions */
 @font-face {
   font-family: "PP Mondwest";

@@ -17,14 +17,14 @@ const missionGroups = [
       { text: "2. LLAMAO", status: false, link: "/mint" },
     ],
   },
-  {
-    title: "B. Llamaoism Guidebook",
-    bg: "bg-[url('/gifs/llamao_newpope.gif')] bg-cover",
-    missions: [
-      { text: "1. LLAMAO", status: true, link: "/mint" },
-      { text: "2. LLAMAO", status: false, link: "/mint-playbook" },
-    ],
-  },
+  // {
+  //   title: "B. Llamaoism Guidebook",
+  //   bg: "bg-[url('/gifs/llamao_newpope.gif')] bg-cover",
+  //   missions: [
+  //     { text: "1. LLAMAO", status: true, link: "/mint" },
+  //     { text: "2. LLAMAO", status: false, link: "/mint-playbook" },
+  //   ],
+  // },
 ];
 
 export default function LlamaoismContent() {
@@ -53,11 +53,11 @@ export default function LlamaoismContent() {
       </Tabs>
       {missionGroups.map((group) => (
         <div key={group.title} className=" overflow-hidden mb-2 space-y-2">
-          <div
+          {/* <div
             className={`text-xs md:text-sm h-full font-bold p-2 box-shadow-primary ${group.bg} text-white bg-center`}
           >
             {group.title}
-          </div>
+          </div> */}
           <div className="flex flex-col gap-2">
             {group.missions.map((mission, i) => (
               <MissionCard
