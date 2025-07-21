@@ -1,7 +1,7 @@
+import { Skeleton } from "@/components/ui/skeleton/skeleton";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { memo } from "react";
-import { Skeleton } from "@/components/ui/skeleton/skeleton";
 
 interface ShowcaseCardProps {
   className?: string;
@@ -15,6 +15,7 @@ interface ShowcaseCardProps {
   onClick?: () => void;
   description?: string;
   loading?: boolean;
+  isGradient?: boolean;
 }
 
 export const ShowcaseCard = memo(function ShowcaseCard({
@@ -23,12 +24,13 @@ export const ShowcaseCard = memo(function ShowcaseCard({
   state,
   imgSrc,
   text,
-  imageWidth = 150,
-  imageHeight = 150,
+  imageWidth = 140,
+  imageHeight = 140,
   priority = false,
   onClick,
   description,
   loading = false,
+  isGradient = true,
 }: ShowcaseCardProps) {
   const normalizedText =
     text &&
@@ -54,7 +56,7 @@ export const ShowcaseCard = memo(function ShowcaseCard({
         )}
       >
         <div className="relative bg-gray-200" style={fixedSizeStyle}>
-          <Skeleton className=" w-full h-full box-shadow-showcase-item" />
+          <Skeleton className="w-full h-full box-shadow-showcase-item" />
         </div>
         <div className="p-1.5 w-full box-shadow-showcase-item">
           <Skeleton className="h-6 w-full mx-auto" />
@@ -69,10 +71,14 @@ export const ShowcaseCard = memo(function ShowcaseCard({
     ? `Showcase image for ${state}: ${displayText}`
     : `Showcase image: ${displayText}`;
 
+  const gradientBackground = isGradient
+    ? "bg-gradient-to-r from-[#FFACFF] to-[#805FD4]"
+    : "";
+
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-between box-shadow-showcase-card bg-[#C3C3C3] overflow-hidden transition-all duration-300 hover:scale-105 p-2 space-y-2",
+        "flex flex-col items-center justify-between box-shadow-showcase-card bg-[#C3C3C3] overflow-hidden transition-all duration-300 hover:scale-105 p-2",
         onClick && "cursor-pointer",
         wrapperClassName
       )}
@@ -89,7 +95,7 @@ export const ShowcaseCard = memo(function ShowcaseCard({
           width={imageWidth}
           height={imageHeight}
           className={cn(
-            "box-shadow-showcase-item w-full h-full object-cover transition-transform duration-300 hover:scale-110",
+            "box-shadow-showcase-item p-0.5 w-full h-full object-cover transition-transform duration-300",
             className
           )}
           priority={priority}
@@ -97,14 +103,24 @@ export const ShowcaseCard = memo(function ShowcaseCard({
           sizes="100vw"
         />
       </div>
-      <div className="py-1 w-full box-shadow-showcase-item">
-        <h3
-          className="text-center text-lg font-semibold text-gray-800 line-clamp-2"
+      {/* displayText */}
+      <div className="w-full">
+        <h3 className="text-sm text-black text-center">{displayText}</h3>
+      </div>
+      {/*  */}
+      <div
+        className={cn(
+          "py-1 w-full box-shadow-showcase-item",
+          gradientBackground
+        )}
+      >
+        <p
+          className="text-center text-base text-gray-800 line-clamp-2"
           role="heading"
           aria-level={3}
         >
-          {displayText}
-        </h3>
+          You have: 1 NFT
+        </p>
       </div>
     </div>
   );

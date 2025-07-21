@@ -13,11 +13,11 @@
       transform: translateX(0);
     }
     100% {
-      transform: translateX(-25%);
+      transform: translateX(-50%);
     }
   }
   .animate-scroll {
-    animation: infiniteScroll 5s linear infinite;
+    animation: infiniteScroll 10s linear infinite;
     will-change: transform;
     display: flex;
   }

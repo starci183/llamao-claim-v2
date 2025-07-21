@@ -1,12 +1,6 @@
 "use client";
 
 import ShowcaseTable from "@/components/layouts/showcase/showcase-table";
-import Tabs, {
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs/tabs";
-import Image from "next/image";
 import { useState } from "react";
 
 export default function Showcase() {
@@ -24,7 +18,7 @@ export default function Showcase() {
       /> */}
 
       {/* Chỉ còn mỗi llamaoism ở trang about*/}
-      <Tabs defaultValue="llamaoism">
+      {/* <Tabs defaultValue="llamaoism">
         <TabsList>
           <TabsTrigger
             value="llamaoism"
@@ -48,7 +42,11 @@ export default function Showcase() {
             className="animate-in fade-in duration-300"
           />
         </TabsContent>
-      </Tabs>
+      </Tabs> */}
+      <ShowcaseTable
+        category={selectedCategory || undefined}
+        className="animate-in fade-in duration-300"
+      />
     </div>
   );
 }
