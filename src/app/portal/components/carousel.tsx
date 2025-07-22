@@ -34,7 +34,12 @@ export default function Carousel({
   };
 
   const renderItems = () =>
-    [...(items || []), ...(items || []), ...(items || [])].map((item, idx) => (
+    [
+      ...(items || []),
+      ...(items || []),
+      ...(items || []),
+      ...(items || []),
+    ].map((item, idx) => (
       <div
         key={item.name + idx}
         className="flex-shrink-0 w-16 h-16 flex items-center justify-center"
@@ -56,8 +61,8 @@ export default function Carousel({
       headerIcon="/gifs/llamao_majestic_run.gif"
       className="max-w-xl mx-auto p-0.5 md:p-1 lg:p-1.5"
     >
-      <div className="w-full h-full flex items-center justify-center overflow-hidden">
-        <div className="flex items-center whitespace-nowrap animate-scroll bg-white gap-2">
+      <div className="w-full h-full flex items-center justify-center carousel-outer">
+        <div className="flex items-center whitespace-nowrap animate-scroll bg-white gap-2 ">
           {renderItems()}
         </div>
       </div>
