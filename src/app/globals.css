@@ -13,13 +13,19 @@
       transform: translateX(0);
     }
     100% {
-      transform: translateX(-50%);
+      transform: translateX(-25%);
     }
+  }
+  .carousel-outer {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
   }
   .animate-scroll {
     animation: infiniteScroll 10s linear infinite;
     will-change: transform;
     display: flex;
+    min-width: max-content;
   }
   .scroll-pause-on-hover:hover .animate-scroll {
     animation-play-state: paused;
