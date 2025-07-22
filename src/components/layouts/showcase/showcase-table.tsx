@@ -257,6 +257,7 @@ export default function ShowcaseTable({
           wrapperClassName="mb-4"
           className="w-full h-auto object-cover"
           loading={loading}
+          balance={balance}
         />
       </div>
 

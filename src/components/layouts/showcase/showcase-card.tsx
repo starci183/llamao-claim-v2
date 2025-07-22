@@ -16,6 +16,7 @@ interface ShowcaseCardProps {
   description?: string;
   loading?: boolean;
   isGradient?: boolean;
+  balance?: string;
 }
 
 export const ShowcaseCard = memo(function ShowcaseCard({
@@ -31,6 +32,7 @@ export const ShowcaseCard = memo(function ShowcaseCard({
   description,
   loading = false,
   isGradient = true,
+  balance,
 }: ShowcaseCardProps) {
   const normalizedText =
     text &&
@@ -119,7 +121,7 @@ export const ShowcaseCard = memo(function ShowcaseCard({
           role="heading"
           aria-level={3}
         >
-          You have: 1 NFT
+          You have: {balance} NFT
         </p>
       </div>
     </div>
