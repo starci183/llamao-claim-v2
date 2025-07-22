@@ -25,7 +25,7 @@
     animation: infiniteScroll 10s linear infinite;
     will-change: transform;
     display: flex;
-    min-width: max-content; /* Đảm bảo không bị co lại */
+    min-width: max-content;
   }
   .scroll-pause-on-hover:hover .animate-scroll {
     animation-play-state: paused;
