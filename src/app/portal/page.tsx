@@ -1,8 +1,6 @@
 "use client";
 
 import { Button } from "@/components/common/button";
-import Navbar, { items } from "@/components/common/navbar";
-import MainLayout from "@/components/layouts/main-layout";
 import Mission from "@/components/layouts/portal/mission";
 import Select from "@/components/ui/select/select";
 import Tabs, {
@@ -12,6 +10,7 @@ import Tabs, {
 } from "@/components/ui/tabs/tabs";
 import { useWalletContext } from "@/context/wallet-context";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,7 +18,6 @@ import { useState } from "react";
 import ConnectWalletButton from "../components/button-connect-wallet";
 import AddressButton from "./components/address-button";
 import LlamaoismContent from "./components/llamaoism";
-import Carousel from "./components/carousel";
 
 const missions = [
   {
@@ -62,26 +60,34 @@ export default function Portal() {
   ];
 
   return (
-    <motion.div className="flex flex-col gap-2 md:gap-4 lg:gap-6">
-      <Navbar navbarItems={items} />
-      <MainLayout
-        text="Portal"
-        headerIcon="/gifs/llamao_majestic_run.gif"
-        className="space-y-4"
-      >
-        <div className="px-2 md:px-4 space-y-2">
-          <motion.div>
-            <Image
-              src={"/images/home.svg"}
-              alt="Llamao Web Testnet"
-              width={295}
-              height={219}
-              className="w-full md:min-w-[330px] h-auto max-w-none mx-auto"
-              priority
-            />
-          </motion.div>
+    <div
+      className={cn(
+        "flex flex-col items-center w-full",
+        "px-2 sm:px-4 lg:px-0 py-0.5",
+        "mx-auto"
+      )}
+    >
+      <div className={cn("w-full flex justify-center")}>
+        <motion.div className={cn("w-full max-w-md sm:max-w-lg lg:max-w-xl")}>
+          <Image
+            src={"/images/home.svg"}
+            alt="Llamao Web Testnet"
+            width={200}
+            height={150}
+            className={cn(
+              "w-full h-auto max-w-none mx-auto",
+              "md:min-w-[240px] aspect-[4/3]"
+            )}
+            priority
+          />
+        </motion.div>
+      </div>
+      <div className={cn("w-full flex justify-center", "mt-1")}>
+        <motion.div className={cn("w-full max-w-md sm:max-w-lg lg:max-w-2xl")}>
           {/* Wallet Address */}
-          <motion.div className="flex w-full flex-col text-center justify-center">
+          <motion.div
+            className={cn("flex w-full flex-col text-center justify-center")}
+          >
             {isConnected && address && walletInfo ? (
               <AddressButton
                 hovered={hovered}
@@ -90,10 +96,20 @@ export default function Portal() {
                 walletInfo={walletInfo}
               />
             ) : (
-              <ConnectWalletButton className="py-2 text-xl hover:scale-105 transform transition-all" />
+              <ConnectWalletButton
+                className={cn(
+                  "py-2 text-xl",
+                  "hover:scale-105 transform transition-all"
+                )}
+              />
             )}
           </motion.div>
-          <motion.div className="flex flex-col text-center justify-center gap-2">
+          <motion.div
+            className={cn(
+              "flex flex-col text-center justify-center",
+              "gap-2 mt-4"
+            )}
+          >
             <Tabs
               value={tabValue}
               onValueChange={(value) => {
@@ -142,8 +158,12 @@ export default function Portal() {
               </TabsList>
               <TabsContent value="eligibility">
                 <>
-                  <motion.div className="flex flex-row items-center justify-between gap-2 whitespace-nowrap">
-                    <h1 className="text-sm md:text-base text-black">
+                  <motion.div
+                    className={cn(
+                      "flex flex-row items-center justify-between gap-2 whitespace-nowrap"
+                    )}
+                  >
+                    <h1 className={cn("text-sm md:text-base text-black")}>
                       Filter Status
                     </h1>
                     <Select
@@ -156,10 +176,15 @@ export default function Portal() {
                       width="fixed"
                     />
                   </motion.div>
-                  <motion.div className="flex flex-col items-center justify-center gap-2">
+                  <motion.div
+                    className={cn(
+                      "flex flex-col items-center justify-center",
+                      "gap-2"
+                    )}
+                  >
                     <Mission missions={missions} />
                   </motion.div>
-                  <motion.div className="mt-2">
+                  <motion.div className={cn("mt-2")}>
                     <Button
                       icon={
                         <Image
@@ -167,13 +192,16 @@ export default function Portal() {
                           alt="llamao_zenmonad"
                           width={24}
                           height={24}
-                          className="w-6 h-auto"
+                          className={cn("w-6 h-auto")}
                           priority
                         />
                       }
                       doubleIcon
                       intent={"gradient"}
-                      className="w-full flex items-center justify-center text-base py-2 transform transition-all hover:scale-105"
+                      className={cn(
+                        "w-full flex items-center justify-center text-base py-2",
+                        "transform transition-all hover:scale-105"
+                      )}
                       onClick={() => {
                         if (!isConnected) {
                           toast({
@@ -194,9 +222,8 @@ export default function Portal() {
               </TabsContent>
             </Tabs>
           </motion.div>
-        </div>
-      </MainLayout>
-      <Carousel />
-    </motion.div>
+        </motion.div>
+      </div>
+    </div>
   );
 }
