@@ -40,7 +40,7 @@ export default function MintPlaybook() {
               <div className="absolute top-0 left-0 -translate-x-1 -translate-y-24 sm:-translate-y-28 md:-translate-y-32 lg:-translate-y-36 text-center aspect-[452px/161px] w-full h-auto flex items-center justify-center">
                 <Image
                   alt="llamao_text"
-                  src="/images/llamao_logo_text.svg"
+                  src="/images/llamao_title.png"
                   width={452}
                   height={161}
                   className="w-[65%] sm:w-[70%] md:w-[75%] lg:w-[80%] xl:w-[85%] h-auto"

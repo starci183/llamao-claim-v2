@@ -56,7 +56,7 @@ const SAMPLE_SHOWCASE_ITEMS: ShowcaseItem[] = [
   {
     id: "5",
     title: "Llamao PFP #1",
-    image: "/images/llamao_logo_text.svg",
+    image: "/images/llamao_title.png",
     category: "pfps",
     description: "Classic Llamao profile picture",
   },
@@ -98,7 +98,7 @@ const SAMPLE_SHOWCASE_ITEMS: ShowcaseItem[] = [
   {
     id: "11",
     title: "Profile Picture #3",
-    image: "/images/llamao_logo_text.svg",
+    image: "/images/llamao_title.png",
     category: "pfps",
     description: "Another profile picture option",
   },

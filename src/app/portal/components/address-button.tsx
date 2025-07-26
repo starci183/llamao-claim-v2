@@ -1,7 +1,8 @@
 "use client";
+
 import Loading from "@/app/loading";
 import { Button } from "@/components/common/button";
-import { truncateAddress } from "@/lib/utils";
+import { truncateAddress, cn } from "@/lib/utils";
 import { Block } from "@/svg";
 import { useDisconnect, type ConnectedWalletInfo } from "@reown/appkit/react";
 import Image from "next/image";
@@ -30,7 +31,7 @@ export default function AddressButton({
     <Button
       intent={"gradient"}
       doubleIcon
-      className={`text-2xl p-2 flex items-center justify-center gap-2`}
+      className={cn("text-2xl p-2 flex items-center justify-center gap-2")}
       style={
         hovered
           ? {
@@ -40,7 +41,7 @@ export default function AddressButton({
       }
       icon={
         hovered ? (
-          <Block />
+          <Block width={24} height={24} className={cn("w-6")} />
         ) : (
           walletInfo.icon && (
             <Image
@@ -48,7 +49,7 @@ export default function AddressButton({
               alt="wallet"
               width={24}
               height={24}
-              className="w-6"
+              className={cn("w-6")}
             />
           )
         )
@@ -58,7 +59,7 @@ export default function AddressButton({
     >
       {hovered ? (
         <span
-          className="text-2xl"
+          className={cn("text-base")}
           onClick={() => {
             try {
               disconnect();
@@ -72,7 +73,7 @@ export default function AddressButton({
           Log Out
         </span>
       ) : (
-        <span className="text-2xl">{truncateAddress(address)}</span>
+        <span className={cn("text-base")}>{truncateAddress(address)}</span>
       )}
     </Button>
   );

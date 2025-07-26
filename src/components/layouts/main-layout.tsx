@@ -50,7 +50,12 @@ const MainLayout = memo<MainLayoutProps>(function MainLayout({
   }, [subHeader, subHeaderComponent]);
 
   return (
-    <div className="w-full flex bg-background items-center justify-center px-2 sm:px-4 lg:px-6">
+    <div
+      className={cn(
+        "w-full flex bg-background items-center justify-center overflow-hidden",
+        "px-2 sm:px-4 lg:px-6"
+      )}
+    >
       <div
         className={cn(
           "p-1 bg-[#C3C3C3] w-[80%] md:w-fit container mx-auto",
@@ -61,7 +66,7 @@ const MainLayout = memo<MainLayoutProps>(function MainLayout({
         <Header
           text={text}
           icon={headerIconElement}
-          className="w-full"
+          className={cn("w-full")}
           subHeader={computedSubHeader}
         />
         <div

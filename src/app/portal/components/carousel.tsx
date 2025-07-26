@@ -1,4 +1,5 @@
 import MainLayout from "@/components/layouts/main-layout";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface CarouselProps {
@@ -24,8 +25,8 @@ const ITEMS = [
 
 export default function Carousel({
   items = ITEMS,
-  imageWidth = 96,
-  imageHeight = 96,
+  imageWidth = 56,
+  imageHeight = 56,
 }: CarouselProps) {
   const fixedSizeStyle = {
     width: imageWidth,
@@ -42,15 +43,17 @@ export default function Carousel({
     ].map((item, idx) => (
       <div
         key={item.name + idx}
-        className="flex-shrink-0 w-16 h-16 flex items-center justify-center"
+        className={cn(
+          "flex-shrink-0 w-10 h-10 flex items-center justify-center"
+        )}
         style={fixedSizeStyle}
       >
         <Image
-          width={64}
-          height={64}
+          width={48}
+          height={48}
           src={item.img}
           alt={item.name}
-          className="w-full h-auto flex-shrink-0"
+          className={cn("w-full h-auto flex-shrink-0")}
         />
       </div>
     ));
@@ -59,10 +62,18 @@ export default function Carousel({
       text="Our Partners"
       subHeader={false}
       headerIcon="/gifs/llamao_majestic_run.gif"
-      className="max-w-xl mx-auto p-0.5 md:p-1 lg:p-1.5"
+      className={cn("max-w-md mx-auto p-0.5 md:p-1 lg:p-1.5")}
     >
-      <div className="w-full h-full flex items-center justify-center carousel-outer">
-        <div className="flex items-center whitespace-nowrap animate-scroll bg-white gap-2 ">
+      <div
+        className={cn(
+          "w-full h-full flex items-center justify-center carousel-outer"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center whitespace-nowrap animate-scroll bg-white gap-2"
+          )}
+        >
           {renderItems()}
         </div>
       </div>

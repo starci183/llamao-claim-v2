@@ -11,7 +11,7 @@ import { useWalletContext } from "@/context/wallet-context";
 
 // Constants
 const NAV_BUTTON_BASE_CLASSES =
-  "w-full min-w-20 md:min-w-32 flex items-center justify-center text-base transform transition-all hover:scale-105";
+  "w-full min-w-20 md:min-w-32 flex items-center justify-center text-base transform transition-all hover:scale-105 py-3";
 const ICON_SIZE = 24;
 
 // Types
@@ -56,7 +56,7 @@ const createIconElement = (iconSrc: string, label: string): ReactElement => (
     alt={`${label} icon`}
     width={ICON_SIZE}
     height={ICON_SIZE}
-    className="w-6 h-6"
+    className={cn("w-6 h-6")}
     priority={false}
   />
 );
@@ -96,7 +96,7 @@ const NavItem = memo(
     const buttonElement = item.isActive ? (
       <Button
         intent="gradient"
-        className={NAV_BUTTON_BASE_CLASSES}
+        className={cn(NAV_BUTTON_BASE_CLASSES)}
         icon={item.iconElement}
         disabled={item.disabled}
       >
@@ -105,7 +105,7 @@ const NavItem = memo(
     ) : (
       <Button
         intent="secondary"
-        className={NAV_BUTTON_BASE_CLASSES}
+        className={cn(NAV_BUTTON_BASE_CLASSES)}
         disabled={item.disabled}
       >
         {item.label}
@@ -117,7 +117,7 @@ const NavItem = memo(
         <Link
           href={item.href}
           onClick={handleClick}
-          className="w-full"
+          className={cn("w-full")}
           aria-current={item.isActive ? "page" : undefined}
         >
           {buttonElement}
@@ -158,7 +158,7 @@ const Navbar = memo(function Navbar({ className, navbarItems }: NavbarProps) {
 
   return (
     <nav className={cn("p-4", className)} role="navigation">
-      <ul className="flex items-center justify-center space-x-4">
+      <ul className={cn("flex items-center justify-center space-x-4")}>
         {processedNavItems.map((item) => (
           <NavItem key={item.href} item={item} onNavigate={handleNavigation} />
         ))}
