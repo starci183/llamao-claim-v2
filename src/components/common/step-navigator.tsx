@@ -1,4 +1,5 @@
 import { Button } from "@/components/common/button";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 interface StepNavigatorProps {
@@ -24,10 +25,12 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
       <Button
         onClick={onBack}
         intent="primary"
-        className={
-          `max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base text-nowrap` +
-          (currentLabel === "1" ? " opacity-50 cursor-not-allowed" : "")
-        }
+        className={cn(
+          "max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base text-nowrap transition-all duration-150",
+          "hover:bg-primary/80 hover:scale-105",
+          currentLabel === "1" &&
+            "opacity-50 cursor-not-allowed hover:scale-100 hover:bg-primary"
+        )}
         disabled={currentLabel === "1"}
       >
         ← Back
@@ -37,7 +40,10 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
         <Button
           intent="gradient"
           onClick={onMain}
-          className="max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base text-nowrap"
+          className={cn(
+            "max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base text-nowrap transition-all duration-150",
+            "hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 hover:scale-105"
+          )}
         >
           {currentLabel}
         </Button>
@@ -49,10 +55,12 @@ export const StepNavigator: React.FC<StepNavigatorProps> = ({
       <Button
         onClick={onNext}
         intent="primary"
-        className={
-          "max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base text-nowrap" +
-          (isLastStep ? " opacity-50 cursor-not-allowed" : "")
-        }
+        className={cn(
+          "max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base text-nowrap transition-all duration-150",
+          "hover:bg-primary/80 hover:scale-105",
+          isLastStep &&
+            "opacity-50 cursor-not-allowed hover:scale-100 hover:bg-primary"
+        )}
         disabled={isLastStep}
       >
         Next →
