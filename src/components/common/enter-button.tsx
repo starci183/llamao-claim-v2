@@ -20,7 +20,7 @@ export default function EnterButton({ className, link }: EnterButtonProps) {
           src="/images/llamao_enter_button.svg"
           width={134.4067840576172}
           height={67.2033920288086}
-          className="w-[120%] sm:w-[140%] md:w-[160%] lg:w-[180%] h-auto cursor-pointer max-w-none"
+          className="w-[120%] sm:w-[140%] md:w-[160%] lg:w-[140%] h-auto cursor-pointer max-w-none"
         />
       </Link>
     </div>

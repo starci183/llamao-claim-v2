@@ -2,7 +2,6 @@
 import { Button } from "@/components/common/button";
 import Navbar, { items } from "@/components/common/navbar";
 import MainLayout from "@/components/layouts/main-layout";
-import { useDisconnect } from "@reown/appkit/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -15,7 +14,6 @@ type AboutLayoutProps = {
 
 export default function AboutLayout({ children }: AboutLayoutProps) {
   const navigation = useRouter();
-  const { disconnect } = useDisconnect();
 
   return (
     <div
@@ -59,13 +57,7 @@ export default function AboutLayout({ children }: AboutLayoutProps) {
             />
           }
           onClick={() => {
-            try {
-              disconnect();
-            } catch {
-              //TODO: handle error logging
-            } finally {
-              navigation.push("/");
-            }
+            navigation.push("/portal");
           }}
         >
           Back
