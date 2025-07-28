@@ -1,14 +1,13 @@
 "use client";
 
 import EnterButton from "@/components/common/enter-button";
+import { MONAD_CONTRACT_ADDRESS } from "@/contance";
 import { useContract } from "@/hooks/use-contract";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 export default function Mint() {
-  const { contractAddress } = useContract(
-    "0x913bF9751Fe18762B0fD6771eDD512c7137e42bB"
-  );
+  const { contractAddress } = useContract(MONAD_CONTRACT_ADDRESS);
   return (
     <div
       className={cn(

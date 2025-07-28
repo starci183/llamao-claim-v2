@@ -3,7 +3,10 @@
 import { Button } from "@/components/common/button";
 import MissionCard from "@/components/layouts/portal/mission-card";
 import Tabs, { TabsList, TabsTrigger } from "@/components/ui/tabs/tabs";
+import { MONAD_CONTRACT_ADDRESS } from "@/contance";
 import { useWalletContext } from "@/context/wallet-context";
+import { useContract } from "@/hooks/use-contract";
+import { useNftMetadata } from "@/hooks/use-nft-meta-data";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -31,6 +34,9 @@ export default function LlamaoismContent() {
   const router = useRouter();
   const { isConnected } = useWalletContext();
   const { toast } = useToast();
+  const { contractURI } = useContract(MONAD_CONTRACT_ADDRESS);
+  const { data: minted } = useNftMetadata(contractURI);
+
   return (
     <div className="w-full max-w-[400px] mx-auto flex flex-col gap-2">
       <Tabs defaultValue="new">
@@ -43,6 +49,7 @@ export default function LlamaoismContent() {
             New
           </TabsTrigger>
           <TabsTrigger
+            disabled={!minted}
             value="minted"
             variant="primary"
             className="transform transition-all hover:scale-105"

@@ -238,27 +238,28 @@ export default function ShowcaseTable({
             className="w-full h-auto object-cover"
           />
         ))} */}
-
-        <ShowcaseCard
-          onClick={() => {
-            window.open(
-              `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
-              "_blank"
-            );
-          }}
-          imgSrc={nftMetadata?.image}
-          text={nftMetadata?.name ? `${nftMetadata?.name}` : "NFT"}
-          state="nft"
-          description={
-            nftMetadata?.description
-              ? `${nftMetadata?.description}\nYou have: ${balance} nft`
-              : `You have: ${balance} nft`
-          }
-          wrapperClassName="mb-4"
-          className="w-full h-auto object-cover"
-          loading={loading}
-          balance={balance}
-        />
+        {nftMetadata && (
+          <ShowcaseCard
+            onClick={() => {
+              window.open(
+                `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
+                "_blank"
+              );
+            }}
+            imgSrc={nftMetadata?.image}
+            text={nftMetadata?.name ? `${nftMetadata?.name}` : "NFT"}
+            state="nft"
+            description={
+              nftMetadata?.description
+                ? `${nftMetadata?.description}\nYou have: ${balance} nft`
+                : `You have: ${balance} nft`
+            }
+            wrapperClassName="mb-4"
+            className="w-full h-auto object-cover"
+            loading={loading}
+            balance={balance}
+          />
+        )}
       </div>
 
       {/* Pagination Component */}
