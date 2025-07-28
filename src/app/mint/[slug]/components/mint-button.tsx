@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/common/button";
+import { cn } from "@/lib/utils";
 import { useSigner } from "@/hooks/use-signer";
 import { useToast } from "@/hooks/use-toast";
 import axiosClient from "@/service/axios-client";
@@ -84,7 +85,10 @@ export default function MintButton() {
             intent="gradient"
             onClick={handleMintNFT}
             disabled={loading}
-            className="max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base"
+            className={cn(
+              "max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base transition-all duration-150",
+              "hover:scale-105"
+            )}
           >
             {loading ? "Processing..." : "Llamao"}
           </Button>

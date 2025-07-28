@@ -13,24 +13,25 @@ export default function MintLayout({ children }: PropsWithChildren) {
   return (
     <div
       className={cn(
-        "flex flex-col items-center min-h-screen w-full",
+        "flex flex-col min-h-screen w-full",
         "gap-2 md:gap-4 px-2 sm:px-4 lg:px-0"
       )}
     >
       <Navbar navbarItems={items} />
-      <div className={cn("w-full flex justify-center")}>
+      <div className={cn("flex-1 flex items-center justify-center w-full")}>
         <MainLayout
           text="Mint"
           subHeader={false}
-          className={cn("p-1 sm:p-2 lg:p-4")}
+          className={cn("p-1 md:p-2 lg:p-4")}
           wrapperClassName={cn(
-            "w-full max-w-md sm:max-w-lg lg:max-w-2xl xl:max-w-3xl mx-auto"
+            "w-full mx-auto",
+            "max-w-[320px] sm:max-w-[480px] md:max-w-[700px] lg:max-w-[900px] xl:max-w-[1100px] 2xl:max-w-[1400px]"
           )}
         >
           {children}
         </MainLayout>
       </div>
-      <div className={cn("w-full flex justify-center")}>
+      <div className={cn("w-full flex justify-center mb-2 md:mb-4")}>
         <Button
           intent="gradient"
           className={cn(

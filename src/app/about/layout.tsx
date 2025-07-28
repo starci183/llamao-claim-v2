@@ -19,7 +19,7 @@ export default function AboutLayout({ children }: AboutLayoutProps) {
     <div
       className={cn(
         "flex flex-col min-h-screen items-center justify-start",
-        "gap-4 md:gap-8 px-2 sm:px-4 lg:px-0"
+        "gap-2 md:gap-4 px-2 sm:px-4 lg:px-0"
       )}
     >
       <Navbar navbarItems={items} />

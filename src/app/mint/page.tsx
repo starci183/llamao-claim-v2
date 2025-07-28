@@ -12,7 +12,8 @@ export default function Mint() {
     <div
       className={cn(
         "relative w-full overflow-hidden aspect-[4/3]",
-        "max-h-[85vh] min-h-[350px] sm:min-h-[450px] md:min-h-[550px] lg:min-h-[580px]"
+        "h-fit"
+        // "max-h-[85vh] min-h-[350px] sm:min-h-[450px] md:min-h-[550px] lg:min-h-[580px]",
       )}
     >
       <Image
@@ -33,7 +34,7 @@ export default function Mint() {
         <div
           className={cn(
             "relative w-full aspect-[4/3]",
-            "max-w-[280px] sm:max-w-[340px] md:max-w-[420px] lg:max-w-[450px]"
+            "max-w-[280px] sm:max-w-[340px] md:max-w-[420px] lg:max-w-[450px] xl:max-w-[500px] 2xl:max-w-[550px]"
           )}
         >
           <Image
@@ -46,7 +47,7 @@ export default function Mint() {
             className={cn("w-full h-auto", "mt-3 sm:mt-4 md:mt-6 lg:mt-10")}
           />
           {/* llamao image text */}
-          <div
+          {/* <div
             className={cn(
               "absolute top-0 left-0 w-full h-auto flex items-center justify-center text-center aspect-[4/3]",
               "translate-x-[2%] -translate-y-[48%] lg:-translate-y-[45%]"
@@ -59,12 +60,12 @@ export default function Mint() {
               height={161}
               className={cn("w-[70%] xl:w-[75%] h-auto")}
             />
-          </div>
+          </div> */}
           {/* name book */}
           <div
             className={cn(
               "absolute bottom-1/2 left-1/2 bg-[#663931] flex items-center justify-center",
-              "-translate-x-[40%] -translate-y-[90%] px-2 py-1 sm:px-3 sm:py-2 md:px-2.5 md:py-2.5"
+              "-translate-x-[40%] -translate-y-full px-2 py-1 sm:px-3 sm:py-2 md:px-2.5 md:py-2.5"
             )}
           >
             <span
@@ -79,7 +80,10 @@ export default function Mint() {
           {/* Button */}
           <EnterButton
             link={`/mint/${contractAddress}`}
-            className={cn("left-1/2")}
+            className={cn(
+              "top-[75%] -translate-x-1/2 -translate-y-1/2",
+              "md:left-1/2 left-[55%]"
+            )}
           />
         </div>
       </div>
