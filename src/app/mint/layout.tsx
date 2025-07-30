@@ -37,7 +37,9 @@ export default function MintLayout({ children }: PropsWithChildren) {
           className={cn(
             "px-4 py-1 sm:px-6 sm:py-2.5 md:px-8 md:py-2",
             "min-w-[150px] sm:min-w-[200px] md:min-w-[250px] lg:min-w-[300px]",
-            "flex items-center justify-center text-sm sm:text-base md:text-lg"
+            "flex items-center justify-center text-sm sm:text-base md:text-lg",
+            "transition-all duration-300",
+            "hover:brightness-105 hover:scale-105"
           )}
           doubleIcon
           icon={
