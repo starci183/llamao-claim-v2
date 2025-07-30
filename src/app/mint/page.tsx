@@ -12,8 +12,8 @@ export default function Mint() {
     <div
       className={cn(
         "relative w-full overflow-hidden aspect-[4/3]",
-        "h-fit"
-        // "max-h-[85vh] min-h-[350px] sm:min-h-[450px] md:min-h-[550px] lg:min-h-[580px]",
+        "h-fit",
+        "max-h-[85vh] min-h-[350px] sm:min-h-[450px] md:min-h-[550px] lg:min-h-[580px]"
       )}
     >
       <Image
