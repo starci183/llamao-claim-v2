@@ -1,70 +1,16 @@
 "use client";
+
 import { Button } from "@/components/common/button";
-import { useSigner } from "@/hooks/use-signer";
 import { cn } from "@/lib/utils";
-import axiosClient from "@/service/axios-client";
-import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useWalletAuth } from "@/hooks/use-wallet-auth"; // ← NEW
+import { useAuth } from "@/providers/auth-provider";
 
-type ConnectWalletButtonProps = {
-  className?: string;
-};
+type Props = { className?: string };
 
-export default function ConnectWalletButton({
-  className,
-}: ConnectWalletButtonProps) {
-  const { open } = useAppKit();
-  const { address, isConnected } = useAppKitAccount();
-  const { signer } = useSigner();
-  const router = useRouter();
-  const [isVerified, setIsVerified] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  useEffect(() => {
-    const authenticateWallet = async () => {
-      // Reset verification state when wallet disconnects
-      if (!isConnected) {
-        setIsVerified(false);
-        setIsProcessing(false);
-        return;
-      }
-
-      // Skip if already verified or processing
-      if (!signer || isVerified || isProcessing) return;
-
-      setIsProcessing(true);
-      try {
-        // Request message
-        const { data } = await axiosClient.post("/request-message");
-        if (!data?.message) return;
-
-        // Sign message
-        const signature = await signer.signMessage(data.message);
-
-        // Verify signature
-        await axiosClient.post("/verify-message", {
-          message: data.message,
-          signature,
-        });
-
-        setIsVerified(true);
-
-        // Navigate to portal after successful verification
-        if (address) {
-          router.push("/portal");
-        }
-      } catch (error) {
-        console.error("Authentication failed:", error);
-        setIsVerified(false);
-      } finally {
-        setIsProcessing(false);
-      }
-    };
-
-    authenticateWallet();
-  }, [isConnected, signer, address, isVerified, isProcessing, router]);
+export default function ConnectWalletButton({ className }: Props) {
+  const { connectAndSign, loading } = useWalletAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <Button
@@ -74,12 +20,11 @@ export default function ConnectWalletButton({
         className
       )}
       doubleIcon
-      onClick={() => {
-        open();
-      }}
+      disabled={loading}
+      onClick={connectAndSign}
       icon={
         <Image
-          src={"/icons/wallet.svg"}
+          src="/icons/wallet.svg"
           alt="Connect Wallet"
           width={24}
           height={24}
@@ -87,7 +32,11 @@ export default function ConnectWalletButton({
         />
       }
     >
-      Connect Wallet
+      {isAuthenticated
+        ? "Connected"
+        : loading
+        ? "Authorizing…"
+        : "Connect Wallet"}
     </Button>
   );
 }

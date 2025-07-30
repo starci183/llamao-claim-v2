@@ -1,9 +1,6 @@
 "use client";
-import { Button } from "@/components/common/button";
 import Navbar, { items } from "@/components/common/navbar";
 import MainLayout from "@/components/layouts/main-layout";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import React from "react";
@@ -13,8 +10,6 @@ type AboutLayoutProps = {
 };
 
 export default function AboutLayout({ children }: AboutLayoutProps) {
-  const navigation = useRouter();
-
   return (
     <div
       className={cn(
@@ -35,33 +30,6 @@ export default function AboutLayout({ children }: AboutLayoutProps) {
         >
           {children}
         </MainLayout>
-      </div>
-      <div className={cn("w-full flex justify-center mt-2 md:mt-4")}>
-        <Button
-          intent="gradient"
-          className={cn(
-            "flex items-center justify-center",
-            "px-4 py-1 sm:px-6 sm:py-2.5 md:px-8 md:py-2",
-            "min-w-[150px] sm:min-w-[200px] md:min-w-[250px] lg:min-w-[300px]",
-            "text-sm sm:text-base md:text-lg"
-          )}
-          doubleIcon
-          icon={
-            <Image
-              src="/gifs/llamao_zenmonad.gif"
-              alt="llamao_zenmonad"
-              width={24}
-              height={24}
-              quality={100}
-              className={cn("w-4 h-4", "sm:w-5 sm:h-5", "md:w-6 md:h-6")}
-            />
-          }
-          onClick={() => {
-            navigation.push("/portal");
-          }}
-        >
-          Back
-        </Button>
       </div>
     </div>
   );

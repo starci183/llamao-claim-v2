@@ -80,6 +80,14 @@ export function useSigner() {
         }
     }, [getSigner]);
 
+    const getRawAddress = useCallback(async () => {
+        const signer = getSigner();
+        if (!signer) return null;
+        return signer.getAddress();
+    }, [getSigner]);
+
+
+
     // Auto-fetch balance when dependencies change
     useEffect(() => {
         if (isConnected && address) {
@@ -96,5 +104,6 @@ export function useSigner() {
         loading,
         fetchBalance,
         sendTransaction,
+        getRawAddress,
     };
 }

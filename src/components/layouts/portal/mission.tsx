@@ -1,16 +1,16 @@
 import MissionCard from "./mission-card";
-import { useRouter } from "next/navigation";
 
 type MissionProps = {
   missions: {
     text: string;
     link: string;
     status: boolean;
+    type: string;
   }[];
+  onMissionClick?: (missionType: string) => void;
 };
 
-export default function Mission({ missions }: MissionProps) {
-  const router = useRouter();
+export default function Mission({ missions, onMissionClick }: MissionProps) {
   return (
     <>
       {missions.map((mission, index) => (
@@ -20,7 +20,29 @@ export default function Mission({ missions }: MissionProps) {
           link={mission.link}
           status={mission.status}
           onClick={() => {
-            if (!mission.status) router.push(mission.link);
+            console.log(
+              "Mission clicked:",
+              mission.type,
+              "status:",
+              mission.status,
+              "link:",
+              mission.link,
+              "onMissionClick exists:",
+              !!onMissionClick
+            );
+            if (onMissionClick) {
+              if (!mission.status && mission.link) {
+                // For incomplete missions, open the link AND update status
+                console.log("Opening link and calling onMissionClick");
+                window.open(mission.link, "_blank");
+                onMissionClick(mission.type);
+              } else {
+                console.log(
+                  "Calling onMissionClick only (no link or already completed)"
+                );
+                onMissionClick(mission.type);
+              }
+            }
           }}
         />
       ))}

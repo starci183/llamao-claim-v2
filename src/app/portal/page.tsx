@@ -9,6 +9,8 @@ import Tabs, {
   TabsTrigger,
 } from "@/components/ui/tabs/tabs";
 import { useWalletContext } from "@/context/wallet-context";
+import { useAuth } from "@/providers/auth-provider";
+import { userService } from "@/service/user/user-service";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
@@ -19,37 +21,92 @@ import ConnectWalletButton from "../components/button-connect-wallet";
 import AddressButton from "./components/address-button";
 import LlamaoismContent from "./components/llamaoism";
 
-const missions = [
-  {
-    text: "Follow Llamao on X",
-    link: "https://x.com/intent/follow?screen_name=cifarmonsol",
-    status: false,
-  },
-  {
-    text: "Join our Llamao’s Discord",
-    link: "https://discord.gg/dYHEMU4b",
-    status: false,
-  },
-  {
-    text: "Like X Posts",
-    link: "",
-    status: false,
-  },
-  {
-    text: "Comment on X",
-    link: "/portal/rewards",
-    status: false,
-  },
-];
-
 export default function Portal() {
   const [hovered, setHovered] = useState(false);
   const [filterStatus, setFilterStatus] = useState("all");
   const [tabValue, setTabValue] = useState("eligibility");
 
   const { isConnected, address, walletInfo } = useWalletContext();
+  const { user, walletAddress, refreshUser } = useAuth();
   const navigation = useRouter();
   const { toast } = useToast();
+
+  const handleMissionClick = async (missionType: string) => {
+    if (!walletAddress) {
+      toast({ message: "Wallet not connected", variant: "error" });
+      return;
+    }
+
+    try {
+      switch (missionType) {
+        case "followX":
+          await userService.updateFollowX();
+          break;
+        case "joinDiscord":
+          await userService.updateJoinDiscord();
+          break;
+        case "likeXPost":
+          await userService.updateLikeXPost();
+          break;
+        case "commentXPost":
+          await userService.updateCommentXPost();
+          break;
+      }
+
+      // Refetch user data after successful update
+      await refreshUser();
+
+      toast({ message: "Mission status updated", variant: "success" });
+    } catch {
+      toast({ message: "Failed to update mission status", variant: "error" });
+    }
+  };
+
+  const missions = [
+    {
+      text: "Follow Llamao on X",
+      link: "https://x.com/intent/follow?screen_name=cifarmonsol",
+      status: user?.followX || false,
+      type: "followX" as const,
+    },
+    {
+      text: "Join our Llamao's Discord",
+      link: "https://discord.gg/dYHEMU4b",
+      status: user?.joinDiscord || false,
+      type: "joinDiscord" as const,
+    },
+    {
+      text: "Like X Posts",
+      link: "",
+      status: user?.likeXPost || false,
+      type: "likeXPost" as const,
+    },
+    {
+      text: "Comment on X",
+      link: "/portal/rewards",
+      status: user?.commentXPost || false,
+      type: "commentXPost" as const,
+    },
+  ];
+
+  // Filter missions based on status
+  const filteredMissions = missions.filter((mission) => {
+    switch (filterStatus) {
+      case "active":
+        return !mission.status;
+      case "completed":
+        return mission.status;
+      case "pending":
+        return !mission.status;
+      case "failed":
+        return false; // No failed missions in this implementation
+      default:
+        return true; // "all" - show all missions
+    }
+  });
+
+  // Check if all missions are completed
+  const allMissionsCompleted = missions.every((mission) => mission.status);
 
   const statusOptions = [
     { value: "all", label: "All" },
@@ -179,10 +236,22 @@ export default function Portal() {
                   <motion.div
                     className={cn(
                       "flex flex-col items-center justify-center",
-                      "gap-2"
+                      "gap-2 min-h-[150px]"
                     )}
                   >
-                    <Mission missions={missions} />
+                    {filteredMissions.length === 0 ? (
+                      <div className={cn("text-center text-gray-500 py-8")}>
+                        <p>No missions found for the selected filter.</p>
+                        <p className={cn("text-sm mt-2")}>
+                          Try changing the filter status to see more missions.
+                        </p>
+                      </div>
+                    ) : (
+                      <Mission
+                        missions={filteredMissions}
+                        onMissionClick={handleMissionClick}
+                      />
+                    )}
                   </motion.div>
                   <motion.div className={cn("mt-2")}>
                     <Button
@@ -200,7 +269,8 @@ export default function Portal() {
                       intent={"gradient"}
                       className={cn(
                         "w-full flex items-center justify-center text-base py-2",
-                        "transform transition-all hover:scale-105"
+                        "transform transition-all hover:scale-105",
+                        !allMissionsCompleted && "opacity-50 cursor-not-allowed"
                       )}
                       onClick={() => {
                         if (!isConnected) {
@@ -209,8 +279,15 @@ export default function Portal() {
                           });
                           return;
                         }
+                        if (!allMissionsCompleted) {
+                          toast({
+                            message: "Please complete all missions to proceed.",
+                          });
+                          return;
+                        }
                         navigation.push("/mint");
                       }}
+                      disabled={!allMissionsCompleted}
                     >
                       Let’s Llamao
                     </Button>
