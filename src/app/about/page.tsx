@@ -85,7 +85,7 @@ export default function About() {
                 >
                   <div
                     className={cn(
-                      "text-black p-1 sm:p-2 w-full overflow-hidden overflow-y-auto max-h-32 sm:max-h-fit",
+                      "text-black p-1 sm:p-2 w-full overflow-auto max-h-fit",
                       "space-y-1 sm:space-y-2"
                     )}
                   >

@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { memo, useMemo } from "react";
@@ -58,7 +59,7 @@ const MainLayout = memo<MainLayoutProps>(function MainLayout({
     >
       <div
         className={cn(
-          "p-1 bg-[#C3C3C3] w-[80%] md:w-fit container mx-auto",
+          "p-1 bg-[#C3C3C3] w-[80%] md:w-fit min-w-[320px] container mx-auto",
           wrapperClassName,
           boxShadowOuter
         )}

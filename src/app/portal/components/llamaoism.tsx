@@ -36,6 +36,7 @@ export default function LlamaoismContent() {
   const { toast } = useToast();
   const { contractURI } = useContract(MONAD_CONTRACT_ADDRESS);
   const { data: minted } = useNftMetadata(contractURI);
+  const isMinted = minted ? false : true;
 
   return (
     <div className="w-full max-w-[400px] mx-auto flex flex-col gap-2">
@@ -49,7 +50,7 @@ export default function LlamaoismContent() {
             New
           </TabsTrigger>
           <TabsTrigger
-            disabled={!minted}
+            disabled={isMinted}
             value="minted"
             variant="primary"
             className="transform transition-all hover:scale-105"

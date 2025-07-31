@@ -14,7 +14,7 @@ export default function PortalLayout({
   return (
     <motion.div
       className={cn(
-        "flex flex-col items-center w-full h-screen overflow-hidden",
+        "flex flex-col items-center w-full h-screen overflow-auto",
         "px-2 sm:px-4 lg:px-0"
       )}
     >
