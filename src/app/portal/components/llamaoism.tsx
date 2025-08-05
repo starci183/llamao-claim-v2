@@ -6,8 +6,9 @@ import Tabs, { TabsList, TabsTrigger } from "@/components/ui/tabs/tabs";
 import { MONAD_CONTRACT_ADDRESS } from "@/contance";
 import { useWalletContext } from "@/context/wallet-context";
 import { useContract } from "@/hooks/use-contract";
-import { useNftMetadata } from "@/hooks/use-nft-meta-data";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/providers/auth-provider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -34,9 +35,15 @@ export default function LlamaoismContent() {
   const router = useRouter();
   const { isConnected } = useWalletContext();
   const { toast } = useToast();
-  const { contractURI } = useContract(MONAD_CONTRACT_ADDRESS);
-  const { data: minted } = useNftMetadata(contractURI);
-  const isMinted = minted ? false : true;
+  const { balance } = useContract(MONAD_CONTRACT_ADDRESS);
+  const { user } = useAuth();
+  const isMinted = balance !== "0" ? false : true;
+  const isMintAble =
+    user?.followX &&
+    user.commentXPost &&
+    user.joinDiscord &&
+    user.likeXPost &&
+    user.followX;
 
   return (
     <div className="w-full max-w-[400px] mx-auto flex flex-col gap-2">
@@ -93,8 +100,12 @@ export default function LlamaoismContent() {
           />
         }
         doubleIcon
+        disabled={true}
         intent={"gradient"}
-        className="w-full flex items-center justify-center text-base py-2 transform transition-all hover:scale-105"
+        className={cn(
+          "w-full flex items-center justify-center text-base py-2 transform transition-all hover:scale-105",
+          !isMintAble && "opacity-50 cursor-not-allowed"
+        )}
         onClick={() => {
           if (!isConnected) {
             toast({

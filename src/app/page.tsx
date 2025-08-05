@@ -2,10 +2,22 @@
 
 import { Button } from "@/components/common/button";
 import MainLayout from "@/components/layouts/main-layout";
+import { useAuth } from "@/providers/auth-provider";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import ConnectWalletButton from "./components/button-connect-wallet";
 
 export default function Home() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useRouter();
+  useEffect(() => {
+    //when user is authenticated, redirect to portal
+    if (isAuthenticated) {
+      navigate.push("/portal");
+    }
+  }, [isAuthenticated]);
+  console.log("isAuthenticated", isAuthenticated);
   return (
     <div className="min-h-screen flex items-center justify-center">
       <MainLayout headerIcon="/gifs/llamao_majestic_run.gif">

@@ -199,8 +199,9 @@ export default function ShowcaseTable({
       </div>
     );
   }
+  console.log(nftMetadata);
 
-  if (filteredItems.length === 0) {
+  if (balance === "0") {
     return (
       <div className={cn("w-full", wrapperClassName)}>
         <div className="flex flex-col items-center justify-center py-12">
@@ -238,7 +239,7 @@ export default function ShowcaseTable({
             className="w-full h-auto object-cover"
           />
         ))} */}
-        {nftMetadata && (
+        {nftMetadata && balance !== "0" && (
           <ShowcaseCard
             onClick={() => {
               window.open(
@@ -263,7 +264,7 @@ export default function ShowcaseTable({
       </div>
 
       {/* Pagination Component */}
-      {totalPages > 1 && (
+      {totalPages > 1 && balance !== "0" && (
         <ShowcasePagination
           currentPage={currentPage}
           totalPages={totalPages}
