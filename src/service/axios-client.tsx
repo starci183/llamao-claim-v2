@@ -38,7 +38,6 @@ const setupResponseInterceptor = () => {
     async (error) => {
       const status = error?.response?.status;
       if (status === 401 && !handlingUnauthorized) {
-        console.log("401");
         handlingUnauthorized = true;
         try {
           // let the app decide what “logout” means

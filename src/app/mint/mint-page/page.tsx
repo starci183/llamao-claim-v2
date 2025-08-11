@@ -1,15 +1,11 @@
 "use client";
 
 import MintButton from "@/components/common/mint-button";
-import { useParams } from "next/navigation";
-import MintContent from "./components/mint-content";
 import { StepNavigator } from "@/components/common/step-navigator";
 import { useState } from "react";
+import MintContent from "./components/mint-content";
 
 export default function MintPage() {
-  const { slug } = useParams();
-  console.log("MintPage slug:", slug);
-
   const [step, setStep] = useState(0);
   const steps = [
     {

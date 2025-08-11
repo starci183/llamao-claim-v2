@@ -19,15 +19,14 @@ export default function MintContentLeftPage({
   className = "",
   storyNumber = 1,
   storyTitle = "Llamao’s Last Supper",
+
   storyImage = "/gifs/llamao_last_supper.gif",
   totalMinted = 10,
   currentPage = 1,
   totalPages = 10,
   // minting = false,
   loading = false,
-  nftMetadata,
 }: MintContentLeftPageProps) {
-  console.log("nftMetadata", nftMetadata);
   return (
     <div
       className={cn(
@@ -45,6 +44,7 @@ export default function MintContentLeftPage({
         ) : (
           <Image
             src={storyImage}
+            // TODO: enable when has data
             alt={storyTitle}
             width={120}
             height={60}

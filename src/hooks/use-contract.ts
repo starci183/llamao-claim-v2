@@ -50,7 +50,6 @@ export const useContract = (
                     contract.totalSupply(0)
                 ]);
 
-                console.log("totalSupply", Number(totalSupply));
 
                 if (isMounted) {
                     setData({

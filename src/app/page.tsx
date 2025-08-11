@@ -17,7 +17,6 @@ export default function Home() {
       navigate.push("/portal");
     }
   }, [isAuthenticated]);
-  console.log("isAuthenticated", isAuthenticated);
   return (
     <div className="min-h-screen flex items-center justify-center">
       <MainLayout headerIcon="/gifs/llamao_majestic_run.gif">

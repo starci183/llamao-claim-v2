@@ -41,7 +41,6 @@ export default function ContractTesting({
         body: JSON.stringify(payload),
       }).then((res) => res.json())) as Test721ResponseDto;
       setErc721Results(data);
-      console.log("ERC-721 Test Results:", data);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to test ERC-721 contract";
@@ -70,7 +69,6 @@ export default function ContractTesting({
         body: JSON.stringify(payload),
       }).then((res) => res.json())) as Test1155ResponseDto;
       setErc1155Results(data);
-      console.log("ERC-1155 Test Results:", data);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to test ERC-1155 contract";

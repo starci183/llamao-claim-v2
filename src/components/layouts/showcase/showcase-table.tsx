@@ -199,7 +199,6 @@ export default function ShowcaseTable({
       </div>
     );
   }
-  console.log(nftMetadata);
 
   if (balance === "0") {
     return (
