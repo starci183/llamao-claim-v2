@@ -6,11 +6,13 @@ import { useSigner } from "@/hooks/use-signer";
 import { useToast } from "@/hooks/use-toast";
 import axiosClient from "@/service/axios-client";
 import { useAppKit } from "@reown/appkit/react";
+import { useParams } from "next/navigation";
 
 export default function MintButton() {
   const { open } = useAppKit();
   const { address, isConnected, loading, sendTransaction } = useSigner();
   const { toast } = useToast();
+  const { slug } = useParams();
 
   const handleMintNFT = async () => {
     if (!address) return;
@@ -18,7 +20,7 @@ export default function MintButton() {
     try {
       const { data } = await axiosClient.post("/mint-nft", {
         chain: "monad-testnet",
-        collectionId: "0x913bf9751fe18762b0fd6771edd512c7137e42bb",
+        collectionId: slug,
         wallet: {
           address,
           chain: "monad-testnet",
@@ -86,11 +88,11 @@ export default function MintButton() {
             onClick={handleMintNFT}
             disabled={loading}
             className={cn(
-              "max-w-[80px] md:max-w-[120px] w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base transition-all duration-150",
+              "max-w-[80px] md:max-w-[120px] px-6 w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base transition-all duration-150",
               "hover:scale-105"
             )}
           >
-            {loading ? "Processing..." : "Llamao"}
+            {loading ? "Processing..." : "Mint"}
           </Button>
           {/* {error && <p className="text-red-500 text-sm mt-2">{error}</p>} */}
         </>

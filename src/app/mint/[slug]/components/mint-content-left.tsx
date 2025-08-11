@@ -44,7 +44,6 @@ export default function MintContentLeftPage({
         ) : (
           <Image
             src={storyImage}
-            // TODO: enable when has data
             alt={storyTitle}
             width={120}
             height={60}

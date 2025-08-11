@@ -22,7 +22,10 @@ import AddressButton from "./components/address-button";
 import LlamaoismContent from "./components/llamaoism";
 
 export default function Portal() {
-  const [hovered, setHovered] = useState(false);
+  // separate hover states so they don't interfere
+  const [addrHovered, setAddrHovered] = useState(false);
+  const [mintHovered, setMintHovered] = useState(false);
+
   const [filterStatus, setFilterStatus] = useState("all");
   const [tabValue, setTabValue] = useState("eligibility");
 
@@ -53,10 +56,7 @@ export default function Portal() {
           await userService.updateCommentXPost();
           break;
       }
-
-      // Refetch user data after successful update
       await refreshUser();
-
       toast({ message: "Mission status updated", variant: "success" });
     } catch {
       toast({ message: "Failed to update mission status", variant: "error" });
@@ -78,19 +78,18 @@ export default function Portal() {
     },
     {
       text: "Like X Posts",
-      link: "",
+      link: "https://x.com/johunvn/status/1951517350110670894",
       status: user?.likeXPost || false,
       type: "likeXPost" as const,
     },
     {
       text: "Comment on X",
-      link: "/portal/rewards",
+      link: "https://x.com/johunvn/status/1951517350110670894",
       status: user?.commentXPost || false,
       type: "commentXPost" as const,
     },
   ];
 
-  // Filter missions based on status
   const filteredMissions = missions.filter((mission) => {
     switch (filterStatus) {
       case "active":
@@ -100,14 +99,13 @@ export default function Portal() {
       case "pending":
         return !mission.status;
       case "failed":
-        return false; // No failed missions in this implementation
+        return false;
       default:
-        return true; // "all" - show all missions
+        return true;
     }
   });
 
-  // Check if all missions are completed
-  const allMissionsCompleted = missions.every((mission) => mission.status);
+  const allMissionsCompleted = missions.every((m) => m.status);
 
   const statusOptions = [
     { value: "all", label: "All" },
@@ -119,19 +117,14 @@ export default function Portal() {
 
   return (
     <div className="flex w-full justify-center overflow-x-hidden">
-      {/* NEW: responsive "frame" wrapper ------------- */}
       <motion.div
-        // origin-top lets it shrink/grow downward so the title-bar
-        // stays where you expect
         className={cn(
           "origin-top",
           "transition-transform duration-300 ease-in-out",
-          /*   < 1024 px    768–1023        ≥ 1024       ≥ 1536  */
           "scale-[0.85]  sm:scale-[0.9]  md:scale-100",
           "max-h-screen overflow-y-auto"
         )}
       >
-        {/* ▼—------- copy/paste your current JSX here -------▼ */}
         <div
           className={cn(
             "flex flex-col items-center w-full",
@@ -156,6 +149,7 @@ export default function Portal() {
               />
             </motion.div>
           </div>
+
           <div className={cn("w-full flex justify-center", "mt-1")}>
             <motion.div
               className={cn("w-full max-w-md sm:max-w-lg lg:max-w-2xl")}
@@ -168,8 +162,8 @@ export default function Portal() {
               >
                 {isAuthenticated && accessToken && address && walletInfo ? (
                   <AddressButton
-                    hovered={hovered}
-                    setHoveredAction={setHovered}
+                    hovered={addrHovered}
+                    setHoveredAction={setAddrHovered}
                     address={address}
                     walletInfo={walletInfo}
                   />
@@ -177,6 +171,7 @@ export default function Portal() {
                   <ConnectWalletButton className="py-3" />
                 )}
               </motion.div>
+
               <motion.div
                 className={cn(
                   "flex flex-col text-center justify-center",
@@ -230,6 +225,7 @@ export default function Portal() {
                       Llamaoism
                     </TabsTrigger>
                   </TabsList>
+
                   <TabsContent value="eligibility">
                     <>
                       <motion.div
@@ -250,6 +246,7 @@ export default function Portal() {
                           width="fixed"
                         />
                       </motion.div>
+
                       <motion.div
                         className={cn(
                           "flex flex-col items-center justify-center",
@@ -271,50 +268,67 @@ export default function Portal() {
                           />
                         )}
                       </motion.div>
-                      <motion.div className={cn("mt-2")}>
-                        <Button
-                          icon={
-                            <Image
-                              src={"/gifs/llamao_zenmonad.gif"}
-                              alt="llamao_zenmonad"
-                              width={24}
-                              height={24}
-                              className={cn("w-6 h-6")}
-                              priority
-                            />
-                          }
-                          doubleIcon
-                          intent={"gradient"}
-                          className={cn(
-                            "w-full flex items-center justify-center text-base py-2",
-                            "transform transition-all hover:scale-105",
-                            !allMissionsCompleted &&
-                              "opacity-50 cursor-not-allowed"
-                          )}
-                          onClick={() => {
-                            if (!isConnected) {
-                              toast({
-                                message:
-                                  "Please connect your wallet to proceed.",
-                              });
-                              return;
-                            }
-                            if (!allMissionsCompleted) {
-                              toast({
-                                message:
-                                  "Please complete all missions to proceed.",
-                              });
-                              return;
-                            }
-                            navigation.push("/mint");
-                          }}
-                          disabled={!allMissionsCompleted}
+
+                      <motion.div className={cn("mt-2 relative")}>
+                        <div
+                          className="relative"
+                          onMouseEnter={() => setMintHovered(true)}
+                          onMouseLeave={() => setMintHovered(false)}
                         >
-                          Let&apos;s Llamao
-                        </Button>
+                          <Button
+                            icon={
+                              <Image
+                                src={"/gifs/llamao_zenmonad.gif"}
+                                alt="llamao_zenmonad"
+                                width={24}
+                                height={24}
+                                className={cn("w-6 h-6")}
+                                priority
+                              />
+                            }
+                            doubleIcon
+                            intent={"gradient"}
+                            className={cn(
+                              "w-full flex items-center justify-center text-base py-2",
+                              "transform transition-all hover:scale-105",
+                              !allMissionsCompleted &&
+                                "opacity-50 cursor-not-allowed"
+                            )}
+                            onClick={() => {
+                              if (!isConnected) {
+                                toast({
+                                  message:
+                                    "Please connect your wallet to proceed.",
+                                });
+                                return;
+                              }
+                              if (!allMissionsCompleted) {
+                                toast({
+                                  message:
+                                    "Please complete all missions to proceed.",
+                                });
+                                return;
+                              }
+                              navigation.push("/mint");
+                            }}
+                            disabled={!allMissionsCompleted}
+                          >
+                            Let&apos;s Llamao
+                          </Button>
+
+                          {mintHovered && !allMissionsCompleted && (
+                            <div className="absolute left-full top-full z-20 mt-2 -translate-x-[18%] flex flex-col min-w-[150px] bg-[#FEFBEA] border border-[#B2A280] rounded-md shadow-lg p-2 text-[11px] text-[#602C2C] font-pp-neuebit animate-fade-in pointer-events-none">
+                              <div className="absolute -top-2 left-4 w-3 h-3 rotate-45 bg-[#FEFBEA] border-l border-t border-[#B2A280]" />
+                              <span>
+                                Please do all the quests to be able to mint
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </motion.div>
                     </>
                   </TabsContent>
+
                   <TabsContent value="llamaoism">
                     <LlamaoismContent />
                   </TabsContent>
