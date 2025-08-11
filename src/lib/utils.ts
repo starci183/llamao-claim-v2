@@ -62,3 +62,4 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
 export function truncateAddress(address: string) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
+

@@ -7,12 +7,35 @@ import { useToast } from "@/hooks/use-toast";
 import axiosClient from "@/service/axios-client";
 import { useAppKit } from "@reown/appkit/react";
 import { useParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import Block from "@/svg/Block";
+import Smile from "@/svg/Smile";
+
+type MintStatus = "idle" | "failed" | "minted";
 
 export default function MintButton() {
   const { open } = useAppKit();
   const { address, isConnected, loading, sendTransaction } = useSigner();
   const { toast } = useToast();
   const { slug } = useParams();
+  const [mintStatus, setMintStatus] = useState<MintStatus>("idle");
+
+  // single timer to auto-clear transient statuses
+  const resetTimerRef = useRef<number | null>(null);
+  const startStatusTimer = (status: Exclude<MintStatus, "idle">) => {
+    if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
+    setMintStatus(status);
+    resetTimerRef.current = window.setTimeout(() => {
+      setMintStatus("idle");
+      resetTimerRef.current = null;
+    }, 5000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
+    };
+  }, []);
 
   const handleMintNFT = async () => {
     if (!address) return;
@@ -21,10 +44,7 @@ export default function MintButton() {
       const { data } = await axiosClient.post("/mint-nft", {
         chain: "monad-testnet",
         collectionId: slug,
-        wallet: {
-          address,
-          chain: "monad-testnet",
-        },
+        wallet: { address, chain: "monad-testnet" },
         nftAmount: 1,
         kind: "public",
         protocol: "ERC1155",
@@ -39,8 +59,9 @@ export default function MintButton() {
           value: BigInt(data.steps[0].params.value),
         });
 
+        // success UI: toast + show "Minted" for 5s
         toast({
-          message: "You have minted successfully with tx hash: " + tx.hash,
+          message: "You have successfully minted the NFTs",
           action: (
             <Button
               intent="primary"
@@ -50,7 +71,7 @@ export default function MintButton() {
                   "_blank"
                 )
               }
-              className=" text-white transition px-3 py-1 rounded-md text-xs"
+              className="text-white transition px-3 py-1 rounded-md text-xs"
             >
               View on explorer
             </Button>
@@ -58,6 +79,8 @@ export default function MintButton() {
           variant: "success",
           duration: 10000,
         });
+
+        startStatusTimer("minted");
       } catch (signError) {
         if (
           (signError as Error).message?.includes("user rejected") ||
@@ -66,18 +89,25 @@ export default function MintButton() {
           throw new Error("You rejected the transaction.");
         } else {
           console.error("Transaction signing failed:", signError);
-          throw new Error("Transaction signing failed. Please try again.");
+          throw new Error("You have failed to mint the NFTs");
         }
       }
     } catch (err) {
       console.error("Mint failed:", err);
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      toast({
-        message: errorMessage,
-        variant: "error",
-      });
+      toast({ message: errorMessage, variant: "error" });
+      startStatusTimer("failed");
     }
   };
+
+  const isLocked =
+    loading || mintStatus === "failed" || mintStatus === "minted";
+  const icon =
+    mintStatus === "failed" ? (
+      <Block />
+    ) : mintStatus === "minted" ? (
+      <Smile />
+    ) : null;
 
   return (
     <div>
@@ -86,15 +116,25 @@ export default function MintButton() {
           <Button
             intent="gradient"
             onClick={handleMintNFT}
-            disabled={loading}
+            disabled={isLocked}
+            doubleIcon
+            icon={icon}
             className={cn(
               "max-w-[80px] md:max-w-[120px] px-6 w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base transition-all duration-150",
-              "hover:scale-105"
+              "hover:scale-105",
+              mintStatus === "failed" && "ring-2 from-[#FFACAD] to-[#FF5E61]",
+              mintStatus === "minted" && "ring-2 from-[#ACFFC4] to-[#E2FFCB]"
             )}
+            aria-live="polite"
           >
-            {loading ? "Processing..." : "Mint"}
+            {loading
+              ? "Processing..."
+              : mintStatus === "minted"
+              ? "Minted"
+              : mintStatus === "failed"
+              ? "Failed"
+              : "Mint"}
           </Button>
-          {/* {error && <p className="text-red-500 text-sm mt-2">{error}</p>} */}
         </>
       ) : (
         <button onClick={() => open()}>Connect Wallet</button>

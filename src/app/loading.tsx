@@ -20,10 +20,7 @@ export default function Loading() {
       className="flex flex-col gap-2 sm:gap-4 md:gap-6 min-h-screen items-center justify-center"
       style={{ overflow: "hidden" }}
     >
-      <MainLayout
-        headerIcon="/gifs/llamao_majestic_run.gif"
-        className="space-y-4"
-      >
+      <MainLayout headerIcon="/gifs/llamao_majestic_run.gif">
         <Image
           src={"/gifs/llamao_promote_banner.gif"}
           alt="lamao_promote_banner"

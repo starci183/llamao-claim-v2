@@ -103,7 +103,7 @@ export type SelectOption = {
 
 export type SelectProps = {
   className?: string;
-  options: SelectOption[];
+  options: ReadonlyArray<Readonly<SelectOption>>;
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
@@ -226,7 +226,7 @@ export default function Select({
   return (
     <div
       ref={containerRef}
-      className={cn(selectContainer({  width, disabled }), className)}
+      className={cn(selectContainer({ width, disabled }), className)}
     >
       {/* select optional label */}
       <div className="flex items-center justify-between w-full h-full">

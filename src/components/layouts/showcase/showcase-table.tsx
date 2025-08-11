@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { NftMetadata, useContract } from "@/hooks/use-contract";
@@ -263,14 +264,14 @@ export default function ShowcaseTable({
       </div>
 
       {/* Pagination Component */}
-      {totalPages > 1 && balance !== "0" && (
+      {/* {totalPages > 1 && balance !== "0" && (
         <ShowcasePagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
           disabled={loading}
         />
-      )}
+      )} */}
     </div>
   );
 }

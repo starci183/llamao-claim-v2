@@ -15,17 +15,17 @@ const SubHeaderHome = memo(function SubHeaderHome() {
     >
       <Button
         intent={"ghost"}
-        onClick={() => navigation.push("/")}
+        onClick={() => navigation.push("https://x.com/llamaoism")}
         className={cn("text-sm sm:text-lg p-0 whitespace-nowrap")}
       >
-        Docs
+        Twitter
       </Button>
       <Button
         intent={"ghost"}
         onClick={() => navigation.push("/showcase")}
         className={cn("text-sm sm:text-lg p-0 whitespace-nowrap")}
       >
-        Showcase
+        Discord
       </Button>
     </nav>
   );

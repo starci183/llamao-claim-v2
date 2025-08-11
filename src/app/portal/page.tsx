@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/common/button";
 import Mission from "@/components/layouts/portal/mission";
 import Select from "@/components/ui/select/select";
 import Tabs, {
@@ -8,23 +7,24 @@ import Tabs, {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs/tabs";
+import { HOME_FILTERS } from "@/contance";
 import { useWalletContext } from "@/context/wallet-context";
-import { useAuth } from "@/providers/auth-provider";
-import { userService } from "@/service/user/user-service";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/providers/auth-provider";
+import { userService } from "@/service/user/user-service";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ConnectWalletButton from "../../components/button-connect-wallet";
 import AddressButton from "./components/address-button";
+import LetLlamaoButton from "./components/let-llmao-button";
 import LlamaoismContent from "./components/llamaoism";
 
 export default function Portal() {
   // separate hover states so they don't interfere
   const [addrHovered, setAddrHovered] = useState(false);
-  const [mintHovered, setMintHovered] = useState(false);
 
   const [filterStatus, setFilterStatus] = useState("all");
   const [tabValue, setTabValue] = useState("eligibility");
@@ -107,22 +107,13 @@ export default function Portal() {
 
   const allMissionsCompleted = missions.every((m) => m.status);
 
-  const statusOptions = [
-    { value: "all", label: "All" },
-    { value: "active", label: "Active" },
-    { value: "pending", label: "Pending" },
-    { value: "completed", label: "Completed" },
-    { value: "failed", label: "Failed" },
-  ];
-
   return (
-    <div className="flex w-full justify-center overflow-x-hidden">
+    <div className="overflow-visible">
       <motion.div
         className={cn(
           "origin-top",
           "transition-transform duration-300 ease-in-out",
-          "scale-[0.85]  sm:scale-[0.9]  md:scale-100",
-          "max-h-screen overflow-y-auto"
+          "scale-[0.85]  sm:scale-[0.9]  md:scale-100"
         )}
       >
         <div
@@ -181,10 +172,14 @@ export default function Portal() {
                 <Tabs
                   value={tabValue}
                   onValueChange={(value) => {
-                    if (!isConnected && value === "llamaoism") {
+                    if (
+                      value === "llamaoism" &&
+                      (!isConnected || !isAuthenticated)
+                    ) {
                       toast({
-                        message:
-                          "Please connect your wallet to view Llamaoism.",
+                        message: !isConnected
+                          ? "Please connect your wallet to view Llamaoism."
+                          : "Please sign in to view Llamaoism.",
                       });
                       return;
                     }
@@ -237,7 +232,7 @@ export default function Portal() {
                           Filter Status
                         </h1>
                         <Select
-                          options={statusOptions}
+                          options={HOME_FILTERS}
                           value={filterStatus}
                           onChange={setFilterStatus}
                           placeholder=""
@@ -249,8 +244,8 @@ export default function Portal() {
 
                       <motion.div
                         className={cn(
-                          "flex flex-col items-center justify-center",
-                          "gap-2 min-h-[150px]"
+                          "flex flex-col items-center",
+                          "gap-2 min-h-[150px] mt-4"
                         )}
                       >
                         {filteredMissions.length === 0 ? (
@@ -269,9 +264,10 @@ export default function Portal() {
                         )}
                       </motion.div>
 
-                      <motion.div className={cn("mt-2 relative")}>
+                      {/* <motion.div className={cn("mt-2 relative")}>
                         <div
                           className="relative"
+                          ref={mintAnchorRef}
                           onMouseEnter={() => setMintHovered(true)}
                           onMouseLeave={() => setMintHovered(false)}
                         >
@@ -316,16 +312,37 @@ export default function Portal() {
                             Let&apos;s Llamao
                           </Button>
 
-                          {mintHovered && !allMissionsCompleted && (
-                            <div className="absolute left-full top-full z-20 mt-2 -translate-x-[18%] flex flex-col min-w-[150px] bg-[#FEFBEA] border border-[#B2A280] rounded-md shadow-lg p-2 text-[11px] text-[#602C2C] font-pp-neuebit animate-fade-in pointer-events-none">
-                              <div className="absolute -top-2 left-4 w-3 h-3 rotate-45 bg-[#FEFBEA] border-l border-t border-[#B2A280]" />
-                              <span>
+                          <Popover
+                            open={mintHovered && !allMissionsCompleted}
+                            anchorRef={
+                              mintAnchorRef as React.RefObject<HTMLElement>
+                            }
+                            side="bottom"
+                            align="center"
+                            offset={12}
+                            onClose={() => setMintHovered(false)}
+                          >
+                            <div className="relative z-20 flex flex-col min-w-[240px] max-w-[320px] bg-[#FEFBEA] border border-[#B2A280] rounded-md shadow-lg px-3 py-2 text-[12px] text-[#602C2C] font-pp-neuebit animate-fade-in">
+                              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-[#FEFBEA] border-l border-t border-[#B2A280]" />
+                              <span className="text-center text-xl">
                                 Please do all the quests to be able to mint
                               </span>
                             </div>
-                          )}
+                          </Popover>
                         </div>
-                      </motion.div>
+                      </motion.div> */}
+                      <LetLlamaoButton
+                        allMissionsCompleted={allMissionsCompleted}
+                        onMintClick={() => {
+                          if (!isConnected) {
+                            toast({
+                              message: "Please connect your wallet to proceed.",
+                            });
+                            return;
+                          }
+                          navigation.push("/mint");
+                        }}
+                      />
                     </>
                   </TabsContent>
 
