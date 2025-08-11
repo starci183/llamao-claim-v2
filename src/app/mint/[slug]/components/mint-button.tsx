@@ -1,15 +1,16 @@
 "use client";
 
 import { Button } from "@/components/common/button";
-import { cn } from "@/lib/utils";
+import { useContract } from "@/hooks/use-contract";
 import { useSigner } from "@/hooks/use-signer";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 import axiosClient from "@/service/axios-client";
+import Block from "@/svg/Block";
+import Smile from "@/svg/Smile";
 import { useAppKit } from "@reown/appkit/react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import Block from "@/svg/Block";
-import Smile from "@/svg/Smile";
 
 type MintStatus = "idle" | "failed" | "minted";
 
@@ -19,6 +20,8 @@ export default function MintButton() {
   const { toast } = useToast();
   const { slug } = useParams();
   const [mintStatus, setMintStatus] = useState<MintStatus>("idle");
+  const { balance } = useContract(slug as string);
+  console.log(balance);
 
   // single timer to auto-clear transient statuses
   const resetTimerRef = useRef<number | null>(null);
@@ -36,6 +39,13 @@ export default function MintButton() {
       if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    console.log("asdasd", Number(balance));
+    if (Number(balance) > 0) {
+      setMintStatus("minted");
+    }
+  }, [balance, mintStatus]);
 
   const handleMintNFT = async () => {
     if (!address) return;

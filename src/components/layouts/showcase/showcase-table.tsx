@@ -3,9 +3,11 @@
 
 import { NftMetadata, useContract } from "@/hooks/use-contract";
 import { cn } from "@/lib/utils";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useLayoutEffect } from "react";
 import { ShowcaseCard } from "./showcase-card";
 import ShowcasePagination from "./showcase-pagination";
+import { PRIMARY_MONAD_CONTRACT } from "@/contance";
+import { Skeleton } from "@/components/ui/skeleton/skeleton";
 
 interface ShowcaseItem {
   id: string;
@@ -143,9 +145,27 @@ export default function ShowcaseTable({
 }: ShowcaseTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const { tokenURI, balance, contractAddress } = useContract(
-    "0x913bf9751fe18762b0fd6771edd512c7137e42bb"
+    PRIMARY_MONAD_CONTRACT
   );
   const [nftMetadata, setNftMetadata] = useState<NftMetadata | null>(null);
+
+  // --- Lock container height while loading (Option A) ---
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [lockedMinH, setLockedMinH] = useState<number | null>(null);
+
+  useLayoutEffect(() => {
+    if (loading && containerRef.current) {
+      setLockedMinH(containerRef.current.offsetHeight);
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (!loading && lockedMinH != null) {
+      const t = setTimeout(() => setLockedMinH(null), 300); // optional smooth release
+      return () => clearTimeout(t);
+    }
+  }, [loading, lockedMinH]);
+  // ------------------------------------------------------
 
   useEffect(() => {
     if (!tokenURI) return;
@@ -164,114 +184,113 @@ export default function ShowcaseTable({
       : items;
   }, [items, category]);
 
-  // Calculate pagination
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  // const startIndex = (currentPage - 1) * itemsPerPage;
-  // const endIndex = startIndex + itemsPerPage;
-  // const currentItems = filteredItems.slice(startIndex, endIndex);
 
-  // Reset to first page when category changes
   useEffect(() => {
     setCurrentPage(1);
   }, [category]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // Scroll to top of showcase table when page changes
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (loading) {
-    return (
-      <div className={cn("w-full", wrapperClassName)}>
+  const imageWidth = 140;
+  const imageHeight = 140;
+
+  const fixedSizeStyle = {
+    width: imageWidth,
+    height: imageHeight,
+    aspectRatio: `${imageWidth} / ${imageHeight}`,
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={cn(
+        "w-full space-y-4 md:min-w-[550px] md:min-h-[200px]",
+        wrapperClassName
+      )}
+      style={lockedMinH ? { minHeight: lockedMinH } : undefined}
+    >
+      {loading ? (
+        // ----- SKELETON GRID (measured for min-height lock) -----
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {Array.from({ length: 6 }).map((_, index) => (
+          {Array.from({ length: 3 }).map((_, index) => (
             <div
-              key={index}
-              className="animate-pulse bg-gray-200 rounded-lg h-64"
+              key={`showcase-skeleton-${index}`}
+              className={cn(
+                "flex flex-col items-center justify-between box-shadow-showcase-card bg-[#C3C3C3] overflow-hidden p-2 space-y-2",
+                wrapperClassName
+              )}
             >
-              <div className="h-48 bg-gray-300 rounded-t-lg"></div>
-              <div className="p-4">
-                <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+              <div className="relative bg-gray-200" style={fixedSizeStyle}>
+                <Skeleton className="w-full h-full box-shadow-showcase-item" />
+              </div>
+              <div className="p-1.5 w-full box-shadow-showcase-item">
+                <Skeleton className="h-6 w-full mx-auto" />
               </div>
             </div>
           ))}
         </div>
-      </div>
-    );
-  }
+      ) : (
+        // ----- CONTENT AFTER LOADING -----
+        <>
+          {balance === "0" ? (
+            <div className={cn("w-full", wrapperClassName)}>
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold text-gray-600 mb-2">
+                    No items found
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    {category
+                      ? `No items in the "${category}" category yet.`
+                      : "No showcase items available."}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div
+              className={cn(
+                "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2",
+                className
+              )}
+            >
+              {nftMetadata && (
+                <ShowcaseCard
+                  onClick={() => {
+                    window.open(
+                      `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
+                      "_blank"
+                    );
+                  }}
+                  imgSrc={nftMetadata?.image}
+                  text={nftMetadata?.name ? `${nftMetadata?.name}` : "NFT"}
+                  state="nft"
+                  description={"owned"}
+                  wrapperClassName="mb-4"
+                  className="w-full h-auto object-cover"
+                  loading={false}
+                  balance={balance}
+                />
+              )}
+              {/* If you later render more items, keep the grid consistent with the skeleton */}
+            </div>
+          )}
 
-  if (balance === "0") {
-    return (
-      <div className={cn("w-full", wrapperClassName)}>
-        <div className="flex flex-col items-center justify-center py-12">
-          <div className="text-center">
-            <h3 className="text-lg font-semibold text-gray-600 mb-2">
-              No items found
-            </h3>
-            <p className="text-sm text-gray-500">
-              {category
-                ? `No items in the "${category}" category yet.`
-                : "No showcase items available."}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className={cn("w-full space-y-4", wrapperClassName)}>
-      <div
-        className={cn(
-          "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2",
-          className
-        )}
-      >
-        {/* {currentItems.map((item, index) => (
-          <ShowcaseCard
-            key={item.id}
-            imgSrc={item.image}
-            text={item.title}
-            state={item.category}
-            priority={index < 3} // Prioritize loading for first 3 items
-            wrapperClassName="h-full"
-            className="w-full h-auto object-cover"
-          />
-        ))} */}
-        {nftMetadata && balance !== "0" && (
-          <ShowcaseCard
-            onClick={() => {
-              window.open(
-                `https://magiceden.io/mint-terminal/monad-testnet/${contractAddress}`,
-                "_blank"
-              );
-            }}
-            imgSrc={nftMetadata?.image}
-            text={nftMetadata?.name ? `${nftMetadata?.name}` : "NFT"}
-            state="nft"
-            description={
-              nftMetadata?.description
-                ? `${nftMetadata?.description}\nYou have: ${balance} nft`
-                : `You have: ${balance} nft`
-            }
-            wrapperClassName="mb-4"
-            className="w-full h-auto object-cover"
-            loading={loading}
-            balance={balance}
-          />
-        )}
-      </div>
-
-      {/* Pagination Component */}
-      {/* {totalPages > 1 && balance !== "0" && (
-        <ShowcasePagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          disabled={loading}
-        />
-      )} */}
+          {/* Pagination (kept disabled for now, enable when using item slices) */}
+          {/* {totalPages > 1 && balance !== "0" && (
+            <ShowcasePagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              disabled={false}
+            />
+          )} */}
+        </>
+      )}
     </div>
   );
 }

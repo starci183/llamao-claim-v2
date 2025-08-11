@@ -1,10 +1,16 @@
 "use client";
 
 import ShowcaseTable from "@/components/layouts/showcase/showcase-table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Showcase() {
   const [selectedCategory] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
 
   // const handleCategoryChange = (category: string) => {
   //   setSelectedCategory(category);
@@ -44,6 +50,7 @@ export default function Showcase() {
         </TabsContent>
       </Tabs> */}
       <ShowcaseTable
+        loading={loading}
         category={selectedCategory || undefined}
         className="animate-in fade-in duration-300"
       />

@@ -37,7 +37,11 @@ export default function Portal() {
 
   const handleMissionClick = async (missionType: string) => {
     if (!walletAddress) {
-      toast({ message: "Wallet not connected", variant: "error" });
+      toast({
+        message: "Wallet not connected",
+        variant: "error",
+        duration: 5000,
+      });
       return;
     }
 
@@ -57,9 +61,17 @@ export default function Portal() {
           break;
       }
       await refreshUser();
-      toast({ message: "Mission status updated", variant: "success" });
+      toast({
+        message: "Mission status updated",
+        variant: "success",
+        duration: 5000,
+      });
     } catch {
-      toast({ message: "Failed to update mission status", variant: "error" });
+      toast({
+        message: "Failed to update mission status",
+        variant: "error",
+        duration: 5000,
+      });
     }
   };
 

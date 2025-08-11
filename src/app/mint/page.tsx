@@ -74,7 +74,7 @@ export default function Mint() {
                 "text-xl md:text-2xl lg:text-3xl"
               )}
             >
-              LLAMAOISM
+              Awakening
             </span>
           </div>
           {/* Button */}

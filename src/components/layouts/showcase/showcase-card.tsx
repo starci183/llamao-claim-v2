@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Skeleton } from "@/components/ui/skeleton/skeleton";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -121,7 +122,7 @@ export const ShowcaseCard = memo(function ShowcaseCard({
           role="heading"
           aria-level={3}
         >
-          You have: {balance} NFT
+          Owned
         </p>
       </div>
     </div>

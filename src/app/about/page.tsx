@@ -1,12 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Button } from "@/components/common/button";
 import MainLayout from "@/components/layouts/main-layout";
+import { useWalletAddress } from "@/hooks/use-wallet-address";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function About() {
+  const { address } = useWalletAddress();
   return (
     <div
       className={cn(
@@ -14,19 +16,14 @@ export default function About() {
         "min-h-[500px] sm:min-h-[550px] lg:min-h-[600px]"
       )}
     >
-      <Image
+      <img
         src="/gifs/llamao_about_background.gif"
         alt="llamao_about_background"
-        width={720}
-        height={650}
         className={cn(
           "w-full h-full object-cover",
           "min-h-[500px] sm:min-h-[550px] lg:min-h-[600px]",
           "mx-auto"
         )}
-        priority
-        quality={100}
-        unoptimized
       />
       <div
         className={cn(
@@ -40,30 +37,18 @@ export default function About() {
             "max-w-xs sm:max-w-sm lg:max-w-md"
           )}
         >
-          <Image
+          <img
             src="/gifs/llamao_zenmonad.gif"
             alt="llamao_zenmonad"
-            width={313}
-            height={289}
-            className={cn(
-              "w-full h-auto aspect-[4/3]",
-              "max-w-62 sm:max-w-64 lg:max-w-72"
-            )}
-            quality={100}
-            priority
-            unoptimized
+            className={cn("w-full h-auto ", "max-w-62 sm:max-w-64 lg:max-w-72")}
           />
-          <Image
+          <img
             src="/images/llamao_title.png"
             alt="llamao_zenmonad_text"
-            width={313}
-            height={111}
             className={cn(
               "absolute top-3/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto",
-              "max-w-60 sm:max-w-64 lg:max-w-72"
+              "scale-75"
             )}
-            quality={100}
-            priority
           />
         </div>
         <div className={cn("flex items-center justify-center w-full pb-4")}>
@@ -139,8 +124,11 @@ export default function About() {
                         "p-1 sm:p-1.5 sm:max-w-24 lg:max-w-28"
                       )}
                     >
-                      <Link href="/" className={cn("underline truncate")}>
-                        Llamaoism
+                      <Link
+                        href="https://x.com/llamaoism"
+                        className={cn("underline truncate")}
+                      >
+                        Twitter
                       </Link>
                     </Button>
                     <Button
@@ -151,8 +139,11 @@ export default function About() {
                         "p-1 sm:p-1.5 sm:max-w-24 lg:max-w-28"
                       )}
                     >
-                      <Link href="" className={cn("underline truncate")}>
-                        Playbook
+                      <Link
+                        href="https://discord.gg/llamaoism"
+                        className={cn("underline truncate")}
+                      >
+                        Discord
                       </Link>
                     </Button>
                   </div>
@@ -165,7 +156,7 @@ export default function About() {
                 )}
               >
                 <span className={cn("block truncate")}>
-                  Connecting wallet:....................
+                  Connecting wallet: {address || "..."}
                 </span>
               </div>
             </MainLayout>
