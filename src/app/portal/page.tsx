@@ -17,7 +17,7 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import ConnectWalletButton from "../components/button-connect-wallet";
+import ConnectWalletButton from "../../components/button-connect-wallet";
 import AddressButton from "./components/address-button";
 import LlamaoismContent from "./components/llamaoism";
 
@@ -27,7 +27,8 @@ export default function Portal() {
   const [tabValue, setTabValue] = useState("eligibility");
 
   const { isConnected, address, walletInfo } = useWalletContext();
-  const { user, walletAddress, refreshUser } = useAuth();
+  const { user, walletAddress, refreshUser, isAuthenticated, accessToken } =
+    useAuth();
   const navigation = useRouter();
   const { toast } = useToast();
 
@@ -165,7 +166,7 @@ export default function Portal() {
                   "flex w-full flex-col text-center justify-center"
                 )}
               >
-                {isConnected && address && walletInfo ? (
+                {isAuthenticated && accessToken && address && walletInfo ? (
                   <AddressButton
                     hovered={hovered}
                     setHoveredAction={setHovered}
@@ -173,12 +174,7 @@ export default function Portal() {
                     walletInfo={walletInfo}
                   />
                 ) : (
-                  <ConnectWalletButton
-                    className={cn(
-                      "py-2 text-xl",
-                      "hover:scale-105 transform transition-all"
-                    )}
-                  />
+                  <ConnectWalletButton className="py-3" />
                 )}
               </motion.div>
               <motion.div

@@ -6,7 +6,7 @@ import { useAuth } from "@/providers/auth-provider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import ConnectWalletButton from "./components/button-connect-wallet";
+import ConnectWalletButton from "../components/button-connect-wallet";
 
 export default function Home() {
   const { isAuthenticated } = useAuth();

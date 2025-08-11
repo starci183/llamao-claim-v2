@@ -23,6 +23,7 @@ export const appKitInstance = createAppKit({
   metadata,
   networks: [monadTestnet],
   projectId,
+
   features: {
     socials: false,
     email: false,

@@ -1,27 +1,57 @@
 import axios from "axios";
-
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_END_POINT,
   headers: { "Content-Type": "application/json" },
 });
 
-let authInterceptorId: number | null = null;
+let authReqInterceptorId: number | null = null;
+let respInterceptorId: number | null = null;
 
-/** Helper so we can replace the interceptor when the token changes */
-export const attachAuthHeader = (token: string | null) => {
-  // eject previous interceptor (if any)
-  if (authInterceptorId !== null) {
-    axiosClient.interceptors.request.eject(authInterceptorId);
-    authInterceptorId = null;
-  }
+// External hook-in for unauthorized behavior (set from AuthProvider)
+let onUnauthorized: (() => Promise<void> | void) | null = null;
+let handlingUnauthorized = false; // guard to avoid duplicate redirects
 
-  if (token) {
-    console.log("token", token);
-    authInterceptorId = axiosClient.interceptors.request.use((cfg) => {
-      cfg.headers!.Authorization = `Bearer ${token}`;
-      return cfg;
-    });
-  }
+export const setUnauthorizedHandler = (handler: () => Promise<void> | void) => {
+  onUnauthorized = handler;
 };
+
+export const attachAuthHeader = (token: string | null) => {
+  if (authReqInterceptorId !== null) {
+    axiosClient.interceptors.request.eject(authReqInterceptorId);
+    authReqInterceptorId = null;
+  }
+  authReqInterceptorId = axiosClient.interceptors.request.use((cfg) => {
+    if (token) {
+      cfg.headers.Authorization = `Bearer ${token}`;
+    }
+    return cfg;
+  });
+};
+
+// Setup response interceptor (once)
+const setupResponseInterceptor = () => {
+  if (respInterceptorId !== null) {
+    axiosClient.interceptors.response.eject(respInterceptorId);
+  }
+  respInterceptorId = axiosClient.interceptors.response.use(
+    (res) => res,
+    async (error) => {
+      const status = error?.response?.status;
+      if (status === 401 && !handlingUnauthorized) {
+        console.log("401");
+        handlingUnauthorized = true;
+        try {
+          // let the app decide what “logout” means
+          if (onUnauthorized) await onUnauthorized();
+        } finally {
+          handlingUnauthorized = false;
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
+};
+
+setupResponseInterceptor();
 
 export default axiosClient;

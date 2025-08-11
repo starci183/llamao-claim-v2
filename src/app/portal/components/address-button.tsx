@@ -3,8 +3,9 @@
 import Loading from "@/app/loading";
 import { Button } from "@/components/common/button";
 import { truncateAddress, cn } from "@/lib/utils";
+import { useAuth } from "@/providers/auth-provider";
 import { Block } from "@/svg";
-import { useDisconnect, type ConnectedWalletInfo } from "@reown/appkit/react";
+import { type ConnectedWalletInfo } from "@reown/appkit/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -21,7 +22,7 @@ export default function AddressButton({
   address,
   walletInfo,
 }: AddressButtonProps) {
-  const { disconnect } = useDisconnect();
+  const { logout } = useAuth();
   const router = useRouter();
   if (!address && !walletInfo) {
     return <Loading />;
@@ -62,7 +63,7 @@ export default function AddressButton({
           className={cn("text-base")}
           onClick={() => {
             try {
-              disconnect();
+              logout();
             } catch {
               //TODO: handle error logging
             } finally {

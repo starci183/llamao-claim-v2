@@ -35,6 +35,8 @@ export function useWalletAuth(): WalletAuthReturn {
     new Promise<void>((resolve, reject) => {
       const start = Date.now();
       const id = setInterval(() => {
+        console.log("signerRef.current", signerRef.current);
+        console.log("addressRef.current", addressRef.current);
         if (signerRef.current && addressRef.current) {
           clearInterval(id);
           resolve();

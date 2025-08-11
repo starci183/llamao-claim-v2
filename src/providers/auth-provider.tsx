@@ -2,14 +2,21 @@
 import React, {
   createContext,
   useContext,
-  useState,
   useEffect,
+  useMemo,
+  useRef,
+  useState,
   ReactNode,
+  useCallback,
 } from "react";
-import { useAppKitAccount } from "@reown/appkit/react";
+import { useRouter } from "next/navigation";
+import { useAppKitAccount, useDisconnect } from "@reown/appkit/react";
 import { userService } from "@/service/user/user-service";
 import { useSigner } from "@/hooks/use-signer";
-import { attachAuthHeader } from "@/service/axios-client";
+import {
+  attachAuthHeader,
+  setUnauthorizedHandler,
+} from "@/service/axios-client";
 
 interface User {
   followX: boolean;
@@ -20,12 +27,11 @@ interface User {
   createdAt: string;
   updatedAt: string;
 }
-
 interface AuthContextType {
   accessToken: string | null;
   walletAddress: string | null;
-  login: (accessToken: string, walletAddress: string) => void;
-  logout: () => void;
+  login: (accessToken: string, walletAddress: string) => Promise<void>;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
   user: User | null;
   refreshUser: () => Promise<void>;
@@ -34,86 +40,176 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
+  const { disconnect } = useDisconnect();
+  const { isConnected } = useAppKitAccount();
+  const { getRawAddress } = useSigner();
+
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const { isConnected } = useAppKitAccount(); // ← detect wallet state
-  const { getRawAddress } = useSigner(); // Restore persisted session on page refresh
-  // Restore persisted session on page refresh
-  useEffect(() => {
-    const restoreSession = async () => {
-      if (!getRawAddress) return;
-      const address = await getRawAddress();
-      if (!address) return;
 
-      setAccessToken(localStorage.getItem("accessToken"));
-      setWalletAddress(address);
-      const fetchUser = async () => {
-        const user = await userService.getUser(address);
-        setUser(user as User);
-      };
-      fetchUser();
-      console.log("user", user);
+  // Stale-response guards
+  const latestAddressRef = useRef<string | null>(null);
+  const reqIdRef = useRef(0);
+  const abortRef = useRef<AbortController | null>(null);
+  const handlingUnauthorizedRef = useRef(false);
+
+  // Helper: fetch user guarded against stale responses
+  const fetchUserFor = useCallback(async (address: string) => {
+    // cancel previous
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
+
+    const myReqId = ++reqIdRef.current;
+    latestAddressRef.current = address;
+
+    const res = await userService.getUser(address, {
+      signal: abortRef.current.signal,
+      // optional: force no-cache for BE/proxies
+      headers: { "Cache-Control": "no-cache" },
+    });
+
+    // ignore if a newer request/address is active
+    if (myReqId === reqIdRef.current && latestAddressRef.current === address) {
+      setUser(res as User);
+    }
+  }, []);
+
+  // Restore session on load
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const token = localStorage.getItem("accessToken");
+      const stored = localStorage.getItem("walletAddress");
+      const signerAddr = (await getRawAddress?.()) ?? stored ?? null;
+
+      if (!cancelled) {
+        if (token && signerAddr) {
+          setAccessToken(token);
+          setWalletAddress(signerAddr);
+          attachAuthHeader(token);
+          setUser(null); // clear to avoid flicker with old data
+          fetchUserFor(signerAddr).catch(() => {});
+        } else {
+          attachAuthHeader(null);
+          setUser(null);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+      abortRef.current?.abort();
     };
+  }, [getRawAddress, fetchUserFor]);
 
-    restoreSession();
-  }, [getRawAddress]);
-  console.log("address", walletAddress);
-
-  // Auto‑logout if the wallet disconnects
+  // Auto-logout if wallet disconnects but token exists
   useEffect(() => {
-    if (!isConnected && accessToken) logout();
-  }, [isConnected]);
+    if (!isConnected && accessToken) {
+      void logout();
+    }
+  }, [isConnected, accessToken]); // eslint-disable-line
 
-  const login = (token: string, address: string) => {
-    setAccessToken(token);
-    setWalletAddress(address);
-    localStorage.setItem("accessToken", token);
-    localStorage.setItem("walletAddress", address);
-    attachAuthHeader(token);
-  };
+  // 401 handler from axios
+  const handleUnauthorized = useCallback(async () => {
+    if (handlingUnauthorizedRef.current) return;
+    handlingUnauthorizedRef.current = true;
+    try {
+      await logout();
+      router.replace("/");
+    } finally {
+      handlingUnauthorizedRef.current = false;
+    }
+  }, [router]);
 
-  const logout = () => {
+  useEffect(() => {
+    setUnauthorizedHandler(handleUnauthorized);
+  }, [handleUnauthorized]);
+
+  const login = useCallback(
+    async (token: string, address: string) => {
+      // Update local state + storage
+      setAccessToken(token);
+      setWalletAddress(address);
+      localStorage.setItem("accessToken", token);
+      localStorage.setItem("walletAddress", address);
+      attachAuthHeader(token);
+
+      // Clear stale user immediately, then refetch for the new wallet
+      setUser(null);
+      await fetchUserFor(address).catch(() => {});
+    },
+    [fetchUserFor]
+  );
+
+  const logout = useCallback(async () => {
+    try {
+      await disconnect?.();
+    } catch {}
+    // cancel any pending fetch
+    abortRef.current?.abort();
+    reqIdRef.current += 1; // invalidate in-flight
+    latestAddressRef.current = null;
+
     setAccessToken(null);
     setWalletAddress(null);
+    setUser(null);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("walletAddress");
     attachAuthHeader(null);
-  };
+  }, [disconnect]);
 
-  const refreshUser = async () => {
-    if (walletAddress) {
-      try {
-        const user = await userService.getUser(walletAddress);
-        setUser(user as User);
-      } catch (error) {
-        console.error("Failed to refresh user:", error);
-      }
+  const refreshUser = useCallback(async () => {
+    if (!walletAddress) return;
+    setUser(null); // optional: show skeleton/clear stale
+    await fetchUserFor(walletAddress).catch((e) => {
+      console.error("refreshUser failed:", e);
+    });
+  }, [walletAddress, fetchUserFor]);
+
+  // When walletAddress changes (e.g., user connects a *different* wallet),
+  // clear the old user immediately and refetch if we’re authenticated.
+  useEffect(() => {
+    if (!walletAddress) {
+      setUser(null);
+      return;
     }
-  };
+    // Clear to prevent showing previous wallet’s data
+    setUser(null);
+    if (accessToken) {
+      void fetchUserFor(walletAddress);
+    }
+  }, [walletAddress, accessToken, fetchUserFor]);
 
-  // Attach auth header when token changes
+  // Keep axios header synced (safety)
   useEffect(() => {
     attachAuthHeader(accessToken);
   }, [accessToken]);
 
-  const isAuthenticated = !!accessToken;
-  console.log("user", user);
-  return (
-    <AuthContext.Provider
-      value={{
-        accessToken,
-        walletAddress,
-        login,
-        logout,
-        isAuthenticated,
-        user,
-        refreshUser,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const isAuthenticated = useMemo(() => !!accessToken, [accessToken]);
+
+  const value = useMemo<AuthContextType>(
+    () => ({
+      accessToken,
+      walletAddress,
+      login,
+      logout,
+      isAuthenticated,
+      user,
+      refreshUser,
+    }),
+    [
+      accessToken,
+      walletAddress,
+      login,
+      logout,
+      isAuthenticated,
+      user,
+      refreshUser,
+    ]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
