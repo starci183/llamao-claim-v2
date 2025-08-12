@@ -59,7 +59,7 @@ export default function LetLlamaoButton({
           className={cn(
             "w-full flex items-center justify-center text-base py-2",
             "transform transition-all hover:scale-105",
-            "from-[#D550D5] to-[#805fD4]",
+            "hover:from-[#D550D5] hover:to-[#805fD4]",
             !allMissionsCompleted && "opacity-50 cursor-not-allowed"
           )}
           onClick={handleClick}

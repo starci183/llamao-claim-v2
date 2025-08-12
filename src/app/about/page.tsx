@@ -13,7 +13,7 @@ export default function About() {
     <div
       className={cn(
         "relative w-full overflow-hidden",
-        "min-h-[500px] sm:min-h-[550px] lg:min-h-[600px]"
+        "min-h-[31.25rem] sm:min-h-[34.375rem] lg:min-h-[37.5rem]"
       )}
     >
       <img
@@ -21,7 +21,7 @@ export default function About() {
         alt="llamao_about_background"
         className={cn(
           "w-full h-full object-cover",
-          "min-h-[500px] sm:min-h-[550px] lg:min-h-[600px]",
+          "min-h-[31.25rem] sm:min-h-[34.375rem] lg:min-h-[37.5rem]",
           "mx-auto"
         )}
       />
@@ -77,7 +77,7 @@ export default function About() {
                     <p
                       className={cn(
                         "text-balance leading-tight break-words",
-                        "text-[10px] sm:text-xs lg:text-sm"
+                        "text-[0.625rem] sm:text-xs lg:text-sm"
                       )}
                     >
                       Llamaoism is the first and finest ideology born on Monad —
@@ -86,7 +86,7 @@ export default function About() {
                     <ul
                       className={cn(
                         "list-disc list-inside space-y-1 break-words",
-                        "text-[10px] sm:text-xs lg:text-sm px-1 sm:px-2"
+                        "text-[0.625rem] sm:text-xs lg:text-sm px-1 sm:px-2"
                       )}
                     >
                       <li className={cn("leading-tight")}>
@@ -101,7 +101,7 @@ export default function About() {
                     <p
                       className={cn(
                         "leading-tight break-words",
-                        "text-[10px] sm:text-xs lg:text-sm"
+                        "text-[0.625rem] sm:text-xs lg:text-sm"
                       )}
                     >
                       Llamao-ism is not a cult. It&apos;s a vibe, productive

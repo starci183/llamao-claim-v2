@@ -118,11 +118,11 @@ export const ShowcaseCard = memo(function ShowcaseCard({
         )}
       >
         <p
-          className="text-center text-base text-gray-800 line-clamp-2"
+          className="text-center text-base text-white line-clamp-2"
           role="heading"
           aria-level={3}
         >
-          Owned
+          Minted
         </p>
       </div>
     </div>

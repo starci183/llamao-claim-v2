@@ -10,29 +10,42 @@ import Block from "@/svg/Block";
 import Smile from "@/svg/Smile";
 import { useAppKit } from "@reown/appkit/react";
 import { useParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type MintStatus = "idle" | "failed" | "minted";
 
 export default function MintButton() {
   const { open } = useAppKit();
-  const { address, isConnected, loading, sendTransaction } = useSigner();
+  const {
+    address,
+    isConnected,
+    loading: signerLoading,
+    sendTransaction,
+  } = useSigner();
   const { toast } = useToast();
-  const { slug } = useParams();
-  const [mintStatus, setMintStatus] = useState<MintStatus>("idle");
-  const { balance } = useContract(slug as string);
-  console.log(balance);
 
-  // single timer to auto-clear transient statuses
+  // slug can be string | string[]
+  const params = useParams();
+  const slugParam = params?.slug as string | string[] | undefined;
+  const collectionId = useMemo(
+    () => (Array.isArray(slugParam) ? slugParam[0] : slugParam ?? ""),
+    [slugParam]
+  );
+
+  const { balance } = useContract(collectionId);
+  const [mintStatus, setMintStatus] = useState<MintStatus>("idle");
+  const [txPending, setTxPending] = useState(false);
+
+  // ——— auto-clear only for "failed" ———
   const resetTimerRef = useRef<number | null>(null);
-  const startStatusTimer = (status: Exclude<MintStatus, "idle">) => {
+  const startFailedTimer = useCallback(() => {
     if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
-    setMintStatus(status);
+    setMintStatus("failed");
     resetTimerRef.current = window.setTimeout(() => {
       setMintStatus("idle");
       resetTimerRef.current = null;
     }, 5000);
-  };
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -40,20 +53,36 @@ export default function MintButton() {
     };
   }, []);
 
+  // Reflect on-chain balance
   useEffect(() => {
-    console.log("asdasd", Number(balance));
-    if (Number(balance) > 0) {
+    const balNum =
+      typeof balance === "string" ? Number(balance) : Number(balance ?? 0);
+    if (!Number.isFinite(balNum)) return;
+    if (balNum > 0 && mintStatus !== "minted") {
       setMintStatus("minted");
     }
   }, [balance, mintStatus]);
 
-  const handleMintNFT = async () => {
-    if (!address) return;
+  const isLocked =
+    signerLoading ||
+    txPending ||
+    mintStatus === "failed" ||
+    mintStatus === "minted";
+  const icon =
+    mintStatus === "failed" ? (
+      <Block />
+    ) : mintStatus === "minted" ? (
+      <Smile />
+    ) : undefined;
 
+  const handleMintNFT = useCallback(async () => {
+    if (!address || !collectionId || isLocked) return;
+
+    setTxPending(true);
     try {
       const { data } = await axiosClient.post("/mint-nft", {
         chain: "monad-testnet",
-        collectionId: slug,
+        collectionId,
         wallet: { address, chain: "monad-testnet" },
         nftAmount: 1,
         kind: "public",
@@ -61,94 +90,104 @@ export default function MintButton() {
         tokenId: 0,
       });
 
-      try {
-        const tx = await sendTransaction({
-          to: data.steps[0].params.to,
-          from: data.steps[0].params.from,
-          data: data.steps[0].params.data,
-          value: BigInt(data.steps[0].params.value),
-        });
-
-        // success UI: toast + show "Minted" for 5s
-        toast({
-          message: "You have successfully minted the NFTs",
-          action: (
-            <Button
-              intent="primary"
-              onClick={() =>
-                window.open(
-                  `https://monad-testnet.socialscan.io/tx/${tx.hash}`,
-                  "_blank"
-                )
-              }
-              className="text-white transition px-3 py-1 rounded-md text-xs"
-            >
-              View on explorer
-            </Button>
-          ),
-          variant: "success",
-          duration: 10000,
-        });
-
-        startStatusTimer("minted");
-      } catch (signError) {
-        if (
-          (signError as Error).message?.includes("user rejected") ||
-          (signError as Error).message?.includes("User rejected")
-        ) {
-          throw new Error("You rejected the transaction.");
-        } else {
-          console.error("Transaction signing failed:", signError);
-          throw new Error("You have failed to mint the NFTs");
-        }
+      const step0 = data?.steps?.[0];
+      const p = step0?.params;
+      if (!p?.to || !p?.from || !p?.data) {
+        throw new Error("Mint route is missing required transaction params.");
       }
-    } catch (err) {
-      console.error("Mint failed:", err);
-      const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      toast({ message: errorMessage, variant: "error" });
-      startStatusTimer("failed");
-    }
-  };
 
-  const isLocked =
-    loading || mintStatus === "failed" || mintStatus === "minted";
-  const icon =
-    mintStatus === "failed" ? (
-      <Block />
-    ) : mintStatus === "minted" ? (
-      <Smile />
-    ) : null;
+      const rawValue = p.value ?? "0x0";
+      const value: string =
+        typeof rawValue === "string"
+          ? rawValue.trim() || "0x0"
+          : String(rawValue);
 
-  return (
-    <div>
-      {isConnected ? (
-        <>
+      const tx = await sendTransaction({
+        to: p.to,
+        from: p.from,
+        data: p.data,
+        value: BigInt(value), // string, not bigint
+      });
+
+      toast({
+        message: "You have successfully minted the NFTs",
+        action: (
           <Button
-            intent="gradient"
-            onClick={handleMintNFT}
-            disabled={isLocked}
-            doubleIcon
-            icon={icon}
-            className={cn(
-              "max-w-[80px] md:max-w-[120px] px-6 w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base transition-all duration-150",
-              "hover:scale-105",
-              mintStatus === "failed" && "ring-2 from-[#FFACAD] to-[#FF5E61]",
-              mintStatus === "minted" && "ring-2 from-[#ACFFC4] to-[#E2FFCB]"
-            )}
-            aria-live="polite"
+            intent="primary"
+            onClick={() =>
+              window.open(
+                `https://monad-testnet.socialscan.io/tx/${tx.hash}`,
+                "_blank"
+              )
+            }
+            className="text-white transition px-3 py-1 rounded-md text-xs"
           >
-            {loading
-              ? "Processing..."
-              : mintStatus === "minted"
-              ? "Minted"
-              : mintStatus === "failed"
-              ? "Failed"
-              : "Mint"}
+            View on explorer
           </Button>
-        </>
-      ) : (
-        <button onClick={() => open()}>Connect Wallet</button>
+        ),
+        variant: "success",
+        duration: 10000,
+      });
+
+      // Persist success (no auto-reset)
+      if (resetTimerRef.current) {
+        window.clearTimeout(resetTimerRef.current);
+        resetTimerRef.current = null;
+      }
+      setMintStatus("minted");
+    } catch {
+      toast({
+        message: "You have failed to mint the NFTs",
+        variant: "error",
+        duration: 5000,
+      });
+      startFailedTimer();
+    } finally {
+      setTxPending(false);
+    }
+  }, [
+    address,
+    collectionId,
+    isLocked,
+    sendTransaction,
+    startFailedTimer,
+    toast,
+  ]);
+
+  if (!collectionId) {
+    return (
+      <Button intent="gradient" disabled className="w-[120px]">
+        Mint
+      </Button>
+    );
+  }
+
+  return isConnected ? (
+    <Button
+      intent="gradient"
+      onClick={handleMintNFT}
+      disabled={isLocked}
+      doubleIcon
+      icon={icon}
+      className={cn(
+        "max-w-[80px] md:max-w-[120px] px-6 w-full max-h-[18px] md:max-h-[38px] h-full flex items-center justify-center text-xs sm:text-sm md:text-base transition-all duration-150",
+        "hover:scale-105",
+        mintStatus === "failed" && "ring-2 from-[#FFACAD] to-[#FF5E61]",
+        mintStatus === "minted" && "ring-2 from-[#ACFFC4] to-[#E2FFCB]"
       )}
-    </div>
+      aria-live="polite"
+    >
+      {signerLoading || txPending
+        ? "Processing..."
+        : mintStatus === "minted"
+        ? "Minted"
+        : mintStatus === "failed"
+        ? "Failed"
+        : "Mint"}
+    </Button>
+  ) : (
+    <Button intent="gradient" onClick={() => open()}>
+      Connect Wallet
+    </Button>
   );
 }
