@@ -103,29 +103,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [getRawAddress, fetchUserFor]);
 
-  // Auto-logout if wallet disconnects but token exists
-  useEffect(() => {
-    if (!isConnected && accessToken) {
-      void logout();
-    }
-  }, [isConnected, accessToken]); // eslint-disable-line
-
-  // 401 handler from axios
-  const handleUnauthorized = useCallback(async () => {
-    if (handlingUnauthorizedRef.current) return;
-    handlingUnauthorizedRef.current = true;
-    try {
-      await logout();
-      router.replace("/");
-    } finally {
-      handlingUnauthorizedRef.current = false;
-    }
-  }, [router]);
-
-  useEffect(() => {
-    setUnauthorizedHandler(handleUnauthorized);
-  }, [handleUnauthorized]);
-
   const login = useCallback(
     async (token: string, address: string) => {
       // Update local state + storage
@@ -158,6 +135,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("walletAddress");
     attachAuthHeader(null);
   }, [disconnect]);
+
+  // Auto-logout ONLY if the user was previously connected and then disconnects.
+  // This prevents logging out during initial page load/hydration when wallet state
+  // hasn't been restored yet (avoids losing session on F5).
+  const prevIsConnectedRef = useRef<boolean | null>(null);
+  useEffect(() => {
+    const previouslyConnected = prevIsConnectedRef.current === true;
+    if (previouslyConnected && !isConnected && accessToken) {
+      void logout();
+    }
+    prevIsConnectedRef.current = isConnected;
+  }, [isConnected, accessToken, logout]);
+
+  // 401 handler from axios
+  const handleUnauthorized = useCallback(async () => {
+    if (handlingUnauthorizedRef.current) return;
+    handlingUnauthorizedRef.current = true;
+    try {
+      await logout();
+      router.replace("/");
+    } finally {
+      handlingUnauthorizedRef.current = false;
+    }
+  }, [logout, router]);
+
+  useEffect(() => {
+    setUnauthorizedHandler(handleUnauthorized);
+  }, [handleUnauthorized]);
 
   const refreshUser = useCallback(async () => {
     if (!walletAddress) return;
