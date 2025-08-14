@@ -10,7 +10,7 @@ export default function MintContent({
   totalMinted: number;
 }) {
   return (
-    <div className="grid grid-cols-2 gap-6 w-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-6xl mx-auto items-stretch justify-center">
+    <div className="grid grid-cols-2 gap-6 w-full h-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-6xl mx-auto items-stretch justify-center">
       {/* left page */}
       <div className="flex items-center justify-center">
         <MintContentLeftPage

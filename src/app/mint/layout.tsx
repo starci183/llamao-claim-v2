@@ -25,7 +25,7 @@ export default function MintLayout({ children }: PropsWithChildren) {
           className={cn("p-1 md:p-2 lg:p-4")}
           wrapperClassName={cn(
             "w-full mx-auto",
-            "max-w-[320px] sm:max-w-[480px] md:max-w-[700px] lg:max-w-[900px] xl:max-w-[1100px] 2xl:max-w-[1400px]"
+            "max-w-full sm:max-w-[480px] md:max-w-[700px] lg:max-w-[900px] xl:max-w-[1100px] 2xl:max-w-[1400px]"
           )}
         >
           {children}

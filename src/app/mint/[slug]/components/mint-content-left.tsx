@@ -30,7 +30,7 @@ export default function MintContentLeftPage({
   return (
     <div
       className={cn(
-        "flex flex-col justify-center items-center w-full h-full gap-1 sm:gap-2",
+        "md:p-2 flex flex-col justify-center items-center w-full h-full gap-1 sm:gap-2",
         className
       )}
     >
