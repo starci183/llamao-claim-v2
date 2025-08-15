@@ -7,8 +7,8 @@ import Tabs, {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs/tabs";
-import { PRIMARY_MONAD_CONTRACT } from "@/contance";
-import { NftMetadata, useContract } from "@/hooks/use-contract";
+import { MONAD_CONTRACT_ADDRESSES, PRIMARY_MONAD_CONTRACT } from "@/contance";
+import { NftMetadata, useContracts } from "@/hooks/use-contracts"; // <-- NEW
 import { useNftMetadata } from "@/hooks/use-nft-meta-data";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/providers/auth-provider";
@@ -16,14 +16,47 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import LetLlamaoButton from "./let-llmao-button";
 
-export default function LlamaoismContent() {
+type Props = {
+  /** optionally override the default list of contracts */
+  contracts?: readonly string[];
+  /** tokenId to check/preview (default 0) */
+  tokenId?: number | bigint;
+  /** chainId override (default 10143) */
+  chainId?: number;
+};
+
+export default function LlamaoismContent({
+  contracts = MONAD_CONTRACT_ADDRESSES,
+  tokenId = 0,
+  chainId,
+}: Props) {
   const router = useRouter();
-  const { balance } = useContract(PRIMARY_MONAD_CONTRACT);
-  const { data: nftMetadata, listData } = useNftMetadata();
+  const { listData } = useNftMetadata();
   const { user } = useAuth();
 
-  // Correct minted flag: hasMinted = true when balance > 0
-  const hasMinted = useMemo(() => !!balance && balance !== "0", [balance]);
+  // Load all contracts at once
+  const { rows } = useContracts(contracts, {
+    tokenId,
+    chainId,
+  });
+
+  // Owned rows = any contract where user balance > 0
+  const ownedRows = useMemo(
+    () => rows.filter((r) => r.balance && r.balance !== "0"),
+    [rows]
+  );
+
+  // For quick lookup by NFT name
+  const ownedNameSet = useMemo(
+    () =>
+      new Set(
+        ownedRows.map((r) => r.metadata?.name).filter(Boolean) as string[]
+      ),
+    [ownedRows]
+  );
+
+  // Any minted?
+  const hasMinted = ownedRows.length > 0;
 
   // All eligibility checks must be true
   const isMintAble = Boolean(
@@ -59,24 +92,33 @@ export default function LlamaoismContent() {
         {/* ---------------- New tab ---------------- */}
         <TabsContent value="new" className="mt-2">
           <div className="flex flex-col gap-2">
-            {listData.map((data: NftMetadata, i: number) => (
-              <MissionCard
-                key={i}
-                text={data.name}
-                link={`/mint/${PRIMARY_MONAD_CONTRACT}`}
-                //check if the nft is minted
-                status={data.name === nftMetadata?.name}
-                onClick={() => {
-                  if (!false) router.push(data.image);
-                }}
-              />
-            ))}
+            {(listData ?? []).map((data: NftMetadata, i: number) => {
+              // Try to find which contract this metadata belongs to by name
+              const matchedRow =
+                rows.find((r) => r.metadata?.name === data.name) ?? null;
+              const linkContract =
+                matchedRow?.contractAddress ?? PRIMARY_MONAD_CONTRACT;
+
+              return (
+                <MissionCard
+                  key={`${data.name}-${i}`}
+                  text={data.name}
+                  link={`/mint/${linkContract}`}
+                  // mark as minted if any owned NFT has the same name
+                  status={ownedNameSet.has(data.name)}
+                  onClick={() => {
+                    router.push(`/mint/${linkContract}`);
+                  }}
+                />
+              );
+            })}
           </div>
 
           <LetLlamaoButton
             allMissionsCompleted={isMintAble}
             onMintClick={() => {
-              router.push("/mint");
+              // default to primary if you just want a generic CTA
+              router.push(`/mint/${PRIMARY_MONAD_CONTRACT}`);
             }}
           />
         </TabsContent>
@@ -102,13 +144,18 @@ export default function LlamaoismContent() {
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
-              <MissionCard
-                text={`${nftMetadata?.name} ${balance}`}
-                link={"/mint"}
-                status={true}
-                onClick={() => {}}
-              />
+            <div className="flex flex-col gap-2">
+              {ownedRows.map((row) => (
+                <MissionCard
+                  key={row.contractAddress}
+                  text={`${row.metadata?.name ?? "NFT"}`}
+                  link={`/mint/${row.contractAddress}`}
+                  status={true}
+                  onClick={() => {
+                    router.push(`/mint/${row.contractAddress}`);
+                  }}
+                />
+              ))}
             </div>
           )}
         </TabsContent>
