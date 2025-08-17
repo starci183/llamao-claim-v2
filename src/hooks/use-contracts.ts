@@ -1,4 +1,3 @@
-// hooks/use-contracts.ts
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 "use client";
