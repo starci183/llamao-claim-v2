@@ -1,7 +1,7 @@
 import type { NftMetadata } from "@/type";
 import { MONAD_CONTRACT_ADDRESSES } from "@/contance";
 
-const TESTMINT = "0x813b9f077ac6470c264186bcb72a27eb547f5cc6";
+// const TESTMINT = "0x813b9f077ac6470c264186bcb72a27eb547f5cc6";
 const PAGE_1 = "0xa8275fbf5fb47f632862db1cc4a6fbb5bd725856";
 
 export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
