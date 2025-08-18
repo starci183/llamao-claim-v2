@@ -29,6 +29,21 @@ export default function MintContentLeftPage({
   loading = false,
   totalSupply,
 }: MintContentLeftPageProps) {
+  const computedTotal =
+    typeof totalSupply === "number" &&
+    Number.isFinite(totalSupply) &&
+    totalSupply > 0
+      ? totalSupply
+      : 0;
+  const rawPercent =
+    computedTotal > 0 ? (totalMinted / computedTotal) * 100 : 0;
+  const clampedPercent = Math.min(100, Math.max(0, rawPercent));
+  const displayPercent = (() => {
+    if (!Number.isFinite(clampedPercent)) return 0;
+    if (clampedPercent > 0 && clampedPercent < 1)
+      return Number(clampedPercent.toFixed(2));
+    return Math.round(clampedPercent);
+  })();
   return (
     <div
       className={cn(
@@ -91,19 +106,14 @@ export default function MintContentLeftPage({
           </p>
           {/* Tính phần trăm progress */}
           <span className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#B2A280] font-pp-mondwest">
-            {/* TODO: Implement this with real data */}
-            {/* {totalPages > 0
-              ? ((totalMinted / (totalPages * 10)) * 100).toFixed(2)
-              : 0} */}
-            {totalMinted / (totalSupply as number)}%
+            {displayPercent}%
           </span>
         </div>
         <div className="mx-2 h-1 md:h-2 bg-[#AD7757] relative overflow-hidden">
           <div
             className="h-full bg-[#D7B594] transition-all duration-500"
             style={{
-              // TODO: Implement this with real data
-              width: `${totalMinted / (totalSupply as number)}%`,
+              width: `${clampedPercent}%`,
             }}
           />
         </div>
