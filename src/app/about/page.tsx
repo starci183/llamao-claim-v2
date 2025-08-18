@@ -125,7 +125,8 @@ export default function About() {
                       )}
                     >
                       <Link
-                        href="https://x.com/llamaoism"
+                        href="https://x.com/llamao_"
+                        target="_blank"
                         className={cn("underline truncate")}
                       >
                         Twitter
@@ -140,7 +141,8 @@ export default function About() {
                       )}
                     >
                       <Link
-                        href="https://discord.gg/llamaoism"
+                        href="https://discord.com/invite/llamao"
+                        target="_blank"
                         className={cn("underline truncate")}
                       >
                         Discord

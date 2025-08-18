@@ -1,6 +1,6 @@
 export const MONAD_CONTRACT_ADDRESSES = [
-    "0x813b9f077ac6470c264186bcb72a27eb547f5cc6",
-    "0x913bF9751Fe18762B0fD6771eDD512c7137e42bB",
+    // "",
+    "0xa8275fbf5fb47f632862db1cc4a6fbb5bd725856",
 ] as const;
 
 export type MonadContractAddress = typeof MONAD_CONTRACT_ADDRESSES[number];

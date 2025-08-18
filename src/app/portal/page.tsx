@@ -78,13 +78,13 @@ export default function Portal() {
   const missions = [
     {
       text: "Follow Llamao on X",
-      link: "https://x.com/intent/follow?screen_name=cifarmonsol",
+      link: "https://x.com/llamao_",
       status: user?.followX || false,
       type: "followX" as const,
     },
     {
       text: "Join our Llamao's Discord",
-      link: "https://discord.gg/dYHEMU4b",
+      link: "https://discord.com/invite/llamao",
       status: user?.joinDiscord || false,
       type: "joinDiscord" as const,
     },

@@ -11,6 +11,7 @@ import Smile from "@/svg/Smile";
 import { useAppKit } from "@reown/appkit/react";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { parseEther } from "ethers";
 
 type MintStatus = "idle" | "failed" | "minted";
 
@@ -21,6 +22,7 @@ export default function MintButton() {
     isConnected,
     loading: signerLoading,
     sendTransaction,
+    fetchBalance,
   } = useSigner();
   const { toast } = useToast();
 
@@ -80,6 +82,27 @@ export default function MintButton() {
 
     setTxPending(true);
     try {
+      // Pre-check minimum balance 0.75 MONAD
+      try {
+        const balStr = await fetchBalance();
+        if (balStr) {
+          // Compare using BigInt for precision
+          const onchainBal = parseEther(balStr);
+          const minRequired = BigInt(parseEther("0.75"));
+          if (onchainBal < minRequired) {
+            throw new Error(
+              "You must have greater than 0.75 MONAD to mint this NFT."
+            );
+          }
+        }
+      } catch (bErr) {
+        const msg =
+          bErr instanceof Error ? bErr.message : "Insufficient funds.";
+        toast({ message: msg, variant: "error", duration: 5000 });
+        startFailedTimer();
+        return;
+      }
+
       const { data } = await axiosClient.post("/mint-nft", {
         chain: "monad-testnet",
         collectionId,
@@ -135,9 +158,51 @@ export default function MintButton() {
         resetTimerRef.current = null;
       }
       setMintStatus("minted");
-    } catch {
+    } catch (error: unknown) {
+      const normalizeWalletErrorMessage = (err: unknown): string => {
+        const e = err as {
+          shortMessage?: string;
+          message?: string;
+          data?: { message?: string };
+          error?: { message?: string };
+          info?: { error?: { message?: string } };
+          cause?: { message?: string };
+          reason?: string;
+        };
+        const candidates = [
+          e?.shortMessage,
+          e?.message,
+          e?.data?.message,
+          e?.error?.message,
+          e?.info?.error?.message,
+          e?.cause?.message,
+          e?.reason,
+        ].filter(Boolean) as string[];
+        const raw = candidates[0] || "Transaction failed";
+        const lower = raw.toLowerCase();
+        if (
+          lower.includes("insufficient funds") ||
+          lower.includes("insufficient balance") ||
+          lower.includes("funds for gas") ||
+          lower.includes("intrinsic transaction cost") ||
+          lower.includes("balance too low")
+        ) {
+          return "Insufficient funds. Please top up your wallet and try again.";
+        }
+        if (
+          lower.includes("user rejected") ||
+          lower.includes("user denied") ||
+          lower.includes("rejected the request")
+        ) {
+          return "You rejected the transaction.";
+        }
+        return raw;
+      };
+
+      const friendly = normalizeWalletErrorMessage(error);
+      console.error("Mint failed:", error);
       toast({
-        message: "You have failed to mint the NFTs",
+        message: friendly,
         variant: "error",
         duration: 5000,
       });
@@ -150,6 +215,7 @@ export default function MintButton() {
     collectionId,
     isLocked,
     sendTransaction,
+    fetchBalance,
     startFailedTimer,
     toast,
   ]);

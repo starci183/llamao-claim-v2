@@ -14,6 +14,7 @@ interface MintContentLeftPageProps {
   minting?: boolean;
   loading?: boolean;
   nftMetadata?: NftMetadata;
+  totalSupply?: number;
 }
 export default function MintContentLeftPage({
   className = "",
@@ -26,6 +27,7 @@ export default function MintContentLeftPage({
   totalPages = 10,
   // minting = false,
   loading = false,
+  totalSupply,
 }: MintContentLeftPageProps) {
   return (
     <div
@@ -85,7 +87,7 @@ export default function MintContentLeftPage({
       <div className="w-full">
         <div className="flex items-center justify-between w-full px-1">
           <p className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#CF573C] font-pp-mondwest">
-            Total Minted: {totalMinted}
+            Total Minted: {totalMinted}/{totalSupply}
           </p>
           {/* Tính phần trăm progress */}
           <span className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#B2A280] font-pp-mondwest">
@@ -93,7 +95,7 @@ export default function MintContentLeftPage({
             {/* {totalPages > 0
               ? ((totalMinted / (totalPages * 10)) * 100).toFixed(2)
               : 0} */}
-            80 %
+            {totalMinted / (totalSupply as number)}%
           </span>
         </div>
         <div className="mx-2 h-1 md:h-2 bg-[#AD7757] relative overflow-hidden">
@@ -101,10 +103,7 @@ export default function MintContentLeftPage({
             className="h-full bg-[#D7B594] transition-all duration-500"
             style={{
               // TODO: Implement this with real data
-              // width: `${
-              //   totalPages > 0 ? (totalMinted / (totalPages * 10)) * 100 : 0
-              // }%`,
-              width: "80%",
+              width: `${totalMinted / (totalSupply as number)}%`,
             }}
           />
         </div>

@@ -3,17 +3,18 @@ import Image from "next/image";
 
 type MintContentRightPageProps = {
   className?: string;
-  endDate?: string;
+  TBA?: string;
   maximumLlamaoPerWallet?: number;
   description?: string;
 };
 
 export default function MintContentRightPage({
   className,
-  endDate,
+  TBA,
   maximumLlamaoPerWallet,
   description,
 }: MintContentRightPageProps) {
+  const date = new Date().toLocaleDateString();
   return (
     <div
       className={cn(
@@ -25,7 +26,7 @@ export default function MintContentRightPage({
         {/* end date */}
         <div className="flex flex-row items-center justify-between w-full gap-1 xs:gap-2 h-3">
           <h6 className="text-[0.5rem] sml:text-[0.5625rem] sm:text-sm whitespace-nowrap pointer-events-none">
-            Ends In
+            TBA :
           </h6>
           <div
             className="flex items-center justify-center sml:mr-0.5 bg-no-repeat bg-contain md:bg-cover bg-center py-0.5 px-1 md:w-[5rem]"
@@ -34,7 +35,7 @@ export default function MintContentRightPage({
             }}
           >
             <span className="text-[0.375rem] sml:text-[0.5rem] sm:text-xs">
-              {endDate || "April 28th, 2025"}
+              {TBA || date}
             </span>
           </div>
         </div>

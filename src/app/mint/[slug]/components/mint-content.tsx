@@ -1,4 +1,4 @@
-import type { NftMetadata } from "@/hooks/use-contract";
+import type { NFTMetadata } from "@/lib/nft-utils";
 import MintContentLeftPage from "./mint-content-left";
 import MintContentRightPage from "./mint-content-right";
 
@@ -6,7 +6,7 @@ export default function MintContent({
   nftMetadata,
   totalMinted,
 }: {
-  nftMetadata: NftMetadata;
+  nftMetadata: NFTMetadata;
   totalMinted: number;
 }) {
   return (
@@ -17,6 +17,7 @@ export default function MintContent({
           storyImage={nftMetadata?.image}
           storyTitle={nftMetadata?.name}
           totalMinted={totalMinted}
+          totalSupply={nftMetadata?.totalSupply as number}
         />
       </div>
       {/* right page */}
@@ -24,7 +25,7 @@ export default function MintContent({
         <MintContentRightPage
           description={nftMetadata?.description}
           maximumLlamaoPerWallet={1}
-          endDate={new Date().toLocaleDateString()}
+          TBA={nftMetadata?.TBA as string}
         />
       </div>
     </div>

@@ -2,11 +2,9 @@
 
 import { Button } from "@/components/common/button";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { memo } from "react";
 
 const SubHeaderHome = memo(function SubHeaderHome() {
-  const navigation = useRouter();
   return (
     <nav
       className={cn(
@@ -15,14 +13,16 @@ const SubHeaderHome = memo(function SubHeaderHome() {
     >
       <Button
         intent={"ghost"}
-        onClick={() => navigation.push("https://x.com/llamaoism")}
+        onClick={() => window.open("https://x.com/llamao_", "_blank")}
         className={cn("text-sm sm:text-lg p-0 whitespace-nowrap")}
       >
         Twitter
       </Button>
       <Button
         intent={"ghost"}
-        onClick={() => navigation.push("/showcase")}
+        onClick={() =>
+          window.open("https://discord.com/invite/llamao", "_blank")
+        }
         className={cn("text-sm sm:text-lg p-0 whitespace-nowrap")}
       >
         Discord

@@ -10,7 +10,12 @@ import {
   useAppKitProvider,
   type Provider,
 } from "@reown/appkit/react";
-import { BrowserProvider, JsonRpcSigner, formatEther } from "ethers";
+import {
+  BrowserProvider,
+  JsonRpcSigner,
+  formatEther,
+  parseEther,
+} from "ethers";
 import { useEffect, useState } from "react";
 import Smile from "@/svg/Smile";
 import Block from "@/svg/Block";
@@ -30,7 +35,7 @@ export default function MintButton() {
   >("idle");
 
   useEffect(() => {
-    const fetchBalance = async () => {
+    const fetchAndSetBalance = async () => {
       try {
         if (!walletProvider || !address) return;
         const provider = new BrowserProvider(walletProvider, chainId);
@@ -42,7 +47,7 @@ export default function MintButton() {
       }
     };
 
-    fetchBalance();
+    fetchAndSetBalance();
   }, [walletProvider, address, chainId]);
 
   const handleMintNFT = async () => {
@@ -52,6 +57,24 @@ export default function MintButton() {
     setMintStatus("pending");
 
     try {
+      // Minimum MONAD balance requirement
+      try {
+        const precheckProvider = new BrowserProvider(walletProvider, chainId);
+        const currentBalance = await precheckProvider.getBalance(address);
+        const minRequired = parseEther("0.75");
+        if (currentBalance < minRequired) {
+          throw new Error(
+            "You must have greater than 0.75 MONAD to mint this NFT."
+          );
+        }
+      } catch (bErr) {
+        if (bErr instanceof Error) {
+          toast({ message: bErr.message, variant: "error" });
+          setMintStatus("failed");
+          return;
+        }
+      }
+
       const { data } = await axiosClient.post("/mint-nft", {
         chain: "monad-testnet",
         collectionId: "0x913bf9751fe18762b0fd6771edd512c7137e42bb",
@@ -90,16 +113,50 @@ export default function MintButton() {
           variant: "success",
         });
       } catch (signError) {
-        if (
-          (signError as Error).message?.includes("user rejected") ||
-          (signError as Error).message?.includes("User rejected")
-        ) {
-          throw new Error("You rejected the transaction.");
-        } else {
-          console.error("Transaction signing failed:", signError);
-          setMintStatus("failed");
-          throw new Error("Transaction signing failed. Please try again.");
-        }
+        const normalizeWalletErrorMessage = (error: unknown): string => {
+          const err = error as {
+            shortMessage?: string;
+            message?: string;
+            data?: { message?: string };
+            error?: { message?: string };
+            info?: { error?: { message?: string } };
+            cause?: { message?: string };
+            reason?: string;
+          };
+          const candidates = [
+            err?.shortMessage,
+            err?.message,
+            err?.data?.message,
+            err?.error?.message,
+            err?.info?.error?.message,
+            err?.cause?.message,
+            err?.reason,
+          ].filter(Boolean) as string[];
+          const raw = candidates[0] || "Transaction failed";
+          const lower = raw.toLowerCase();
+          if (
+            lower.includes("insufficient funds") ||
+            lower.includes("insufficient balance") ||
+            lower.includes("funds for gas") ||
+            lower.includes("intrinsic transaction cost") ||
+            lower.includes("balance too low")
+          ) {
+            return "Insufficient funds. Please top up your wallet and try again.";
+          }
+          if (
+            lower.includes("user rejected") ||
+            lower.includes("user denied") ||
+            lower.includes("rejected the request")
+          ) {
+            return "You rejected the transaction.";
+          }
+          return raw;
+        };
+
+        const friendlyMessage = normalizeWalletErrorMessage(signError);
+        console.error("Transaction signing failed:", signError);
+        setMintStatus("failed");
+        throw new Error(friendlyMessage);
       }
     } catch (err) {
       console.error("Mint failed:", err);

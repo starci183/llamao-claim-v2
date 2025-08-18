@@ -1,6 +1,10 @@
+"use client";
+
 import MainLayout from "@/components/layouts/main-layout";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import axios from "axios";
+import { useSWRWithAxios } from "@/hooks/use-swr";
 
 interface CarouselProps {
   items?: {
@@ -24,10 +28,19 @@ const ITEMS = [
 ] as CarouselProps["items"];
 
 export default function Carousel({
-  items = ITEMS,
+  items,
   imageWidth = 56,
   imageHeight = 56,
 }: CarouselProps) {
+  const { data } = useSWRWithAxios<{ items: CarouselProps["items"] }>(
+    "partners-list",
+    async () => {
+      const res = await axios.get("/api/partners");
+      return res.data;
+    }
+  );
+
+  const resolvedItems = items || data?.items || ITEMS;
   const fixedSizeStyle = {
     width: imageWidth,
     height: imageHeight,
@@ -36,10 +49,10 @@ export default function Carousel({
 
   const renderItems = () =>
     [
-      ...(items || []),
-      ...(items || []),
-      ...(items || []),
-      ...(items || []),
+      ...(resolvedItems || []),
+      ...(resolvedItems || []),
+      ...(resolvedItems || []),
+      ...(resolvedItems || []),
     ].map((item, idx) => (
       <div
         key={item.name + idx}
