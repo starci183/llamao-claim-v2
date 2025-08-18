@@ -83,8 +83,8 @@ export default function Portal() {
       type: "followX" as const,
     },
     {
-      text: "Join our Llamao's Discord",
-      link: "https://discord.com/invite/llamao",
+      text: "Follow Monadverse on X",
+      link: "https://x.com/monadverse",
       status: user?.joinDiscord || false,
       type: "joinDiscord" as const,
     },
@@ -95,7 +95,7 @@ export default function Portal() {
       type: "likeXPost" as const,
     },
     {
-      text: "Comment on X",
+      text: "Retweet X Post",
       link: "https://x.com/johunvn/status/1951517350110670894",
       status: user?.commentXPost || false,
       type: "commentXPost" as const,
