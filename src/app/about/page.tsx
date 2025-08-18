@@ -80,10 +80,17 @@ export default function About() {
                         "text-[0.625rem] sm:text-xs lg:text-sm"
                       )}
                     >
-                      Llamaoism is the first and finest ideology born on Monad —
-                      rooted in one simple principle:
+                      Llamaoism is an ideology created to help people stay
+                      mentally stable, true to themselves, and fully present. It
+                      responds to the emotional pressure of the Web3 space by
+                      offering a mindset of calm focus and intentional living.
+                      Those who embrace it gain clarity and self-control,
+                      helping them navigate challenges with confidence. More
+                      than a belief system, it’s a living philosophy that guides
+                      long-term thinking and inner strength in a fast-moving
+                      digital world.
                     </p>
-                    <ul
+                    {/* <ul
                       className={cn(
                         "list-disc list-inside space-y-1 break-words",
                         "text-[0.625rem] sm:text-xs lg:text-sm px-1 sm:px-2"
@@ -97,8 +104,8 @@ export default function About() {
                         chase hype. They build. They meme. They make markets
                         better — quietly but consistently.
                       </li>
-                    </ul>
-                    <p
+                    </ul> */}
+                    {/* <p
                       className={cn(
                         "leading-tight break-words",
                         "text-[0.625rem] sm:text-xs lg:text-sm"
@@ -108,7 +115,7 @@ export default function About() {
                       collective.
                       <br />
                       Welcome to the future of sustainable clout, only on Monad.
-                    </p>
+                    </p> */}
                   </div>
                   <div
                     className={cn(
