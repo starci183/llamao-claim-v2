@@ -47,14 +47,14 @@ export default function MintContentLeftPage({
           <Image
             src={storyImage}
             alt={storyTitle}
-            width={120}
-            height={60}
-            className="min-w-[5.9375rem] sm:min-w-[11.875rem] md:min-w-[12.5rem] lg:min-w-[13.75rem] max-h-[3.125rem] sml:max-h-[3.75rem] md:max-h-[5.625rem] aspect-[4/3] object-contain"
+            width={240}
+            height={180}
+            className="min-w-[8.5rem] sm:min-w-[14.5rem] md:min-w-[16rem] lg:min-w-[18rem] max-h-[5rem] sml:max-h-[5.5rem] md:max-h-[8.5rem] aspect-[4/3] object-contain"
           />
         )}
       </div>
       {/* title */}
-      <div
+      {/* <div
         className="
          flex items-center justify-center
          w-full h-4 sm:h-6 md:h-10 lg:h-14 
@@ -82,12 +82,12 @@ export default function MintContentLeftPage({
             {loading ? <Skeleton className="w-1/2" /> : `"${storyTitle}"`}
           </span>
         </div>
-      </div>
+      </div> */}
       {/* progress */}
       <div className="w-full">
         <div className="flex items-center justify-between w-full px-1">
           <p className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#CF573C] font-pp-mondwest">
-            Total Minted: {totalMinted}/{totalSupply}
+            Total Minted: {totalMinted}
           </p>
           {/* Tính phần trăm progress */}
           <span className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#B2A280] font-pp-mondwest">

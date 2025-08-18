@@ -109,6 +109,7 @@ export default function LlamaoismContent({
                   onClick={() => {
                     router.push(`/mint/${linkContract}`);
                   }}
+                  disabled={!isMintAble}
                 />
               );
             })}

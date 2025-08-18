@@ -8,6 +8,7 @@ type MissionCardProps = {
   link?: string;
   status?: boolean;
   onClick?: () => void;
+  disabled?: boolean;
 };
 export default function MissionCard({
   className = "",
@@ -15,6 +16,7 @@ export default function MissionCard({
   link = "",
   status = false,
   onClick,
+  disabled = false,
 }: MissionCardProps) {
   return (
     <div className="w-full max-w-full h-full grid grid-cols-5 justify-center items-center gap-0.5 min-h-[30px]">
@@ -40,10 +42,12 @@ export default function MissionCard({
         ) : onClick ? (
           // thêm hover vào
           <button
+            disabled={disabled}
             onClick={onClick}
             className={cn(
               "w-full h-full flex justify-center items-center cursor-pointer transition-all duration-150 hover:box-shadow-primary hover:scale-95 active:scale-95 focus:outline-none",
-              "bg-white border-0.5 border-black/50 text-black"
+              "bg-white border-0.5 border-black/50 text-black",
+              disabled && "opacity-50 cursor-not-allowed"
             )}
             aria-label="Go to mission"
           >
