@@ -90,13 +90,13 @@ export default function Portal() {
     },
     {
       text: "Like X Posts",
-      link: "https://x.com/johunvn/status/1951517350110670894",
+      link: "https://x.com/llamao_/status/1950134789652295987",
       status: user?.likeXPost || false,
       type: "likeXPost" as const,
     },
     {
       text: "Retweet X Post",
-      link: "https://x.com/johunvn/status/1951517350110670894",
+      link: "https://x.com/llamao_/status/1950134789652295987",
       status: user?.commentXPost || false,
       type: "commentXPost" as const,
     },
