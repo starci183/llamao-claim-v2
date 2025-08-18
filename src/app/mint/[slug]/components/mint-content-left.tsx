@@ -87,7 +87,7 @@ export default function MintContentLeftPage({
       <div className="w-full">
         <div className="flex items-center justify-between w-full px-1">
           <p className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#CF573C] font-pp-mondwest">
-            Total Minted: {totalMinted}
+            Total Minted: {totalMinted}/{totalSupply}
           </p>
           {/* Tính phần trăm progress */}
           <span className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#B2A280] font-pp-mondwest">
