@@ -2,6 +2,7 @@ import { ppMondwest, ppNeueBit, w95fa } from "@/lib/fonts";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import RootProviders from "@/providers/providers";
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 export const metadata: Metadata = {
   title: "Llamao Awakening",
@@ -25,6 +26,7 @@ export default function RootLayout({
         {/* <div className="h-12"></div> */}
       </body>
       <GoogleAnalytics gaId="G-SDCMNW41TB" />
+      <Analytics />
     </html>
   );
 }
