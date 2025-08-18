@@ -5,15 +5,69 @@ import { StepNavigator } from "@/components/common/step-navigator";
 import { useContract } from "@/hooks/use-contract";
 import { useNftMetadata } from "@/hooks/use-nft-meta-data";
 import { cn } from "@/lib/utils";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo } from "react";
 import { BookContainer } from "./components/book/book-container";
 import MintButton from "./components/mint-button";
 import MintContent from "./components/mint-content";
+import {
+  MONAD_CONTRACT_ADDRESSES,
+  type MonadContractAddress,
+} from "@/contance";
 
 export default function MintPage() {
+  const router = useRouter();
   const { slug } = useParams();
-  const { contractURI, totalMinted } = useContract(slug as string);
-  const { data: nftMetadata, loading } = useNftMetadata(contractURI);
+
+  // Normalize slug and resolve index in your addresses array
+  const address = useMemo(() => String(slug ?? ""), [slug]);
+  const currentIndex = useMemo(() => {
+    const idx = MONAD_CONTRACT_ADDRESSES.findIndex((a) => a === address);
+    return idx === -1 ? 0 : idx;
+  }, [address]);
+
+  const nextIndex = (currentIndex + 1) % MONAD_CONTRACT_ADDRESSES.length;
+  const prevIndex =
+    (currentIndex - 1 + MONAD_CONTRACT_ADDRESSES.length) %
+    MONAD_CONTRACT_ADDRESSES.length;
+
+  const nextAddress = MONAD_CONTRACT_ADDRESSES[
+    nextIndex
+  ] as MonadContractAddress;
+  const prevAddress = MONAD_CONTRACT_ADDRESSES[
+    prevIndex
+  ] as MonadContractAddress;
+
+  const goToIndex = useCallback(
+    (i: number) => {
+      const len = MONAD_CONTRACT_ADDRESSES.length;
+      const normalized = ((i % len) + len) % len;
+      const addr = MONAD_CONTRACT_ADDRESSES[normalized] as MonadContractAddress;
+      router.push(`/mint/${addr}`);
+    },
+    [router]
+  );
+
+  const onNext = useCallback(
+    () => goToIndex(currentIndex + 1),
+    [goToIndex, currentIndex]
+  );
+  const onBack = useCallback(
+    () => goToIndex(currentIndex - 1),
+    [goToIndex, currentIndex]
+  );
+
+  // Prefetch adjacent routes for snappier UX
+  useEffect(() => {
+    router.prefetch(`/mint/${nextAddress}`);
+    router.prefetch(`/mint/${prevAddress}`);
+  }, [router, nextAddress, prevAddress]);
+
+  // On-chain/info hook (you still use this for totalMinted etc.)
+  const { totalMinted } = useContract(address);
+
+  // ✅ IMPORTANT: pass the address to useNftMetadata so it calls /api/nft/<address>
+  const { data: nftMetadata, loading } = useNftMetadata({ address });
 
   return (
     <div
@@ -28,7 +82,6 @@ export default function MintPage() {
         )}
       >
         <BookContainer>
-          {/* Nội dung mint nằm trong sách */}
           <div
             className={cn(
               "relative max-w-full h-full flex items-center justify-center overflow-hidden"
@@ -48,12 +101,13 @@ export default function MintPage() {
             )}
           </div>
         </BookContainer>
+
         <div className="absolute bottom-0 px-2 py-2 mx-auto">
           <StepNavigator
             currentLabel="Llamao"
             mainButton={<MintButton />}
-            onBack={() => {}}
-            onNext={() => {}}
+            onBack={onBack}
+            onNext={onNext}
           />
         </div>
       </div>
