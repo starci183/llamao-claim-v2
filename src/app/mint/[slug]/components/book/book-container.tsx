@@ -29,8 +29,8 @@ export const BookContainer = ({ children }: { children: React.ReactNode }) => {
         width={160}
         height={80}
         className={cn(
-          "absolute z-20 left-1/2 -translate-x-1/2",
-          "-top-1 left-[20%]",
+          "absolute z-20 left-[20%] -translate-x-1/2",
+          "-top-1",
           "w-16 xs:w-20 sm:w-24 md:w-28 lg:w-36",
           "pointer-events-none select-none"
         )}

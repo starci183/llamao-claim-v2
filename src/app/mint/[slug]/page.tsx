@@ -72,13 +72,13 @@ export default function MintPage() {
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-between w-full min-w-[290px] sm:min-w-[600px] md:min-w-[700px] min-h-[350px] sm:min-h-[550px] max-h-screen bg-no-repeat bg-cover bg-center overflow-hidden"
+        "flex flex-col items-center justify-between w-full min-w-[280px] xs:min-w-[320px] sm:min-w-[600px] md:min-w-[700px] min-h-[300px] xs:min-h-[350px] sm:min-h-[550px] max-h-screen bg-no-repeat bg-cover bg-center overflow-hidden"
       )}
       style={{ backgroundImage: "url(/gifs/llamao_homepage.gif)" }}
     >
       <div
         className={cn(
-          "relative mx-auto max-w-[550px] sm:max-w-[650px] md:max-w-[750px] lg:max-w-[850px] xl:max-w-[900px] aspect-square md:aspect-[4/3] w-full h-full flex items-center justify-center"
+          "relative mx-auto max-w-[280px] xs:max-w-[360px] sm:max-w-[650px] md:max-w-[750px] lg:max-w-[850px] xl:max-w-[900px] aspect-square md:aspect-[4/3] w-full h-full flex items-center justify-center"
         )}
       >
         <BookContainer>

@@ -47,7 +47,7 @@ export default function MintContentLeftPage({
   return (
     <div
       className={cn(
-        "md:p-2 flex flex-col justify-center items-center w-full h-full gap-1 sm:gap-2",
+        "p-1 sm:p-2 flex flex-col justify-center items-center w-full h-full gap-1 sm:gap-2",
         className
       )}
     >
@@ -64,7 +64,7 @@ export default function MintContentLeftPage({
             alt={storyTitle}
             width={240}
             height={180}
-            className="min-w-[8.5rem] sm:min-w-[14.5rem] md:min-w-[16rem] lg:min-w-[18rem] max-h-[5rem] sm:max-h-[5.5rem] md:max-h-[9.5rem] object-contain"
+            className="w-full max-w-[8.5rem] xs:max-w-[10rem] sm:max-w-[14.5rem] md:max-w-[16rem] lg:max-w-[18rem] h-auto max-h-[4rem] xs:max-h-[4.5rem] sm:max-h-[5.5rem] md:max-h-[9.5rem] object-contain"
           />
         )}
       </div>
@@ -100,16 +100,16 @@ export default function MintContentLeftPage({
       </div> */}
       {/* progress */}
       <div className="w-full">
-        <div className="flex items-center justify-between w-full px-1">
-          <p className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#CF573C] font-pp-mondwest">
+        <div className="flex items-center justify-between w-full px-0.5 sm:px-1">
+          <p className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#CF573C] font-pp-mondwest truncate">
             Total Minted: {totalMinted}/{totalSupply}
           </p>
           {/* Tính phần trăm progress */}
-          <span className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#B2A280] font-pp-mondwest">
+          <span className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#B2A280] font-pp-mondwest flex-shrink-0 ml-1">
             {displayPercent}%
           </span>
         </div>
-        <div className="mx-2 h-1 md:h-2 bg-[#AD7757] relative overflow-hidden">
+        <div className="mx-1 sm:mx-2 h-1 md:h-2 bg-[#AD7757] relative overflow-hidden">
           <div
             className="h-full bg-[#D7B594] transition-all duration-500"
             style={{
@@ -119,12 +119,12 @@ export default function MintContentLeftPage({
         </div>
       </div>
       {/* pagination */}
-      <div className="flex items-center w-full flex-0 px-2">
+      <div className="flex items-center w-full flex-0 px-1 sm:px-2">
         <div className="flex-1 h-0.5 md:h-1 bg-[#8f52bc]" />
-        <div className="border-2 h-2 md:h-3 lg:h-4 border-t-0 border-b-0 border-l-[#8f52bc] border-r-[#8f52bc] flex items-center justify-center">
-          <span className="mx-2 text-[0.5625rem] sm:text-sm md:text-lg font-pp-mondwest text-[#8f52bc] drop-shadow-lg">
+        <div className="border-2 h-2 xs:h-2.5 sm:h-3 md:h-3 lg:h-4 border-t-0 border-b-0 border-l-[#8f52bc] border-r-[#8f52bc] flex items-center justify-center">
+          <span className="mx-1 xs:mx-1.5 sm:mx-2 text-[0.5rem] xs:text-[0.5625rem] sm:text-sm md:text-lg font-pp-mondwest text-[#8f52bc] drop-shadow-lg">
             {loading ? (
-              <Skeleton className="w-6 h-6" />
+              <Skeleton className="w-4 h-4" />
             ) : (
               `${currentPage}/${totalPages}`
             )}
