@@ -10,6 +10,8 @@ import Tabs, {
 import { MONAD_CONTRACT_ADDRESSES, PRIMARY_MONAD_CONTRACT } from "@/contance";
 import { NftMetadata, useContracts } from "@/hooks/use-contracts"; // <-- NEW
 import { useNftMetadata } from "@/hooks/use-nft-meta-data";
+
+type ExtendedNftMetadata = NftMetadata & { address?: string };
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/providers/auth-provider";
 import { useRouter } from "next/navigation";
@@ -59,8 +61,14 @@ export default function LlamaoismContent({
   const hasMinted = ownedRows.length > 0;
 
   // All eligibility checks must be true
+  // TODO: add season 2 checks
   const isMintAble = Boolean(
-    user?.followX && user?.commentXPost && user?.joinDiscord && user?.likeXPost
+    user?.followX &&
+      user?.commentXPost &&
+      user?.joinDiscord &&
+      user?.likeXPost &&
+      user?.season2?.likeSeason2Post &&
+      user?.season2?.commentSeason2Post
   );
 
   const [tab, setTab] = useState<"new" | "minted">("new");
@@ -92,13 +100,25 @@ export default function LlamaoismContent({
         {/* ---------------- New tab ---------------- */}
         <TabsContent value="new" className="mt-2">
           <div className="flex flex-col gap-2">
-            {(listData ?? []).map((data: NftMetadata, i: number) => {
-              // Try to find which contract this metadata belongs to by name
-              const matchedRow =
-                rows.find((r) => r.metadata?.name === data.name) ?? null;
-              const linkContract =
-                matchedRow?.contractAddress ?? PRIMARY_MONAD_CONTRACT;
+            {(listData ?? []).map((data: ExtendedNftMetadata, i: number) => {
+              // First try to match by address (most reliable)
+              let matchedRow = data.address
+                ? rows.find(
+                    (r) =>
+                      r.contractAddress?.toLowerCase() ===
+                      data.address?.toLowerCase()
+                  )
+                : null;
 
+              // Fallback: try to match by name if address matching fails
+              if (!matchedRow) {
+                matchedRow =
+                  rows.find((r) => r.metadata?.name === data.name) ?? null;
+              }
+              const linkContract =
+                matchedRow?.contractAddress ??
+                data.address ??
+                PRIMARY_MONAD_CONTRACT;
               return (
                 <MissionCard
                   key={`${data.name}-${i}`}

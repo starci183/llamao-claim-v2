@@ -13,7 +13,15 @@ import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { parseEther } from "ethers";
 
-type MintStatus = "idle" | "failed" | "minted";
+type MintStatus = "idle" | "failed" | "minted" | "retrying";
+
+type ErrorType =
+  | "insufficient_funds"
+  | "user_rejected"
+  | "network_error"
+  | "contract_error"
+  | "api_error"
+  | "unknown_error";
 
 export default function MintButton() {
   const { open } = useAppKit();
@@ -37,17 +45,167 @@ export default function MintButton() {
   const { balance } = useContract(collectionId);
   const [mintStatus, setMintStatus] = useState<MintStatus>("idle");
   const [txPending, setTxPending] = useState(false);
+  const [lastError, setLastError] = useState<{
+    type: ErrorType;
+    message: string;
+    isRetryable: boolean;
+  } | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
+  const maxRetries = 3;
 
   // ——— auto-clear only for "failed" ———
   const resetTimerRef = useRef<number | null>(null);
-  const startFailedTimer = useCallback(() => {
-    if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
-    setMintStatus("failed");
-    resetTimerRef.current = window.setTimeout(() => {
-      setMintStatus("idle");
-      resetTimerRef.current = null;
-    }, 5000);
-  }, []);
+  // Enhanced error classification
+  const classifyError = useCallback(
+    (
+      error: unknown
+    ): { type: ErrorType; message: string; isRetryable: boolean } => {
+      const err = error as {
+        shortMessage?: string;
+        message?: string;
+        data?: { message?: string };
+        error?: { message?: string };
+        info?: { error?: { message?: string } };
+        cause?: { message?: string };
+        reason?: string;
+        code?: string | number;
+        status?: number;
+      };
+
+      const rawMessage =
+        [
+          err?.shortMessage,
+          err?.message,
+          err?.data?.message,
+          err?.error?.message,
+          err?.info?.error?.message,
+          err?.cause?.message,
+          err?.reason,
+        ].find(Boolean) || "Transaction failed";
+
+      const lowerMessage = rawMessage.toLowerCase();
+
+      // Insufficient funds
+      if (
+        lowerMessage.includes("insufficient funds") ||
+        lowerMessage.includes("insufficient balance") ||
+        lowerMessage.includes("funds for gas") ||
+        lowerMessage.includes("intrinsic transaction cost") ||
+        lowerMessage.includes("balance too low")
+      ) {
+        return {
+          type: "insufficient_funds",
+          message:
+            "Insufficient funds. Please add more MONAD to your wallet and try again.",
+          isRetryable: false,
+        };
+      }
+
+      // User rejection
+      if (
+        lowerMessage.includes("user rejected") ||
+        lowerMessage.includes("user denied") ||
+        lowerMessage.includes("rejected the request") ||
+        lowerMessage.includes("user cancelled")
+      ) {
+        return {
+          type: "user_rejected",
+          message: "Transaction was cancelled. Please try again when ready.",
+          isRetryable: true,
+        };
+      }
+
+      // Network errors
+      if (
+        lowerMessage.includes("network error") ||
+        lowerMessage.includes("connection error") ||
+        lowerMessage.includes("timeout") ||
+        lowerMessage.includes("failed to fetch") ||
+        err?.code === "NETWORK_ERROR" ||
+        err?.status === 503 ||
+        err?.status === 502
+      ) {
+        return {
+          type: "network_error",
+          message:
+            "Network connection issue. Please check your connection and try again.",
+          isRetryable: true,
+        };
+      }
+
+      // Contract/blockchain errors
+      if (
+        lowerMessage.includes("execution reverted") ||
+        lowerMessage.includes("contract call") ||
+        lowerMessage.includes("invalid opcode") ||
+        lowerMessage.includes("out of gas") ||
+        err?.code === "CALL_EXCEPTION"
+      ) {
+        return {
+          type: "contract_error",
+          message:
+            "Smart contract error. The transaction could not be completed.",
+          isRetryable: false,
+        };
+      }
+
+      // API errors
+      if (
+        err?.status === 400 ||
+        err?.status === 401 ||
+        err?.status === 403 ||
+        err?.status === 404 ||
+        err?.status === 500 ||
+        lowerMessage.includes("api error") ||
+        lowerMessage.includes("server error")
+      ) {
+        return {
+          type: "api_error",
+          message: "Server error. Please try again in a few moments.",
+          isRetryable: true,
+        };
+      }
+
+      // Unknown error
+      return {
+        type: "unknown_error",
+        message:
+          rawMessage.length > 100
+            ? `${rawMessage.slice(0, 100)}...`
+            : rawMessage,
+        isRetryable: true,
+      };
+    },
+    []
+  );
+
+  const startFailedTimer = useCallback(
+    (error?: { type: ErrorType; message: string; isRetryable: boolean }) => {
+      if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
+      setMintStatus("failed");
+      if (error) {
+        setLastError({
+          type: error.type,
+          message: error.message,
+          isRetryable: error.isRetryable,
+        });
+      }
+      resetTimerRef.current = window.setTimeout(() => {
+        setMintStatus("idle");
+        setLastError(null);
+        resetTimerRef.current = null;
+      }, 5000);
+    },
+    []
+  );
+
+  // Reset retry count when status changes to success
+  useEffect(() => {
+    if (mintStatus === "minted") {
+      setRetryCount(0);
+      setLastError(null);
+    }
+  }, [mintStatus]);
 
   useEffect(() => {
     return () => {
@@ -69,7 +227,8 @@ export default function MintButton() {
     signerLoading ||
     txPending ||
     mintStatus === "failed" ||
-    mintStatus === "minted";
+    mintStatus === "minted" ||
+    mintStatus === "retrying";
   const icon =
     mintStatus === "failed" ? (
       <Block />
@@ -96,10 +255,14 @@ export default function MintButton() {
           }
         }
       } catch (bErr) {
-        const msg =
-          bErr instanceof Error ? bErr.message : "Insufficient funds.";
-        toast({ message: msg, variant: "error", duration: 5000 });
-        startFailedTimer();
+        const errorInfo = classifyError(bErr);
+        console.error("Balance check failed:", bErr);
+        toast({
+          message: errorInfo.message,
+          variant: "error",
+          duration: 5000,
+        });
+        startFailedTimer(errorInfo);
         return;
       }
 
@@ -158,55 +321,55 @@ export default function MintButton() {
         resetTimerRef.current = null;
       }
       setMintStatus("minted");
+      setRetryCount(0); // Reset retry count on success
+      setLastError(null); // Clear any previous errors
     } catch (error: unknown) {
-      const normalizeWalletErrorMessage = (err: unknown): string => {
-        const e = err as {
-          shortMessage?: string;
-          message?: string;
-          data?: { message?: string };
-          error?: { message?: string };
-          info?: { error?: { message?: string } };
-          cause?: { message?: string };
-          reason?: string;
-        };
-        const candidates = [
-          e?.shortMessage,
-          e?.message,
-          e?.data?.message,
-          e?.error?.message,
-          e?.info?.error?.message,
-          e?.cause?.message,
-          e?.reason,
-        ].filter(Boolean) as string[];
-        const raw = candidates[0] || "Transaction failed";
-        const lower = raw.toLowerCase();
-        if (
-          lower.includes("insufficient funds") ||
-          lower.includes("insufficient balance") ||
-          lower.includes("funds for gas") ||
-          lower.includes("intrinsic transaction cost") ||
-          lower.includes("balance too low")
-        ) {
-          return "Insufficient funds. Please top up your wallet and try again.";
-        }
-        if (
-          lower.includes("user rejected") ||
-          lower.includes("user denied") ||
-          lower.includes("rejected the request")
-        ) {
-          return "You rejected the transaction.";
-        }
-        return raw;
-      };
+      const errorInfo = classifyError(error);
 
-      const friendly = normalizeWalletErrorMessage(error);
-      console.error("Mint failed:", error);
-      toast({
-        message: friendly,
-        variant: "error",
-        duration: 5000,
+      // Enhanced logging with error context
+      console.error("Mint failed:", {
+        error,
+        errorType: errorInfo.type,
+        message: errorInfo.message,
+        isRetryable: errorInfo.isRetryable,
+        retryCount,
+        collectionId,
+        address,
       });
-      startFailedTimer();
+
+      // Show user-friendly error message
+      toast({
+        message: errorInfo.message,
+        variant: "error",
+        duration: errorInfo.type === "user_rejected" ? 3000 : 5000,
+      });
+
+      // Reset retry count on success reset
+      if (errorInfo.type === "user_rejected") {
+        setRetryCount(0);
+      }
+
+      startFailedTimer(errorInfo);
+
+      // Auto-retry for certain error types if not at max attempts
+      if (
+        errorInfo.isRetryable &&
+        retryCount < maxRetries &&
+        errorInfo.type !== "user_rejected"
+      ) {
+        setTimeout(() => {
+          // Check if we should still retry
+          if (retryCount < maxRetries && lastError?.isRetryable) {
+            setRetryCount((prev) => prev + 1);
+            setMintStatus("retrying");
+
+            const delay = Math.min(1000 * Math.pow(2, retryCount), 10000);
+            setTimeout(() => {
+              handleMintNFT();
+            }, delay);
+          }
+        }, 2000);
+      }
     } finally {
       setTxPending(false);
     }
@@ -218,6 +381,10 @@ export default function MintButton() {
     fetchBalance,
     startFailedTimer,
     toast,
+    classifyError,
+    retryCount,
+    maxRetries,
+    lastError,
   ]);
 
   if (!collectionId) {
@@ -245,10 +412,14 @@ export default function MintButton() {
     >
       {signerLoading || txPending
         ? "Processing..."
+        : mintStatus === "retrying"
+        ? `Retrying... (${retryCount}/${maxRetries})`
         : mintStatus === "minted"
         ? "Minted"
         : mintStatus === "failed"
-        ? "Failed"
+        ? lastError?.isRetryable && retryCount < maxRetries
+          ? "Failed - Will Retry"
+          : "Failed"
         : "Mint"}
     </Button>
   ) : (

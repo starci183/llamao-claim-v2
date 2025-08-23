@@ -87,13 +87,18 @@ export function useContracts(
                     stableAddrs.map(async (addr) => {
                         const contract = new ethers.Contract(addr, erc1155Abi, provider);
 
-                        const [contractURI, tokenURI, balance, totalSupply] =
-                            await Promise.all([
-                                contract.contractURI(),
-                                contract.uri(tokenIdBig),
-                                contract.balanceOf(userAddress, tokenIdBig),
-                                contract.totalSupply(tokenIdBig),
-                            ]);
+                        // Call contract functions individually with error handling
+                        const results = await Promise.allSettled([
+                            contract.contractURI().catch(() => ""),
+                            contract.uri(tokenIdBig).catch(() => ""),
+                            contract.balanceOf(userAddress, tokenIdBig).catch(() => BigInt(0)),
+                            contract.totalSupply(tokenIdBig).catch(() => BigInt(0)),
+                        ]);
+
+                        const contractURI = results[0].status === 'fulfilled' ? results[0].value : "";
+                        const tokenURI = results[1].status === 'fulfilled' ? results[1].value : "";
+                        const balance = results[2].status === 'fulfilled' ? results[2].value : BigInt(0);
+                        const totalSupply = results[3].status === 'fulfilled' ? results[3].value : BigInt(0);
 
                         // Fetch metadata (best-effort)
                         let metadata: NftMetadata | null = null;
@@ -111,7 +116,7 @@ export function useContracts(
                             contractURI,
                             tokenURI,
                             balance: balance.toString(),
-                            ipfsID: tokenURI.split("/").pop(),
+                            ipfsID: tokenURI ? tokenURI.split("/").pop() : "",
                             totalMinted: totalSupply.toString(),
                             metadata,
                         } as ContractData;

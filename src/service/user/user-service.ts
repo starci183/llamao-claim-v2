@@ -32,4 +32,7 @@ export const userService = {
 
     updateCommentXPost: (config?: AxiosRequestConfig) =>
         axiosClient.post<User>("/update-comment-x-post", undefined, config).then(r => r.data),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    updateSeason2: (data: any, config?: AxiosRequestConfig) =>
+        axiosClient.post("/update-season2", data, config).then(r => r.data),
 };

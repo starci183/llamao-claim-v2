@@ -30,6 +30,14 @@
   .scroll-pause-on-hover:hover .animate-scroll {
     animation-play-state: paused;
   }
+
+  .scroll-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
 
 /* Font Face Definitions */

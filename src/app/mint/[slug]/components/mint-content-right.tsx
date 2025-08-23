@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 type MintContentRightPageProps = {
   className?: string;
@@ -14,7 +15,24 @@ export default function MintContentRightPage({
   maximumLlamaoPerWallet,
   description,
 }: MintContentRightPageProps) {
-  const date = new Date().toLocaleDateString();
+  // Use client-side state to avoid hydration mismatch
+  const [clientDate, setClientDate] = useState<string>("");
+
+  useEffect(() => {
+    // Format: DD/MM/YYYY to match the format used in NFT data
+    const formatDate = (date: Date): string => {
+      const day = date.getDate().toString().padStart(2, "0");
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
+
+    setClientDate(formatDate(new Date()));
+  }, []);
+
+  // Use TBA if provided, otherwise use client date (or empty string during SSR)
+  const displayDate = TBA || clientDate;
+
   return (
     <div
       className={cn(
@@ -34,8 +52,8 @@ export default function MintContentRightPage({
               backgroundImage: 'url("/images/llamao_retangle_small_new.png")',
             }}
           >
-            <span className="text-[0.375rem] sml:text-[0.5rem] sm:text-xs truncate">
-              {TBA || date}
+            <span className="text-[0.375rem] sml:text-[0.5rem] sm:text-xs truncate text-center">
+              {displayDate}
             </span>
           </div>
         </div>
@@ -43,7 +61,7 @@ export default function MintContentRightPage({
         <div className="flex flex-row items-center justify-between w-full gap-1 xs:gap-2 h-3 min-w-0">
           <div className="flex flex-row items-center gap-1 xs:gap-2 relative group min-w-0 flex-1">
             <h6
-              className="text-[0.5rem] sml:text-[0.5625rem] sm:text-sm whitespace-nowrap max-w-[4rem] xs:max-w-[5rem] md:max-w-[7.5rem] truncate pointer-events-none"
+              className="text-[0.5rem] sml:text-[0.5625rem] sm:text-sm whitespace-nowrap max-w-[4rem] xs:max-w-[5rem] md:max-w-[7.5rem] truncate pointer-events-none text-left"
               title="Maximum Llamao per Wallet"
             >
               Maximum Llamao per Wallet

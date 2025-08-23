@@ -26,6 +26,8 @@ interface User {
   userAddress: string;
   createdAt: string;
   updatedAt: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  season2: any;
 }
 interface AuthContextType {
   accessToken: string | null;
@@ -57,22 +59,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Helper: fetch user guarded against stale responses
   const fetchUserFor = useCallback(async (address: string) => {
-    // cancel previous
-    abortRef.current?.abort();
-    abortRef.current = new AbortController();
+    try {
+      // cancel previous
+      abortRef.current?.abort();
+      abortRef.current = new AbortController();
 
-    const myReqId = ++reqIdRef.current;
-    latestAddressRef.current = address;
+      const myReqId = ++reqIdRef.current;
+      latestAddressRef.current = address;
 
-    const res = await userService.getUser(address, {
-      signal: abortRef.current.signal,
-      // optional: force no-cache for BE/proxies
-      headers: { "Cache-Control": "no-cache" },
-    });
+      const res = await userService.getUser(address, {
+        signal: abortRef.current.signal,
+        // optional: force no-cache for BE/proxies
+        headers: { "Cache-Control": "no-cache" },
+      });
 
-    // ignore if a newer request/address is active
-    if (myReqId === reqIdRef.current && latestAddressRef.current === address) {
-      setUser(res as User);
+      // ignore if a newer request/address is active
+      if (
+        myReqId === reqIdRef.current &&
+        latestAddressRef.current === address
+      ) {
+        setUser(res as User);
+      }
+    } catch (error: unknown) {
+      // Silently ignore cancellation errors - they are expected
+      const err = error as { name?: string; code?: string };
+      if (err?.name === "CanceledError" || err?.code === "ERR_CANCELED") {
+        return;
+      }
+      // Re-throw other errors for proper handling
+      throw error;
     }
   }, []);
 
@@ -90,7 +105,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setWalletAddress(signerAddr);
           attachAuthHeader(token);
           setUser(null); // clear to avoid flicker with old data
-          fetchUserFor(signerAddr).catch(() => {});
+          fetchUserFor(signerAddr).catch((error: unknown) => {
+            // Only log non-cancellation errors
+            const err = error as { name?: string; code?: string };
+            if (err?.name !== "CanceledError" && err?.code !== "ERR_CANCELED") {
+              console.error("Failed to fetch user on session restore:", error);
+            }
+          });
         } else {
           attachAuthHeader(null);
           setUser(null);
@@ -114,7 +135,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       // Clear stale user immediately, then refetch for the new wallet
       setUser(null);
-      await fetchUserFor(address).catch(() => {});
+      await fetchUserFor(address).catch((error: unknown) => {
+        // Only log non-cancellation errors
+        const err = error as { name?: string; code?: string };
+        if (err?.name !== "CanceledError" && err?.code !== "ERR_CANCELED") {
+          console.error("Failed to fetch user on login:", error);
+        }
+      });
     },
     [fetchUserFor]
   );
@@ -167,8 +194,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const refreshUser = useCallback(async () => {
     if (!walletAddress) return;
     setUser(null); // optional: show skeleton/clear stale
-    await fetchUserFor(walletAddress).catch((e) => {
-      console.error("refreshUser failed:", e);
+    await fetchUserFor(walletAddress).catch((error: unknown) => {
+      // Only log non-cancellation errors
+      const err = error as { name?: string; code?: string };
+      if (err?.name !== "CanceledError" && err?.code !== "ERR_CANCELED") {
+        console.error("refreshUser failed:", error);
+      }
     });
   }, [walletAddress, fetchUserFor]);
 
@@ -182,7 +213,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Clear to prevent showing previous wallet’s data
     setUser(null);
     if (accessToken) {
-      void fetchUserFor(walletAddress);
+      fetchUserFor(walletAddress).catch((error: unknown) => {
+        // Only log non-cancellation errors
+        const err = error as { name?: string; code?: string };
+        if (err?.name !== "CanceledError" && err?.code !== "ERR_CANCELED") {
+          console.error("Failed to fetch user on wallet change:", error);
+        }
+      });
     }
   }, [walletAddress, accessToken, fetchUserFor]);
 

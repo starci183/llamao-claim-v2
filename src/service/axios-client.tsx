@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_END_POINT,
@@ -35,12 +36,17 @@ const setupResponseInterceptor = () => {
   }
   respInterceptorId = axiosClient.interceptors.response.use(
     (res) => res,
-    async (error) => {
+    async (error: any) => {
+      // Handle cancellation errors silently - they are expected
+      if (error?.name === "CanceledError" || error?.code === "ERR_CANCELED") {
+        return Promise.reject(error);
+      }
+
       const status = error?.response?.status;
       if (status === 401 && !handlingUnauthorized) {
         handlingUnauthorized = true;
         try {
-          // let the app decide what “logout” means
+          // let the app decide what "logout" means
           if (onUnauthorized) await onUnauthorized();
         } finally {
           handlingUnauthorized = false;

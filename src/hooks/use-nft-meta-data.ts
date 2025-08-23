@@ -12,10 +12,10 @@ type Options = {
 };
 
 const FALLBACK: NftMetadata = {
-    name: "Llamao’s Last Supper",
+    name: "Llamao's Last Supper",
     description:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has survived five centuries and the leap into electronic typesetting.",
-    image: `/nft/${PRIMARY_MONAD_CONTRACT}.png`,
+    image: `/nft/${PRIMARY_MONAD_CONTRACT}.gif`,
 };
 
 // Cross-browser AbortError check
@@ -59,7 +59,7 @@ export function useNftMetadata(arg?: Options | string) {
                         const json = (await r.json()) as NftMetadata;
                         if (!cancelled) setData(json);
                     } else {
-                        if (!cancelled) setData({ ...FALLBACK, image: `/nft/${address}.png` });
+                        if (!cancelled) setData({ ...FALLBACK, image: `/nft/${address}.gif` });
                     }
                 } else {
                     if (!cancelled) setData(FALLBACK);
@@ -81,7 +81,7 @@ export function useNftMetadata(arg?: Options | string) {
                 } else {
                     if (!cancelled) {
                         setListData(
-                            MONAD_CONTRACT_ADDRESSES.map((a) => ({ ...FALLBACK, image: `/nft/${a}.png` }))
+                            MONAD_CONTRACT_ADDRESSES.map((a) => ({ ...FALLBACK, image: `/nft/${a}.gif` }))
                         );
                     }
                 }
@@ -92,7 +92,7 @@ export function useNftMetadata(arg?: Options | string) {
                 }
                 if (!cancelled) {
                     setListData(
-                        MONAD_CONTRACT_ADDRESSES.map((a) => ({ ...FALLBACK, image: `/nft/${a}.png` }))
+                        MONAD_CONTRACT_ADDRESSES.map((a) => ({ ...FALLBACK, image: `/nft/${a}.gif` }))
                     );
                 }
             } finally {

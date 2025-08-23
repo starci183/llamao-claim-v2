@@ -96,6 +96,8 @@ export default function MintPage() {
                 <MintContent
                   nftMetadata={nftMetadata}
                   totalMinted={Number(totalMinted) || 0}
+                  currentIndex={currentIndex}
+                  totalPages={MONAD_CONTRACT_ADDRESSES.length}
                 />
               )
             )}

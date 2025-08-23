@@ -19,8 +19,7 @@ interface MintContentLeftPageProps {
 export default function MintContentLeftPage({
   className = "",
   storyNumber = 1,
-  storyTitle = "Llamao’s Last Supper",
-
+  storyTitle = "Llamao's Last Supper",
   storyImage = "/gifs/llamao_last_supper.gif",
   totalMinted = 10,
   currentPage = 1,
@@ -101,7 +100,7 @@ export default function MintContentLeftPage({
       {/* progress */}
       <div className="w-full">
         <div className="flex items-center justify-between w-full px-0.5 sm:px-1">
-          <p className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#CF573C] font-pp-mondwest truncate">
+          <p className="text-[0.4375rem] sml:text-[0.5625rem] sm:text-sm text-[#CF573C] font-pp-mondwest truncate text-left">
             Total Minted: {totalMinted}/{totalSupply}
           </p>
           {/* Tính phần trăm progress */}

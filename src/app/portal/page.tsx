@@ -50,14 +50,30 @@ export default function Portal() {
         case "followX":
           await userService.updateFollowX();
           break;
-        case "joinDiscord":
-          await userService.updateJoinDiscord();
+        case "followNadDomains":
+          await userService.updateSeason2({
+            followNadDomains: true,
+          });
           break;
         case "likeXPost":
-          await userService.updateLikeXPost();
+          await userService.updateSeason2({
+            likeXPost: true,
+          });
           break;
         case "commentXPost":
-          await userService.updateCommentXPost();
+          await userService.updateSeason2({
+            commentXPost: true,
+          });
+          break;
+        case "likeSeason2Post":
+          await userService.updateSeason2({
+            likeSeason2Post: true,
+          });
+          break;
+        case "commentSeason2Post":
+          await userService.updateSeason2({
+            commentSeason2Post: true,
+          });
           break;
       }
       await refreshUser();
@@ -83,22 +99,34 @@ export default function Portal() {
       type: "followX" as const,
     },
     {
-      text: "Follow Monadverse on X",
-      link: "https://x.com/monadverse",
-      status: user?.joinDiscord || false,
-      type: "joinDiscord" as const,
+      text: "Follow NadDomains on X",
+      link: "https://x.com/NadDomains",
+      status: user?.season2?.followNadDomains || false,
+      type: "followNadDomains" as const,
     },
     {
       text: "Like X Posts",
       link: "https://x.com/llamao_/status/1957374787069858026",
-      status: user?.likeXPost || false,
+      status: user?.season2?.likeXPost || false,
       type: "likeXPost" as const,
     },
     {
       text: "Retweet X Post",
       link: "https://x.com/llamao_/status/1957374787069858026",
-      status: user?.commentXPost || false,
+      status: user?.season2?.commentXPost || false,
       type: "commentXPost" as const,
+    },
+    {
+      text: "Like mint #2 Post",
+      link: "https://x.com/llamao_/status/1950134789652295987",
+      status: user?.season2?.likeSeason2Post || false,
+      type: "likeSeason2Post" as const,
+    },
+    {
+      text: "Comment mint #2 Post",
+      link: "https://x.com/llamao_/status/1950134789652295987",
+      status: user?.season2?.commentSeason2Post || false,
+      type: "commentSeason2Post" as const,
     },
   ];
 
@@ -257,7 +285,7 @@ export default function Portal() {
                       <motion.div
                         className={cn(
                           "flex flex-col items-center",
-                          "gap-2 min-h-[150px] mt-4"
+                          "gap-2 h-[150px] mt-4 overflow-auto"
                         )}
                       >
                         {filteredMissions.length === 0 ? (
