@@ -117,13 +117,13 @@ export default function Portal() {
       type: "commentXPost" as const,
     },
     {
-      text: "Like mint #2 Post",
+      text: "Like page 2 Post",
       link: "https://x.com/llamao_/status/1950134789652295987",
       status: user?.season2?.likeSeason2Post || false,
       type: "likeSeason2Post" as const,
     },
     {
-      text: "Comment mint #2 Post",
+      text: "Comment page 2 Post",
       link: "https://x.com/llamao_/status/1950134789652295987",
       status: user?.season2?.commentSeason2Post || false,
       type: "commentSeason2Post" as const,
