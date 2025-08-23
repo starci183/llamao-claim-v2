@@ -13,7 +13,7 @@ import { useParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { parseEther } from "ethers";
 
-type MintStatus = "idle" | "failed" | "minted" | "retrying";
+type MintStatus = "idle" | "failed" | "minted";
 
 type ErrorType =
   | "insufficient_funds"
@@ -45,21 +45,12 @@ export default function MintButton() {
   const { balance } = useContract(collectionId);
   const [mintStatus, setMintStatus] = useState<MintStatus>("idle");
   const [txPending, setTxPending] = useState(false);
-  const [lastError, setLastError] = useState<{
-    type: ErrorType;
-    message: string;
-    isRetryable: boolean;
-  } | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
-  const maxRetries = 3;
 
   // ——— auto-clear only for "failed" ———
   const resetTimerRef = useRef<number | null>(null);
   // Enhanced error classification
   const classifyError = useCallback(
-    (
-      error: unknown
-    ): { type: ErrorType; message: string; isRetryable: boolean } => {
+    (error: unknown): { type: ErrorType; message: string } => {
       const err = error as {
         shortMessage?: string;
         message?: string;
@@ -97,7 +88,6 @@ export default function MintButton() {
           type: "insufficient_funds",
           message:
             "Insufficient funds. Please add more MONAD to your wallet and try again.",
-          isRetryable: false,
         };
       }
 
@@ -111,7 +101,6 @@ export default function MintButton() {
         return {
           type: "user_rejected",
           message: "Transaction was cancelled. Please try again when ready.",
-          isRetryable: true,
         };
       }
 
@@ -129,7 +118,6 @@ export default function MintButton() {
           type: "network_error",
           message:
             "Network connection issue. Please check your connection and try again.",
-          isRetryable: true,
         };
       }
 
@@ -145,7 +133,6 @@ export default function MintButton() {
           type: "contract_error",
           message:
             "Smart contract error. The transaction could not be completed.",
-          isRetryable: false,
         };
       }
 
@@ -162,7 +149,6 @@ export default function MintButton() {
         return {
           type: "api_error",
           message: "Server error. Please try again in a few moments.",
-          isRetryable: true,
         };
       }
 
@@ -173,39 +159,19 @@ export default function MintButton() {
           rawMessage.length > 100
             ? `${rawMessage.slice(0, 100)}...`
             : rawMessage,
-        isRetryable: true,
       };
     },
     []
   );
 
-  const startFailedTimer = useCallback(
-    (error?: { type: ErrorType; message: string; isRetryable: boolean }) => {
-      if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
-      setMintStatus("failed");
-      if (error) {
-        setLastError({
-          type: error.type,
-          message: error.message,
-          isRetryable: error.isRetryable,
-        });
-      }
-      resetTimerRef.current = window.setTimeout(() => {
-        setMintStatus("idle");
-        setLastError(null);
-        resetTimerRef.current = null;
-      }, 5000);
-    },
-    []
-  );
-
-  // Reset retry count when status changes to success
-  useEffect(() => {
-    if (mintStatus === "minted") {
-      setRetryCount(0);
-      setLastError(null);
-    }
-  }, [mintStatus]);
+  const startFailedTimer = useCallback(() => {
+    if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
+    setMintStatus("failed");
+    resetTimerRef.current = window.setTimeout(() => {
+      setMintStatus("idle");
+      resetTimerRef.current = null;
+    }, 5000);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -227,8 +193,7 @@ export default function MintButton() {
     signerLoading ||
     txPending ||
     mintStatus === "failed" ||
-    mintStatus === "minted" ||
-    mintStatus === "retrying";
+    mintStatus === "minted";
   const icon =
     mintStatus === "failed" ? (
       <Block />
@@ -262,7 +227,7 @@ export default function MintButton() {
           variant: "error",
           duration: 5000,
         });
-        startFailedTimer(errorInfo);
+        startFailedTimer();
         return;
       }
 
@@ -321,8 +286,6 @@ export default function MintButton() {
         resetTimerRef.current = null;
       }
       setMintStatus("minted");
-      setRetryCount(0); // Reset retry count on success
-      setLastError(null); // Clear any previous errors
     } catch (error: unknown) {
       const errorInfo = classifyError(error);
 
@@ -331,8 +294,6 @@ export default function MintButton() {
         error,
         errorType: errorInfo.type,
         message: errorInfo.message,
-        isRetryable: errorInfo.isRetryable,
-        retryCount,
         collectionId,
         address,
       });
@@ -344,32 +305,7 @@ export default function MintButton() {
         duration: errorInfo.type === "user_rejected" ? 3000 : 5000,
       });
 
-      // Reset retry count on success reset
-      if (errorInfo.type === "user_rejected") {
-        setRetryCount(0);
-      }
-
-      startFailedTimer(errorInfo);
-
-      // Auto-retry for certain error types if not at max attempts
-      if (
-        errorInfo.isRetryable &&
-        retryCount < maxRetries &&
-        errorInfo.type !== "user_rejected"
-      ) {
-        setTimeout(() => {
-          // Check if we should still retry
-          if (retryCount < maxRetries && lastError?.isRetryable) {
-            setRetryCount((prev) => prev + 1);
-            setMintStatus("retrying");
-
-            const delay = Math.min(1000 * Math.pow(2, retryCount), 10000);
-            setTimeout(() => {
-              handleMintNFT();
-            }, delay);
-          }
-        }, 2000);
-      }
+      startFailedTimer();
     } finally {
       setTxPending(false);
     }
@@ -382,9 +318,6 @@ export default function MintButton() {
     startFailedTimer,
     toast,
     classifyError,
-    retryCount,
-    maxRetries,
-    lastError,
   ]);
 
   if (!collectionId) {
@@ -412,14 +345,10 @@ export default function MintButton() {
     >
       {signerLoading || txPending
         ? "Processing..."
-        : mintStatus === "retrying"
-        ? `Retrying... (${retryCount}/${maxRetries})`
         : mintStatus === "minted"
         ? "Minted"
         : mintStatus === "failed"
-        ? lastError?.isRetryable && retryCount < maxRetries
-          ? "Failed - Will Retry"
-          : "Failed"
+        ? "Failed"
         : "Mint"}
     </Button>
   ) : (
