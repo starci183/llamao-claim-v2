@@ -7,7 +7,7 @@ export const MONAD_CONTRACT_ADDRESSES = [
 export type MonadContractAddress = typeof MONAD_CONTRACT_ADDRESSES[number];
 
 // (optional convenience: “primary” address keeps old behavior where needed)
-export const PRIMARY_MONAD_CONTRACT: MonadContractAddress = MONAD_CONTRACT_ADDRESSES[0];
+export const PRIMARY_MONAD_CONTRACT: MonadContractAddress = MONAD_CONTRACT_ADDRESSES[1];
 export const HOME_FILTERS = [
     { label: "All", value: "all" },
     { label: "Active", value: "active" },

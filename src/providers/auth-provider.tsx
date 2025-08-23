@@ -17,6 +17,15 @@ import {
   attachAuthHeader,
   setUnauthorizedHandler,
 } from "@/service/axios-client";
+import { jwtDecode } from "jwt-decode";
+
+interface JwtPayload {
+  sub: string; // userId
+  exp: number; // expiry time (UNIX timestamp in seconds)
+  iat?: number; // issued at
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
 
 interface User {
   followX: boolean;
@@ -162,6 +171,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("walletAddress");
     attachAuthHeader(null);
   }, [disconnect]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      try {
+        const decoded: JwtPayload = jwtDecode(token);
+
+        // check expired
+        const now = Date.now() / 1000; // tính bằng giây
+        if (decoded.exp && decoded.exp < now) {
+          console.warn("Token expired");
+          logout();
+        }
+      } catch (err) {
+        console.error("Invalid token", err);
+      }
+    }
+  }, [logout]);
 
   // Auto-logout ONLY if the user was previously connected and then disconnects.
   // This prevents logging out during initial page load/hydration when wallet state
