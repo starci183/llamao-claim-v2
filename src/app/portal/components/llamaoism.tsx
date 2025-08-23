@@ -100,39 +100,42 @@ export default function LlamaoismContent({
         {/* ---------------- New tab ---------------- */}
         <TabsContent value="new" className="mt-2">
           <div className="flex flex-col gap-2">
-            {(listData ?? []).map((data: ExtendedNftMetadata, i: number) => {
-              // First try to match by address (most reliable)
-              let matchedRow = data.address
-                ? rows.find(
-                    (r) =>
-                      r.contractAddress?.toLowerCase() ===
-                      data.address?.toLowerCase()
-                  )
-                : null;
+            {(listData ?? [])
+              //CHANGE PAGE YOU WANT TO SHOW HERE
+              .filter((data: ExtendedNftMetadata) => data.name === "Page 2")
+              .map((data: ExtendedNftMetadata, i: number) => {
+                // First try to match by address (most reliable)
+                let matchedRow = data.address
+                  ? rows.find(
+                      (r) =>
+                        r.contractAddress?.toLowerCase() ===
+                        data.address?.toLowerCase()
+                    )
+                  : null;
 
-              // Fallback: try to match by name if address matching fails
-              if (!matchedRow) {
-                matchedRow =
-                  rows.find((r) => r.metadata?.name === data.name) ?? null;
-              }
-              const linkContract =
-                matchedRow?.contractAddress ??
-                data.address ??
-                PRIMARY_MONAD_CONTRACT;
-              return (
-                <MissionCard
-                  key={`${data.name}-${i}`}
-                  text={data.name}
-                  link={`/mint/${linkContract}`}
-                  // mark as minted if any owned NFT has the same name
-                  status={ownedNameSet.has(data.name)}
-                  onClick={() => {
-                    router.push(`/mint/${linkContract}`);
-                  }}
-                  disabled={!isMintAble}
-                />
-              );
-            })}
+                // Fallback: try to match by name if address matching fails
+                if (!matchedRow) {
+                  matchedRow =
+                    rows.find((r) => r.metadata?.name === data.name) ?? null;
+                }
+                const linkContract =
+                  matchedRow?.contractAddress ??
+                  data.address ??
+                  PRIMARY_MONAD_CONTRACT;
+                return (
+                  <MissionCard
+                    key={`${data.name}-${i}`}
+                    text={data.name}
+                    link={`/mint/${linkContract}`}
+                    // mark as minted if any owned NFT has the same name
+                    status={ownedNameSet.has(data.name)}
+                    onClick={() => {
+                      router.push(`/mint/${linkContract}`);
+                    }}
+                    disabled={!isMintAble}
+                  />
+                );
+              })}
           </div>
 
           <LetLlamaoButton
