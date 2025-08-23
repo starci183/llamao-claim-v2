@@ -106,13 +106,13 @@ export default function Portal() {
     },
     {
       text: "Like X Posts",
-      link: "https://x.com/llamao_/status/1957374787069858026",
+      link: "https://x.com/llamao_/status/1950134789652295987",
       status: user?.season2?.likeXPost || false,
       type: "likeXPost" as const,
     },
     {
       text: "Retweet X Post",
-      link: "https://x.com/llamao_/status/1957374787069858026",
+      link: "https://x.com/llamao_/status/1950134789652295987",
       status: user?.season2?.commentXPost || false,
       type: "commentXPost" as const,
     },
@@ -123,7 +123,7 @@ export default function Portal() {
       type: "likeSeason2Post" as const,
     },
     {
-      text: "Comment page 2 Post",
+      text: "Retweet page 2 Post",
       link: "https://x.com/llamao_/status/1950134789652295987",
       status: user?.season2?.commentSeason2Post || false,
       type: "commentSeason2Post" as const,
