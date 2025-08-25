@@ -46,6 +46,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   refreshUser: () => Promise<void>;
+  isInitialized: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -59,6 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Stale-response guards
   const latestAddressRef = useRef<string | null>(null);
@@ -125,6 +127,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           attachAuthHeader(null);
           setUser(null);
         }
+        setIsInitialized(true);
       }
     })();
     return () => {
@@ -266,6 +269,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isAuthenticated,
       user,
       refreshUser,
+      isInitialized,
     }),
     [
       accessToken,
@@ -275,6 +279,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isAuthenticated,
       user,
       refreshUser,
+      isInitialized,
     ]
   );
 
