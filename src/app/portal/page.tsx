@@ -30,8 +30,14 @@ export default function Portal() {
   const [tabValue, setTabValue] = useState("eligibility");
 
   const { isConnected, address, walletInfo } = useWalletContext();
-  const { user, walletAddress, refreshUser, isAuthenticated, accessToken } =
-    useAuth();
+  const {
+    user,
+    walletAddress,
+    refreshUser,
+    isAuthenticated,
+    accessToken,
+    areAllMissionsFulfilled,
+  } = useAuth();
   const navigation = useRouter();
   const { toast } = useToast();
 
@@ -50,9 +56,9 @@ export default function Portal() {
         case "followX":
           await userService.updateFollowX();
           break;
-        case "followNadDomains":
+        case "followOvernads":
           await userService.updateSeason2({
-            followNadDomains: true,
+            followOvernads: true,
           });
           break;
         case "likeXPost":
@@ -65,14 +71,14 @@ export default function Portal() {
             commentXPost: true,
           });
           break;
-        case "likeSeason2Post":
+        case "likeSeason3Post":
           await userService.updateSeason2({
-            likeSeason2Post: true,
+            likeSeason3Post: true,
           });
           break;
-        case "commentSeason2Post":
+        case "retweetSeason3Post":
           await userService.updateSeason2({
-            commentSeason2Post: true,
+            retweetSeason3Post: true,
           });
           break;
       }
@@ -99,10 +105,10 @@ export default function Portal() {
       type: "followX" as const,
     },
     {
-      text: "Follow NadDomains on X",
-      link: "https://x.com/NadDomains",
-      status: user?.season2?.followNadDomains || false,
-      type: "followNadDomains" as const,
+      text: "Follow Overnads on X",
+      link: "https://x.com/overnads",
+      status: user?.season2?.followOvernads || false,
+      type: "followOvernads" as const,
     },
     {
       text: "Like X Posts",
@@ -117,16 +123,16 @@ export default function Portal() {
       type: "commentXPost" as const,
     },
     {
-      text: "Like page 2 Post",
+      text: "Like page 3 Post",
       link: "https://x.com/llamao_/status/1959179283563425929",
-      status: user?.season2?.likeSeason2Post || false,
-      type: "likeSeason2Post" as const,
+      status: user?.season2?.likeSeason3Post || false,
+      type: "likeSeason3Post" as const,
     },
     {
-      text: "Retweet page 2 Post",
+      text: "Retweet page 3 Post",
       link: "https://x.com/llamao_/status/1959179283563425929",
-      status: user?.season2?.commentSeason2Post || false,
-      type: "commentSeason2Post" as const,
+      status: user?.season2?.retweetSeason3Post || false,
+      type: "retweetSeason3Post" as const,
     },
   ];
 
@@ -145,7 +151,7 @@ export default function Portal() {
     }
   });
 
-  const allMissionsCompleted = missions.every((m) => m.status);
+  const allMissionsCompleted = areAllMissionsFulfilled;
 
   return (
     <div className="overflow-visible">

@@ -4,6 +4,7 @@ import { MONAD_CONTRACT_ADDRESSES } from "@/contance";
 // const TESTMINT = "0x813b9f077ac6470c264186bcb72a27eb547f5cc6";
 const PAGE_1 = "0xa8275fbf5fb47f632862db1cc4a6fbb5bd725856";
 const PAGE_2 = "0x7238893dd7e2fa516566c56e860007d35ae0d186";
+const PAGE_3 = "0xa4a7e2a0aa345072ff19a777d76abf460b5d9a69";
 
 export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
     // [TESTMINT]: {
@@ -29,6 +30,14 @@ export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
         image: `/nft/${PAGE_2}.gif`,
         totalSupply: 20000,
         TBA: "23/08/2025",
+    },
+    [PAGE_3]: {
+        address: PAGE_3,
+        name: "Page 3",
+        description: "Peace grows when we touch grass. Llamao and Overnads lie close to the earth, letting nature ground them. To touch grass is not escape—it’s a reminder to slow down, breathe, and return to what is real. In Llamaoism, stillness itself is progress.",
+        image: `/nft/${PAGE_3}.gif`,
+        totalSupply: 20000,
+        TBA: "26/08/2025",
     },
 };
 

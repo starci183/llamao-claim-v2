@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import type { FC, ReactNode } from "react";
 
 const MintPageLayout: FC<{ children: ReactNode }> = ({ children }) => (
-  <AuthGuard fallbackRoute="/portal">
+  <AuthGuard fallbackRoute="/portal" requireMissionCompletion={true}>
     <div
       className={cn(
         "flex flex-col items-center justify-center w-full overflow-hidden"

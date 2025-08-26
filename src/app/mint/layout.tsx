@@ -12,7 +12,7 @@ import type { PropsWithChildren } from "react";
 export default function MintLayout({ children }: PropsWithChildren) {
   const navigation = useRouter();
   return (
-    <AuthGuard fallbackRoute="/portal">
+    <AuthGuard fallbackRoute="/portal" requireMissionCompletion={true}>
       <div
         className={cn(
           "flex flex-col min-h-screen w-full",

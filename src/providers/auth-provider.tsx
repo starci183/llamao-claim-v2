@@ -19,6 +19,23 @@ import {
 } from "@/service/axios-client";
 import { jwtDecode } from "jwt-decode";
 
+// Helper function to check if all missions are fulfilled
+const checkAllMissionsFulfilled = (user: User | null): boolean => {
+  if (!user) return false;
+
+  // Define the missions as they are in the portal page
+  const missions = [
+    user.followX || false,
+    user.season2?.followOvernads || false,
+    user.season2?.likeXPost || false,
+    user.season2?.commentXPost || false,
+    user.season2?.likeSeason3Post || false,
+    user.season2?.retweetSeason3Post || false,
+  ];
+
+  return missions.every((mission) => mission === true);
+};
+
 interface JwtPayload {
   sub: string; // userId
   exp: number; // expiry time (UNIX timestamp in seconds)
@@ -47,6 +64,7 @@ interface AuthContextType {
   user: User | null;
   refreshUser: () => Promise<void>;
   isInitialized: boolean;
+  areAllMissionsFulfilled: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -259,6 +277,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [accessToken]);
 
   const isAuthenticated = useMemo(() => !!accessToken, [accessToken]);
+  const areAllMissionsFulfilled = useMemo(
+    () => checkAllMissionsFulfilled(user),
+    [user]
+  );
 
   const value = useMemo<AuthContextType>(
     () => ({
@@ -270,6 +292,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       user,
       refreshUser,
       isInitialized,
+      areAllMissionsFulfilled,
     }),
     [
       accessToken,
@@ -280,6 +303,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       user,
       refreshUser,
       isInitialized,
+      areAllMissionsFulfilled,
     ]
   );
 

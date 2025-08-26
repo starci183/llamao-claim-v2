@@ -102,7 +102,7 @@ export default function LlamaoismContent({
           <div className="flex flex-col gap-2">
             {(listData ?? [])
               //CHANGE PAGE YOU WANT TO SHOW HERE
-              .filter((data: ExtendedNftMetadata) => data.name === "Page 2")
+              .filter((data: ExtendedNftMetadata) => data.name === "Page 3")
               .map((data: ExtendedNftMetadata, i: number) => {
                 // First try to match by address (most reliable)
                 let matchedRow = data.address
