@@ -102,13 +102,13 @@ export default function Portal() {
     },
     {
       text: "Like page 4 Post",
-      link: "https://x.com/llamao_/status/1960342167114969526",
+      link: "https://x.com/llamao_/status/1961430072554131854",
       status: user?.season2?.likeSeason4Post || false,
       type: "likeSeason4Post" as const,
     },
     {
       text: "Retweet page 4 Post",
-      link: "https://x.com/llamao_/status/1960342167114969526",
+      link: "https://x.com/llamao_/status/1961430072554131854",
       status: user?.season2?.retweetSeason4Post || false,
       type: "retweetSeason4Post" as const,
     },
