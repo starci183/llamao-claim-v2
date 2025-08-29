@@ -56,29 +56,19 @@ export default function Portal() {
         case "followX":
           await userService.updateFollowX();
           break;
-        case "followOvernads":
+        case "followChewy_xyz":
           await userService.updateSeason2({
-            followOvernads: true,
+            followChewy_xyz: true,
           });
           break;
-        case "likeXPost":
+        case "likeSeason4Post":
           await userService.updateSeason2({
-            likeXPost: true,
+            likeSeason4Post: true,
           });
           break;
-        case "commentXPost":
+        case "retweetSeason4Post":
           await userService.updateSeason2({
-            commentXPost: true,
-          });
-          break;
-        case "likeSeason3Post":
-          await userService.updateSeason2({
-            likeSeason3Post: true,
-          });
-          break;
-        case "retweetSeason3Post":
-          await userService.updateSeason2({
-            retweetSeason3Post: true,
+            retweetSeason4Post: true,
           });
           break;
       }
@@ -105,34 +95,22 @@ export default function Portal() {
       type: "followX" as const,
     },
     {
-      text: "Follow Overnads on X",
-      link: "https://x.com/overnads",
-      status: user?.season2?.followOvernads || false,
-      type: "followOvernads" as const,
+      text: "Follow Chewy.xyz on X",
+      link: "https://x.com/Chewy_xyz",
+      status: user?.season2?.followChewy_xyz || false,
+      type: "followChewy_xyz" as const,
     },
     {
-      text: "Like X Posts",
-      link: "https://x.com/llamao_/status/1950134789652295987",
-      status: user?.season2?.likeXPost || false,
-      type: "likeXPost" as const,
-    },
-    {
-      text: "Retweet X Post",
-      link: "https://x.com/llamao_/status/1950134789652295987",
-      status: user?.season2?.commentXPost || false,
-      type: "commentXPost" as const,
-    },
-    {
-      text: "Like page 3 Post",
+      text: "Like page 4 Post",
       link: "https://x.com/llamao_/status/1960342167114969526",
-      status: user?.season2?.likeSeason3Post || false,
-      type: "likeSeason3Post" as const,
+      status: user?.season2?.likeSeason4Post || false,
+      type: "likeSeason4Post" as const,
     },
     {
-      text: "Retweet page 3 Post",
+      text: "Retweet page 4 Post",
       link: "https://x.com/llamao_/status/1960342167114969526",
-      status: user?.season2?.retweetSeason3Post || false,
-      type: "retweetSeason3Post" as const,
+      status: user?.season2?.retweetSeason4Post || false,
+      type: "retweetSeason4Post" as const,
     },
   ];
 

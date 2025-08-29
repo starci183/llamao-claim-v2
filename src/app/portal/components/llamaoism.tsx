@@ -34,7 +34,7 @@ export default function LlamaoismContent({
 }: Props) {
   const router = useRouter();
   const { listData } = useNftMetadata();
-  const { user } = useAuth();
+  const { areAllMissionsFulfilled } = useAuth();
 
   // Load all contracts at once
   const { rows } = useContracts(contracts, {
@@ -62,14 +62,7 @@ export default function LlamaoismContent({
 
   // All eligibility checks must be true
   // TODO: add season 2 checks
-  const isMintAble = Boolean(
-    user?.followX &&
-      user?.commentXPost &&
-      user?.joinDiscord &&
-      user?.likeXPost &&
-      user?.season2?.likeSeason2Post &&
-      user?.season2?.commentSeason2Post
-  );
+  const isMintAble = areAllMissionsFulfilled;
 
   const [tab, setTab] = useState<"new" | "minted">("new");
 
@@ -102,7 +95,7 @@ export default function LlamaoismContent({
           <div className="flex flex-col gap-2">
             {(listData ?? [])
               //CHANGE PAGE YOU WANT TO SHOW HERE
-              .filter((data: ExtendedNftMetadata) => data.name === "Page 3")
+              .filter((data: ExtendedNftMetadata) => data.name === "Page 4")
               .map((data: ExtendedNftMetadata, i: number) => {
                 // First try to match by address (most reliable)
                 let matchedRow = data.address
