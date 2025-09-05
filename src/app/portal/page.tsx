@@ -124,13 +124,13 @@ export default function Portal() {
     },
     {
       text: "Like page 5 Post",
-      link: "https://x.com/llamao_/status/1961430072554131854",
+      link: "https://x.com/llamao_/status/1963980662526152872",
       status: user?.season2?.likeSeason5Post || false,
       type: "likeSeason5Post" as const,
     },
     {
       text: "Retweet page 5 Post",
-      link: "https://x.com/llamao_/status/1961430072554131854",
+      link: "https://x.com/llamao_/status/1963980662526152872",
       status: user?.season2?.retweetSeason5Post || false,
       type: "retweetSeason5Post" as const,
     },
