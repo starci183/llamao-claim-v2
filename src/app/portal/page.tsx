@@ -62,14 +62,10 @@ export default function Portal() {
           });
           break;
         case "likeXPost":
-          await userService.updateSeason2({
-            likeXPost: true,
-          });
+          await userService.updateLikeXPost();
           break;
         case "commentXPost":
-          await userService.updateSeason2({
-            commentXPost: true,
-          });
+          await userService.updateCommentXPost();
           break;
         case "likeSeason5Post":
           await userService.updateSeason2({

@@ -27,8 +27,8 @@ const checkAllMissionsFulfilled = (user: User | null): boolean => {
   const missions = [
     user.followX || false,
     user.season2?.followChogNFT || false,
-    user.season2?.likeXPost || false,
-    user.season2?.commentXPost || false,
+    user.likeXPost || false,
+    user.commentXPost || false,
     user.season2?.likeSeason5Post || false,
     user.season2?.retweetSeason5Post || false,
   ];
