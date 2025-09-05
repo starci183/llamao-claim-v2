@@ -56,19 +56,29 @@ export default function Portal() {
         case "followX":
           await userService.updateFollowX();
           break;
-        case "followChewy_xyz":
+        case "followChogNFT":
           await userService.updateSeason2({
-            followChewy_xyz: true,
+            followChogNFT: true,
           });
           break;
-        case "likeSeason4Post":
+        case "likeXPost":
           await userService.updateSeason2({
-            likeSeason4Post: true,
+            likeXPost: true,
           });
           break;
-        case "retweetSeason4Post":
+        case "commentXPost":
           await userService.updateSeason2({
-            retweetSeason4Post: true,
+            commentXPost: true,
+          });
+          break;
+        case "likeSeason5Post":
+          await userService.updateSeason2({
+            likeSeason5Post: true,
+          });
+          break;
+        case "retweetSeason5Post":
+          await userService.updateSeason2({
+            retweetSeason5Post: true,
           });
           break;
       }
@@ -95,22 +105,34 @@ export default function Portal() {
       type: "followX" as const,
     },
     {
-      text: "Follow Chewy.xyz on X",
-      link: "https://x.com/Chewy_xyz",
-      status: user?.season2?.followChewy_xyz || false,
-      type: "followChewy_xyz" as const,
+      text: "Follow ChogNFT on X",
+      link: "https://x.com/ChogNFT",
+      status: user?.season2?.followChogNFT || false,
+      type: "followChogNFT" as const,
     },
     {
-      text: "Like page 4 Post",
-      link: "https://x.com/llamao_/status/1961430072554131854",
-      status: user?.season2?.likeSeason4Post || false,
-      type: "likeSeason4Post" as const,
+      text: "Like post",
+      link: "https://x.com/llamao_/status/1950134789652295987",
+      status: user?.likeXPost || false,
+      type: "likeXPost" as const,
     },
     {
-      text: "Retweet page 4 Post",
+      text: "Retweet post",
+      link: "https://x.com/llamao_/status/1950134789652295987",
+      status: user?.commentXPost || false,
+      type: "commentXPost" as const,
+    },
+    {
+      text: "Like page 5 Post",
       link: "https://x.com/llamao_/status/1961430072554131854",
-      status: user?.season2?.retweetSeason4Post || false,
-      type: "retweetSeason4Post" as const,
+      status: user?.season2?.likeSeason5Post || false,
+      type: "likeSeason5Post" as const,
+    },
+    {
+      text: "Retweet page 5 Post",
+      link: "https://x.com/llamao_/status/1961430072554131854",
+      status: user?.season2?.retweetSeason5Post || false,
+      type: "retweetSeason5Post" as const,
     },
   ];
 

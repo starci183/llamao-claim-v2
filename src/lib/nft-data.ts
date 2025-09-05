@@ -6,6 +6,7 @@ const PAGE_1 = "0xa8275fbf5fb47f632862db1cc4a6fbb5bd725856";
 const PAGE_2 = "0x7238893dd7e2fa516566c56e860007d35ae0d186";
 const PAGE_3 = "0xa4a7e2a0aa345072ff19a777d76abf460b5d9a69";
 const PAGE_4 = "0x781ed8d6a280806d8c432269a2f317dbf95845af";
+const PAGE_5 = "0x8dd114ac2946218de619e492fbf30bf507466cb0";
 export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
     // [TESTMINT]: {
     //     address: TESTMINT,
@@ -46,6 +47,14 @@ export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
         image: `/nft/${PAGE_4}.gif`,
         totalSupply: 20000,
         TBA: "29/08/2025",
+    },
+    [PAGE_5]: {
+        address: PAGE_5,
+        name: "Page 5",
+        description: "Llamao and Chog soak together in the warmth of the onsen. They do not rush the moment, nor chase the world outside. Each breath of steam is enough, each ripple in the water brings peace.In their stillness, the spirit finds balance. Llamaoism whispers: rest deeply, and there is no fade again.",
+        image: `/nft/${PAGE_5}.gif`,
+        totalSupply: 20000,
+        TBA: "05/09/2025",
     },
 };
 

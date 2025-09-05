@@ -26,9 +26,11 @@ const checkAllMissionsFulfilled = (user: User | null): boolean => {
   // Define the missions as they are in the portal page
   const missions = [
     user.followX || false,
-    user.season2?.followChewy_xyz || false,
-    user.season2?.likeSeason4Post || false,
-    user.season2?.retweetSeason4Post || false,
+    user.season2?.followChogNFT || false,
+    user.season2?.likeXPost || false,
+    user.season2?.commentXPost || false,
+    user.season2?.likeSeason5Post || false,
+    user.season2?.retweetSeason5Post || false,
   ];
 
   return missions.every((mission) => mission === true);
