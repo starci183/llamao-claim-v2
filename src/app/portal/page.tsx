@@ -111,13 +111,13 @@ export default function Portal() {
       type: "followBeanExchange" as const,
     },
     {
-      text: "Visit this Llamao GIF:",
+      text: "Visit llamao GIPHY",
       link: "https://giphy.com/llamao",
       status: user?.season2?.visitGifMint6 || false,
       type: "visitGifMint6" as const,
     },
     {
-      text: "Use llamao gif/sticker in our discord channel #giphy",
+      text: "Use Llamao GIFs in our discord",
       link: "https://discord.com/channels/1161560155650007121/1414903399006076928",
       status: user?.season2?.useLlamaoGifStickerDiscord || false,
       type: "useLlamaoGifStickerDiscord" as const,
@@ -125,13 +125,13 @@ export default function Portal() {
 
     {
       text: "Like page 6 Post",
-      link: "https://x.com/llamao_/status/1963980662526152872",
+      link: "https://x.com/llamao_/status/1965354666805657683",
       status: user?.season2?.likeSeason6Post || false,
       type: "likeSeason6Post" as const,
     },
     {
       text: "Retweet page 6 Post",
-      link: "https://x.com/llamao_/status/1963980662526152872",
+      link: "https://x.com/llamao_/status/1965354666805657683",
       status: user?.season2?.retweetSeason6Post || false,
       type: "retweetSeason6Post" as const,
     },
