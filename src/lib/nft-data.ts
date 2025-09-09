@@ -7,6 +7,7 @@ const PAGE_2 = "0x7238893dd7e2fa516566c56e860007d35ae0d186";
 const PAGE_3 = "0xa4a7e2a0aa345072ff19a777d76abf460b5d9a69";
 const PAGE_4 = "0x781ed8d6a280806d8c432269a2f317dbf95845af";
 const PAGE_5 = "0x8dd114ac2946218de619e492fbf30bf507466cb0";
+const PAGE_6 = "0x5cda37bab2b001725ca4f6daab7c0fa751529b02";
 export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
     // [TESTMINT]: {
     //     address: TESTMINT,
@@ -55,6 +56,14 @@ export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
         image: `/nft/${PAGE_5}.gif`,
         totalSupply: 20000,
         TBA: "05/09/2025",
+    },
+    [PAGE_6]: {
+        address: PAGE_6,
+        name: "Page 6",
+        description: "Under the quiet night sky, Llamao and the Bean Dex crew sail calmly across the waters. They don't chase hype or rush for the next big thing, but waiting patiently for true value to surface. In the world of Web3, steady hands and clear minds always become the diamond hands.",
+        image: `/nft/${PAGE_6}.gif`,
+        totalSupply: 20000,
+        TBA: "09/09/2025",
     },
 };
 
