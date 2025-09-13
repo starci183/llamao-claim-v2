@@ -125,13 +125,13 @@ export default function Portal() {
       type: "followLlamaoTiktokS7" as const,
     },
     {
-      text: "Like Page X",
+      text: "Like Page 7",
       link: "https://x.com/llamao_/status/1966806639434158428",
       status: user?.season2?.likePageXS7 || false,
       type: "likePageXS7" as const,
     },
     {
-      text: "Tweet Page X",
+      text: "Tweet Page 7",
       link: "https://x.com/llamao_/status/1966806639434158428",
       status: user?.season2?.tweetPageXS7 || false,
       type: "tweetPageXS7" as const,
