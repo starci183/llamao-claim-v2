@@ -131,7 +131,7 @@ export default function Portal() {
       type: "likePageXS7" as const,
     },
     {
-      text: "Tweet Page 7",
+      text: "Retweet Page 7",
       link: "https://x.com/llamao_/status/1966806639434158428",
       status: user?.season2?.tweetPageXS7 || false,
       type: "tweetPageXS7" as const,
