@@ -103,7 +103,7 @@ export default function Portal() {
     {
       text: "Follow NADSA",
       link: "https://x.com/0xNADSA",
-      status: user?.season2.followNatsaS7 || false,
+      status: user?.season2?.followNatsaS7 || false,
       type: "followNatsaS7" as const,
     },
     {
