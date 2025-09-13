@@ -89,7 +89,7 @@ export default function LlamaoismContent({
             Minted
           </TabsTrigger>
         </TabsList>
-
+ 
         {/* ---------------- New tab ---------------- */}
         <TabsContent value="new" className="mt-2">
           <div className="flex flex-col gap-2">
