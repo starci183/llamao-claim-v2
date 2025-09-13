@@ -8,6 +8,7 @@ const PAGE_3 = "0xa4a7e2a0aa345072ff19a777d76abf460b5d9a69";
 const PAGE_4 = "0x781ed8d6a280806d8c432269a2f317dbf95845af";
 const PAGE_5 = "0x8dd114ac2946218de619e492fbf30bf507466cb0";
 const PAGE_6 = "0x5cda37bab2b001725ca4f6daab7c0fa751529b02";
+const PAGE_7 = "0x2f0730f6ac7869f1d80661684f203cd7def635ce";
 export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
     // [TESTMINT]: {
     //     address: TESTMINT,
@@ -64,6 +65,14 @@ export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
         image: `/nft/${PAGE_6}.gif`,
         totalSupply: 20000,
         TBA: "09/09/2025",
+    },
+    [PAGE_7]: {
+        address: PAGE_7,
+        name: "Page 7",
+        description: `Outta this world and space, Llamao and the NADSA captain flow calmly across the stars. They navigate the vast expanse, not chasing fleeting hype or the next shiny token... In the cosmos of Web3, calm llastronauts with clear vision always pump to the moon.`,
+        image: `/nft/${PAGE_7}.gif`,
+        totalSupply: 20000,
+        TBA: "13/09/2025",
     },
 };
 

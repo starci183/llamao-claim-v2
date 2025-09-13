@@ -53,32 +53,24 @@ export default function Portal() {
 
     try {
       switch (missionType) {
-        case "followX":
-          await userService.updateFollowX();
-          break;
-        case "followBeanExchange":
+        case "followNatsaS7":
           await userService.updateSeason2({
-            followBeanExchange: true,
+            followNatsaS7: true,
           });
           break;
-        case "useLlamaoGifStickerDiscord":
+        case "visitLlamaoGIPHYS7":
           await userService.updateSeason2({
-            useLlamaoGifStickerDiscord: true,
+            visitLlamaoGIPHYS7: true,
           });
           break;
-        case "visitGifMint6":
+        case "followLlamaoInstagramS7":
           await userService.updateSeason2({
-            visitGifMint6:true,
+            followLlamaoInstagramS7: true,
           });
           break;
-        case "likeSeason6Post":
+        case "followLlamaoTiktokS7":
           await userService.updateSeason2({
-            likeSeason6Post: true,
-          });
-          break;
-        case "retweetSeason6Post":
-          await userService.updateSeason2({
-            retweetSeason6Post: true,
+            followLlamaoTiktokS7: true,
           });
           break;
       }
@@ -99,41 +91,28 @@ export default function Portal() {
 
   const missions = [
     {
-      text: "Follow Llamao on X",
-      link: "https://x.com/llamao_",
-      status: user?.followX || false,
-      type: "followX" as const,
+      text: "Follow NADSA",
+      link: "https://x.com/0xNADSA",
+      status: user?.season2.followNatsaS7 || false,
+      type: "followNatsaS7" as const,
     },
     {
-      text: "Follow BeanExchange on X",
-      link: "https://x.com/Bean_DEX",
-      status: user?.season2?.followBeanExchange || false,
-      type: "followBeanExchange" as const,
-    },
-    {
-      text: "Visit llamao GIPHY",
+      text: "Visit Llamao GIPHY",
       link: "https://giphy.com/llamao",
-      status: user?.season2?.visitGifMint6 || false,
-      type: "visitGifMint6" as const,
+      status: user?.season2?.visitLlamaoGIPHYS7 || false,
+      type: "visitLlamaoGIPHYS7" as const,
     },
     {
-      text: "Use Llamao GIFs in our discord",
-      link: "https://discord.com/channels/1161560155650007121/1414903399006076928",
-      status: user?.season2?.useLlamaoGifStickerDiscord || false,
-      type: "useLlamaoGifStickerDiscord" as const,
-    },
-
-    {
-      text: "Like page 6 Post",
-      link: "https://x.com/llamao_/status/1965354666805657683",
-      status: user?.season2?.likeSeason6Post || false,
-      type: "likeSeason6Post" as const,
+      text: "Follow Llamao Instagram",
+      link: "https://www.instagram.com/llamaoofficial/",
+      status: user?.season2?.followLlamaoInstagramS7 || false,
+      type: "followLlamaoInstagramS7" as const,
     },
     {
-      text: "Retweet page 6 Post",
-      link: "https://x.com/llamao_/status/1965354666805657683",
-      status: user?.season2?.retweetSeason6Post || false,
-      type: "retweetSeason6Post" as const,
+      text: "Follow Llamao Tiktok",
+      link: "https://www.tiktok.com/@llamaoofficial",
+      status: user?.season2?.followLlamaoTiktokS7 || false,
+      type: "followLlamaoTiktokS7" as const,
     },
   ];
 
