@@ -29,6 +29,8 @@ const checkAllMissionsFulfilled = (user: User | null): boolean => {
     user.season2?.visitLlamaoGIPHYS7 || false,
     user.season2?.followLlamaoInstagramS7 || false,
     user.season2?.followLlamaoTiktokS7 || false,
+    user.season2?.likePageXS7 || false,
+    user.season2?.tweetPageXS7 || false,
   ];
 
   return missions.every((mission) => mission === true);
