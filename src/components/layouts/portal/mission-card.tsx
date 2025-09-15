@@ -12,6 +12,7 @@ type MissionCardProps = {
   status?: boolean;
   onClick?: () => void;
   disabled?: boolean;
+  clickOnSuccess?:boolean
 };
 export default function MissionCard({
   className = "",
@@ -20,6 +21,7 @@ export default function MissionCard({
   status = false,
   onClick,
   disabled = false,
+  clickOnSuccess = false,
 }: MissionCardProps) {
   const textRef = useRef<HTMLDivElement>(null);
   const [isTruncated, setIsTruncated] = useState(false);
@@ -59,6 +61,11 @@ export default function MissionCard({
             className={cn(
               "bg-white border-0.5 border-black/50 w-full h-full text-black flex justify-center items-center hover:shadow-md hover:scale-3d active:scale-95 focus:outline-none"
             )}
+            onClick={()=>{
+              if(clickOnSuccess){
+                window.open(link, "_blank")
+              }
+            }}
           >
             <Tick className="w-6" />
           </div>

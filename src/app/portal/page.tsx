@@ -105,36 +105,42 @@ export default function Portal() {
       link: "https://x.com/0xNADSA",
       status: user?.season2?.followNatsaS7 || false,
       type: "followNatsaS7" as const,
+      clickOnSuccess: true,
     },
     {
       text: "Visit Llamao GIPHY",
       link: "https://giphy.com/llamao",
       status: user?.season2?.visitLlamaoGIPHYS7 || false,
       type: "visitLlamaoGIPHYS7" as const,
+      clickOnSuccess: true,
     },
     {
       text: "Follow Llamao Instagram",
       link: "https://www.instagram.com/llamaoofficial/",
       status: user?.season2?.followLlamaoInstagramS7 || false,
       type: "followLlamaoInstagramS7" as const,
+      clickOnSuccess: true,
     },
     {
       text: "Follow Llamao Tiktok",
       link: "https://www.tiktok.com/@llamaoofficial",
       status: user?.season2?.followLlamaoTiktokS7 || false,
       type: "followLlamaoTiktokS7" as const,
+      clickOnSuccess: true,
     },
     {
       text: "Like Page 7",
       link: "https://x.com/llamao_/status/1966806639434158428",
       status: user?.season2?.likePageXS7 || false,
       type: "likePageXS7" as const,
+      clickOnSuccess: true,
     },
     {
       text: "Retweet Page 7",
       link: "https://x.com/llamao_/status/1966806639434158428",
       status: user?.season2?.tweetPageXS7 || false,
       type: "tweetPageXS7" as const,
+      clickOnSuccess: true,
     },
   ];
 
