@@ -53,9 +53,9 @@ export default function Portal() {
 
     try {
       switch (missionType) {
-        case "followNatsaS7":
+        case "followSLMND":
           await userService.updateSeason2({
-            followNatsaS7: true,
+            followSLMND: true,
           });
           break;
         case "visitLlamaoGIPHYS7":
@@ -73,14 +73,14 @@ export default function Portal() {
             followLlamaoTiktokS7: true,
           });
           break;
-        case "likePageXS7":
+        case "likePageXS8":
           await userService.updateSeason2({
-            likePageXS7: true,
+            likePageXS8: true,
           });
           break;
-        case "tweetPageXS7":
+        case "tweetPageXS8":
           await userService.updateSeason2({
-            tweetPageXS7: true,
+            tweetPageXS8: true,
           });
           break;
       }
@@ -101,10 +101,10 @@ export default function Portal() {
 
   const missions = [
     {
-      text: "Follow NADSA",
-      link: "https://x.com/0xNADSA",
-      status: user?.season2?.followNatsaS7 || false,
-      type: "followNatsaS7" as const,
+      text: "Follow SLMND",
+      link: "https://x.com/slmndNFT",
+      status: user?.season2?.followSLMND || false,
+      type: "followSLMND" as const,
       clickOnSuccess: true,
     },
     {
@@ -129,17 +129,17 @@ export default function Portal() {
       clickOnSuccess: true,
     },
     {
-      text: "Like Page 7",
+      text: "Like Page 8",
       link: "https://x.com/llamao_/status/1966806639434158428",
-      status: user?.season2?.likePageXS7 || false,
-      type: "likePageXS7" as const,
+      status: user?.season2?.likePageXS8 || false,
+      type: "likePageXS8" as const,
       clickOnSuccess: true,
     },
     {
-      text: "Retweet Page 7",
+      text: "Retweet Page 8",
       link: "https://x.com/llamao_/status/1966806639434158428",
-      status: user?.season2?.tweetPageXS7 || false,
-      type: "tweetPageXS7" as const,
+      status: user?.season2?.tweetPageXS8 || false,
+      type: "tweetPageXS8" as const,
       clickOnSuccess: true,
     },
   ];

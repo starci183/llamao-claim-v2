@@ -9,6 +9,7 @@ const PAGE_4 = "0x781ed8d6a280806d8c432269a2f317dbf95845af";
 const PAGE_5 = "0x8dd114ac2946218de619e492fbf30bf507466cb0";
 const PAGE_6 = "0x5cda37bab2b001725ca4f6daab7c0fa751529b02";
 const PAGE_7 = "0x2f0730f6ac7869f1d80661684f203cd7def635ce";
+const PAGE_8 = "0xa042c5c46f055e7496250a85a72765d2194bd4b1";
 export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
     // [TESTMINT]: {
     //     address: TESTMINT,
@@ -73,6 +74,14 @@ export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
         image: `/nft/${PAGE_7}.gif`,
         totalSupply: 20000,
         TBA: "13/09/2025",
+    },
+    [PAGE_8]: {
+        address: PAGE_8,
+        name: "Page 8",
+        description: "The market’s on fire, devs selling.But Llamao and SLMND? Just chilling with their tea.They know the hype comes and goes, and they stay calm, never let the noise fool them. for the next big thing, but waiting patiently for true value to surface. In the world of Web3, steady hands and clear minds always become the diamond hands.",
+        image: `/nft/${PAGE_8}.gif`,
+        totalSupply: 20000,
+        TBA: "16/09/2025",
     },
 };
 
