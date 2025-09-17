@@ -81,7 +81,7 @@ export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
         description: "The market’s on fire, devs selling.But Llamao and SLMND? Just chilling with their tea.They know the hype comes and goes, and they stay calm, never let the noise fool them. for the next big thing, but waiting patiently for true value to surface. In the world of Web3, steady hands and clear minds always become the diamond hands.",
         image: `/nft/${PAGE_8}.gif`,
         totalSupply: 20000,
-        TBA: "16/09/2025",
+        TBA: "17/09/2025",
     },
 };
 
