@@ -130,14 +130,14 @@ export default function Portal() {
     },
     {
       text: "Like Page 9",
-      link: "https://x.com/llamao_/status/1968253724876558812",
+      link: "https://x.com/llamao_/status/1970439353345495353",
       status: user?.season2?.likePageXS9 || false,
       type: "likePageXS9" as const,
       clickOnSuccess: true,
     },
     {
       text: "Retweet Page 9",
-      link: "https://x.com/llamao_/status/1968253724876558812",
+      link: "https://x.com/llamao_/status/1970439353345495353",
       status: user?.season2?.tweetPageXS9 || false,
       type: "tweetPageXS9" as const,
       clickOnSuccess: true,
