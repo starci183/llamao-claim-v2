@@ -58,19 +58,19 @@ export default function Portal() {
             followLaMouch: true,
           });
           break;
-        case "visitLlamaoGIPHYS7":
+        case "visitLlamaoGIPHYS9":
           await userService.updateSeason2({
-            visitLlamaoGIPHYS7: true,
+            visitLlamaoGIPHYS9: true,
           });
           break;
-        case "followLlamaoInstagramS7":
+        case "followLlamaoInstagramS9":
           await userService.updateSeason2({
-            followLlamaoInstagramS7: true,
+            followLlamaoInstagramS9: true,
           });
           break;
-        case "followLlamaoTiktokS7":
+        case "followLlamaoTiktokS9":
           await userService.updateSeason2({
-            followLlamaoTiktokS7: true,
+            followLlamaoTiktokS9: true,
           });
           break;
         case "likePageXS9":
@@ -110,22 +110,22 @@ export default function Portal() {
     {
       text: "Visit Llamao GIPHY",
       link: "https://giphy.com/llamao",
-      status: user?.season2?.visitLlamaoGIPHYS7 || false,
-      type: "visitLlamaoGIPHYS7" as const,
+      status: user?.season2?.visitLlamaoGIPHYS9 || false,
+      type: "visitLlamaoGIPHYS9" as const,
       clickOnSuccess: true,
     },
     {
       text: "Follow Llamao Instagram",
       link: "https://www.instagram.com/llamaoofficial/",
-      status: user?.season2?.followLlamaoInstagramS7 || false,
-      type: "followLlamaoInstagramS7" as const,
+      status: user?.season2?.followLlamaoInstagramS9 || false,
+      type: "followLlamaoInstagramS9" as const,
       clickOnSuccess: true,
     },
     {
       text: "Follow Llamao Tiktok",
       link: "https://www.tiktok.com/@llamaoofficial",
-      status: user?.season2?.followLlamaoTiktokS7 || false,
-      type: "followLlamaoTiktokS7" as const,
+      status: user?.season2?.followLlamaoTiktokS9 || false,
+      type: "followLlamaoTiktokS9" as const,
       clickOnSuccess: true,
     },
     {
