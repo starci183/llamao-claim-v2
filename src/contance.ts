@@ -7,13 +7,14 @@ export const MONAD_CONTRACT_ADDRESSES = [
     "0x8dd114ac2946218de619e492fbf30bf507466cb0",
     "0x5cda37bab2b001725ca4f6daab7c0fa751529b02",
     "0x2f0730f6ac7869f1d80661684f203cd7def635ce",
-    "0xa042c5c46f055e7496250a85a72765d2194bd4b1"
+    "0xa042c5c46f055e7496250a85a72765d2194bd4b1",
+    "0xc2391ebe7800804fa9b96f06a99383ca48b7bc01"
 ] as const;
 
 export type MonadContractAddress = typeof MONAD_CONTRACT_ADDRESSES[number];
 
 // (optional convenience: “primary” address keeps old behavior where needed)
-export const PRIMARY_MONAD_CONTRACT: MonadContractAddress = MONAD_CONTRACT_ADDRESSES[7];
+export const PRIMARY_MONAD_CONTRACT: MonadContractAddress = MONAD_CONTRACT_ADDRESSES[8];
 export const HOME_FILTERS = [
     { label: "All", value: "all" },
     { label: "Active", value: "active" },
