@@ -51,7 +51,7 @@ export default function MintContentLeftPage({
       )}
     >
       <h1 className="text-[#B2A280] font-pp-mondwest text-[0.6875rem] sml:text-xs sm:text-xl md:text-2xl">
-        Story {storyNumber}
+        Story 10
       </h1>
       {/* image */}
       <div>
