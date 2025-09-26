@@ -99,7 +99,7 @@ export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
         description: "Llamao and HaHa Wallet stay back in the wild realm of Web3, where memes and markets collide. In the Llamao Higher space, even the trippiest shrooms can grow into real value — if you dare to imagine.",
         image: `/nft/${PAGE_10}.gif`,
         totalSupply: 20000,
-        TBA: "23/09/2025",
+        TBA: "26/09/2025",
     },
 };
 

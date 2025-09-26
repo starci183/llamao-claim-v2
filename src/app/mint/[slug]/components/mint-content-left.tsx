@@ -18,7 +18,7 @@ interface MintContentLeftPageProps {
 }
 export default function MintContentLeftPage({
   className = "",
-  storyNumber = 1,
+  storyNumber = 10,
   storyTitle = "Llamao's Last Supper",
   storyImage = "/gifs/llamao_last_supper.gif",
   totalMinted = 10,

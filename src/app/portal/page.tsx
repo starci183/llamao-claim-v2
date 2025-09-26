@@ -102,14 +102,14 @@ export default function Portal() {
   const missions = [
     {
       text: "Follow HaHa Wallet",
-      link: "https://x.com/hahawallet",
+      link: "https://x.com/haha_app",
       status: user?.season2?.followHahaWalletS10 || false,
       type: "followHahaWalletS10" as const,
       clickOnSuccess: true,
     },
     {
       text: "Visit Llamao GIPHYS",
-      link: "https://giphy.com/llamao_",
+      link: "https://giphy.com/llamao",
       status: user?.season2?.visitLlamaoGIPHYS10 || false,
       type: "visitLlamaoGIPHYS10" as const,
       clickOnSuccess: true,
