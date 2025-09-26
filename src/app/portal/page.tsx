@@ -73,14 +73,14 @@ export default function Portal() {
             followLlamaoTiktokS10: true,
           });
           break;
-        case "likePageXS9":
+        case "likePageXS10":
           await userService.updateSeason2({
-            likePageXS9: true,
+            likePageXS10: true,
           });
           break;
-        case "tweetPageXS9":
+        case "tweetPageXS10":
           await userService.updateSeason2({
-            tweetPageXS9: true,
+            tweetPageXS10: true,
           });
           break;
       }
