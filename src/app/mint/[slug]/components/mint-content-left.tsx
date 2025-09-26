@@ -43,6 +43,7 @@ export default function MintContentLeftPage({
       return Number(clampedPercent.toFixed(2));
     return Math.round(clampedPercent);
   })();
+  console.log(storyNumber);
   return (
     <div
       className={cn(
