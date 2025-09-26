@@ -11,6 +11,7 @@ const PAGE_6 = "0x5cda37bab2b001725ca4f6daab7c0fa751529b02";
 const PAGE_7 = "0x2f0730f6ac7869f1d80661684f203cd7def635ce";
 const PAGE_8 = "0xa042c5c46f055e7496250a85a72765d2194bd4b1";
 const PAGE_9 = "0xc2391ebe7800804fa9b96f06a99383ca48b7bc01";
+const PAGE_10 = "0x23a2580286a99d47cee87d796a5e2d47b43a74c0";
 export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
     // [TESTMINT]: {
     //     address: TESTMINT,
@@ -89,6 +90,14 @@ export const NFT_DUMMY: Record<string, (NftMetadata & { address: string })> = {
         name: "Page 9",
         description: "In the quiet fields of mind, Llamao and La Mouch nurture a tiny seed of possibility. With patience and care, they let it grow happen naturally — steady building toward something real.",
         image: `/nft/${PAGE_9}.gif`,
+        totalSupply: 20000,
+        TBA: "23/09/2025",
+    },
+    [PAGE_10]: {
+        address: PAGE_10,
+        name: "Page 10",
+        description: "Llamao and HaHa Wallet stay back in the wild realm of Web3, where memes and markets collide. In the Llamao Higher space, even the trippiest shrooms can grow into real value — if you dare to imagine.",
+        image: `/nft/${PAGE_10}.gif`,
         totalSupply: 20000,
         TBA: "23/09/2025",
     },

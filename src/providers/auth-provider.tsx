@@ -25,12 +25,12 @@ const checkAllMissionsFulfilled = (user: User | null): boolean => {
 
   // Define the missions as they are in the portal page
   const missions = [
-    user.season2?.followLaMouch || false,
-    user.season2?.visitLlamaoGIPHYS9 || false,
-    user.season2?.followLlamaoInstagramS9 || false,
-    user.season2?.followLlamaoTiktokS9 || false,
-    user.season2?.likePageXS9 || false,
-    user.season2?.tweetPageXS9 || false,
+    user.season2?.followHahaWalletS10 || false,
+    user.season2?.visitLlamaoGIPHYS10 || false,
+    user.season2?.followLlamaoInstagramS10 || false,
+    user.season2?.followLlamaoTiktokS10 || false,
+    user.season2?.likePageXS10 || false,
+    user.season2?.tweetPageXS10 || false,
   ];
 
   return missions.every((mission) => mission === true);

@@ -53,24 +53,24 @@ export default function Portal() {
 
     try {
       switch (missionType) {
-        case "followLaMouch":
+        case "followHahaWalletS10":
           await userService.updateSeason2({
-            followLaMouch: true,
+            followHahaWalletS10: true,
           });
           break;
-        case "visitLlamaoGIPHYS9":
+        case "visitLlamaoGIPHYS10":
           await userService.updateSeason2({
-            visitLlamaoGIPHYS9: true,
+            visitLlamaoGIPHYS10: true,
           });
           break;
-        case "followLlamaoInstagramS9":
+        case "followLlamaoInstagramS10":
           await userService.updateSeason2({
-            followLlamaoInstagramS9: true,
+            followLlamaoInstagramS10: true,
           });
           break;
-        case "followLlamaoTiktokS9":
+        case "followLlamaoTiktokS10":
           await userService.updateSeason2({
-            followLlamaoTiktokS9: true,
+            followLlamaoTiktokS10: true,
           });
           break;
         case "likePageXS9":
@@ -101,45 +101,45 @@ export default function Portal() {
 
   const missions = [
     {
-      text: "Follow La Mouch",
-      link: "https://x.com/LaMouchNFT",
-      status: user?.season2?.followLaMouch || false,
-      type: "followLaMouch" as const,
+      text: "Follow HaHa Wallet",
+      link: "https://x.com/hahawallet",
+      status: user?.season2?.followHahaWalletS10 || false,
+      type: "followHahaWalletS10" as const,
       clickOnSuccess: true,
     },
     {
-      text: "Visit Llamao GIPHY",
-      link: "https://giphy.com/llamao",
-      status: user?.season2?.visitLlamaoGIPHYS9 || false,
-      type: "visitLlamaoGIPHYS9" as const,
+      text: "Visit Llamao GIPHYS",
+      link: "https://giphy.com/llamao_",
+      status: user?.season2?.visitLlamaoGIPHYS10 || false,
+      type: "visitLlamaoGIPHYS10" as const,
       clickOnSuccess: true,
     },
     {
       text: "Follow Llamao Instagram",
       link: "https://www.instagram.com/llamaoofficial/",
-      status: user?.season2?.followLlamaoInstagramS9 || false,
-      type: "followLlamaoInstagramS9" as const,
+      status: user?.season2?.followLlamaoInstagramS10 || false,
+      type: "followLlamaoInstagramS10" as const,
       clickOnSuccess: true,
     },
     {
       text: "Follow Llamao Tiktok",
       link: "https://www.tiktok.com/@llamaoofficial",
-      status: user?.season2?.followLlamaoTiktokS9 || false,
-      type: "followLlamaoTiktokS9" as const,
+      status: user?.season2?.followLlamaoTiktokS10 || false,
+      type: "followLlamaoTiktokS10" as const,
       clickOnSuccess: true,
     },
     {
-      text: "Like Page 9",
+      text: "Like Page 10",
       link: "https://x.com/llamao_/status/1970439353345495353",
-      status: user?.season2?.likePageXS9 || false,
-      type: "likePageXS9" as const,
+      status: user?.season2?.likePageXS10 || false,
+      type: "likePageXS10" as const,
       clickOnSuccess: true,
     },
     {
-      text: "Retweet Page 9",
+      text: "Retweet Page 10",
       link: "https://x.com/llamao_/status/1970439353345495353",
-      status: user?.season2?.tweetPageXS9 || false,
-      type: "tweetPageXS9" as const,
+      status: user?.season2?.tweetPageXS10 || false,
+      type: "tweetPageXS10" as const,
       clickOnSuccess: true,
     },
   ];
