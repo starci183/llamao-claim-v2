@@ -43,6 +43,10 @@ function normalizeIPFS(url: string | undefined) {
     return url;
 }
 
+function delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export function useContracts(
     addresses: readonly string[] | undefined,
     opts: UseContractsOptions = {}
@@ -66,6 +70,11 @@ export function useContracts(
         [addresses]
     );
 
+    const stableAddrsKey = useMemo(
+        () => JSON.stringify(stableAddrs),
+        [stableAddrs]
+    );
+
     const refreshRef = useRef<() => void>(() => { });
 
     useEffect(() => {
@@ -83,8 +92,18 @@ export function useContracts(
             try {
                 const provider = new BrowserProvider(walletProvider, chainId);
 
-                const settled = await Promise.allSettled(
-                    stableAddrs.map(async (addr) => {
+                // Process contracts sequentially with delays to avoid rate limiting
+                const settled: PromiseSettledResult<ContractData>[] = [];
+                
+                for (let i = 0; i < stableAddrs.length; i++) {
+                    const addr = stableAddrs[i];
+                    
+                    // Add delay between contract calls (except for the first one)
+                    if (i > 0) {
+                        await delay(200);
+                    }
+                    
+                    try {
                         const contract = new ethers.Contract(addr, erc1155Abi, provider);
 
                         // Call contract functions individually with error handling
@@ -110,7 +129,7 @@ export function useContracts(
                             // ignore metadata fetch errors
                         }
 
-                        return {
+                        const contractData: ContractData = {
                             contract,
                             contractAddress: addr,
                             contractURI,
@@ -119,9 +138,13 @@ export function useContracts(
                             ipfsID: tokenURI ? tokenURI.split("/").pop() : "",
                             totalMinted: totalSupply.toString(),
                             metadata,
-                        } as ContractData;
-                    })
-                );
+                        };
+                        
+                        settled.push({ status: 'fulfilled', value: contractData });
+                    } catch (error) {
+                        settled.push({ status: 'rejected', reason: error });
+                    }
+                }
 
                 const ok = settled
                     .filter((s): s is PromiseFulfilledResult<ContractData> => s.status === "fulfilled")
@@ -146,7 +169,7 @@ export function useContracts(
         return () => {
             disposed = true;
         };
-    }, [walletProvider, userAddress, chainId, tokenIdBig, JSON.stringify(stableAddrs)]);
+    }, [walletProvider, userAddress, chainId, tokenIdBig, stableAddrs, stableAddrsKey]);
 
     const refresh = () => refreshRef.current();
 
