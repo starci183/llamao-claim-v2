@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { memo, useMemo } from "react";
 import { Header } from "../common/header";
-import SubHeaderHome from "./home/sub-header-home";
 
 type MainLayoutProps = {
   headerIcon?: string;
@@ -17,14 +16,10 @@ type MainLayoutProps = {
   boxShadowInner?: string;
 };
 
-const DEFAULT_SUB_HEADER = <SubHeaderHome />;
-
 const MainLayout = memo<MainLayoutProps>(function MainLayout({
   children,
-  text = "Llamao Web Testnet",
-  headerIcon,
-  subHeader = true,
-  subHeaderComponent = DEFAULT_SUB_HEADER,
+  text = "Claim Llamao Testnet",
+  headerIcon, 
   wrapperClassName = "",
   className = "",
   boxShadowOuter = "box-shadow-primary",
@@ -46,10 +41,6 @@ const MainLayout = memo<MainLayoutProps>(function MainLayout({
     );
   }, [headerIcon]);
 
-  const computedSubHeader = useMemo(() => {
-    return subHeader ? subHeaderComponent : null;
-  }, [subHeader, subHeaderComponent]);
-
   return (
     <div
       className={cn(
@@ -68,7 +59,6 @@ const MainLayout = memo<MainLayoutProps>(function MainLayout({
           text={text}
           icon={headerIconElement}
           className={cn("w-full")}
-          subHeader={computedSubHeader}
         />
         <div
           className={cn("p-2 sm:p-4 lg:p-6", className, boxShadowInner)}

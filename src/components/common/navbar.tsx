@@ -40,15 +40,14 @@ export const items: NavbarItem[] = [
     href: "/about",
   },
   {
-    label: "Portal",
-    href: "/portal",
-    icon: "/icons/ball_1.svg",
+    label: "Rewards",
+    href: "/rewards",
   },
   {
     label: "Showcase",
     href: "/showcase",
   },
-] as const;
+];
 
 const createIconElement = (iconSrc: string, label: string): ReactElement => (
   <Image
@@ -68,7 +67,7 @@ const processNavItems = (
   return items.map((item) => {
     let isActive = currentPath === item.href;
 
-    if (item.href === "/portal") {
+    if (item.href === "/rewards") {
       isActive = currentPath === item.href || currentPath.startsWith("/mint");
     }
 

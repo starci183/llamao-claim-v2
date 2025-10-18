@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     //when user is authenticated, redirect to portal
     if (isAuthenticated) {
-      navigate.push("/portal");
+      navigate.push("/rewards");
     }
   }, [isAuthenticated]);
   return (
@@ -22,7 +22,7 @@ export default function Home() {
       <MainLayout headerIcon="/gifs/llamao_majestic_run.gif">
         <Image
           src={"/images/home.svg"}
-          alt="Llamao Web Testnet"
+          alt="Claim Llamao Testnet"
           width={430}
           height={320}
           className="w-full md:w-[430] h-auto max-w-none mx-auto"
@@ -30,13 +30,6 @@ export default function Home() {
         />
         <div className="flex flex-col mt-4 gap-2 text-center justify-center text-lg text-gray-700">
           <ConnectWalletButton className="py-3" />
-          <Button
-            intent="primary"
-            className="text-3xl py-2"
-            onClick={() => (window.location.href = "/portal")}
-          >
-            Connect Later
-          </Button>
         </div>
       </MainLayout>
     </div>

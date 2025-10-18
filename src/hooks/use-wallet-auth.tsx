@@ -68,7 +68,7 @@ export function useWalletAuth(): WalletAuthReturn {
 
       // 5. store & navigate
       login(token, addressRef.current!);
-      router.push("/portal");
+      router.push("/rewards");
     } catch (err: unknown) {
       const msg = ((err as Error)?.message || "").toLowerCase();
       const isUserReject =

@@ -44,7 +44,7 @@ export default function AuthGuard({
       user !== null && // Wait for user data to load
       !areAllMissionsFulfilled
     ) {
-      router.replace("/portal");
+      router.replace("/rewards");
     }
   }, [
     isInitialized,

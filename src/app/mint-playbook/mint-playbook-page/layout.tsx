@@ -37,7 +37,7 @@ export default function MintPlaybookPageLayout({
             className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6"
           />
         }
-        onClick={() => navigation.push("/portal")}
+        onClick={() => navigation.push("/rewards")}
       >
         Back to Portal
       </Button>
