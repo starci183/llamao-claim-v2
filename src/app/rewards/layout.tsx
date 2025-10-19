@@ -6,6 +6,8 @@ export default function PortalLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>{children}</>
+    <>
+      {children}
+    </>
   );
 }
