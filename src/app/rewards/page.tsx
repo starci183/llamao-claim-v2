@@ -8,7 +8,6 @@ import { Button } from "@/components/common/button";
 import {
   RewardTab,
   setOpenClaimRewardsDialog,
-  setRewardTab,
   useAppDispatch,
   useAppSelector,
 } from "@/redux";
@@ -16,18 +15,16 @@ import AddressButton from "./AddressButton";
 import { useWalletContext } from "@/context/wallet-context";
 import Image from "next/image";
 import Carousel from "./Carousel";
-import { RewardTabs } from "./RewardTabs";
 import { DialogContainer } from "./DialogContainer";
-const Page = () => {
-  const ownedNFTs = useAppSelector((state) => state.nftReducer.ownedNFTs);
-  const ownedNFTsCount = Object.values(ownedNFTs).filter(Boolean).length;
-  const isAllNFTsOwned = ownedNFTsCount === 10;
+import { useAuth } from "@/providers/auth-provider";
+const Page = () => { 
   const [addrHovered, setAddrHovered] = useState(false);
   const { address, walletInfo } = useWalletContext();
   const rewardTab = useAppSelector((state) => state.nftReducer.rewardTab);
   const dispatch = useAppDispatch();
+  const { user } = useAuth()
   if (!address || !walletInfo) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
   return (
     <div className="py-12">
@@ -103,29 +100,12 @@ const Page = () => {
         className="mx-auto"
       />
       <div className="h-12" />
-      <div className="w-full flex justify-center">
-        <RewardTabs
-          tabs={[
-            {
-              label: "FCFS Whitelist",
-              value: RewardTab.FcfsWhitelist,
-            },
-            {
-              label: "GTD Whitelist",
-              value: RewardTab.GtdWhitelist,
-            },
-          ]}
-          defaultValue={RewardTab.FcfsWhitelist}
-          onValueChange={(value) => dispatch(setRewardTab(value as RewardTab))}
-        />
-      </div>
-      <div className="h-12" />
       {rewardTab === RewardTab.FcfsWhitelist && (
         <>
           <RewardProgress total={10} />
           <div className="h-4" />
           <Collectibles />
-          {!isAllNFTsOwned && (
+          {!user?.winner.winLlamaoAwakening && (
             <>
               <div className="h-12" />
               <div className="text-center text-sm text-gray-300">
@@ -136,7 +116,7 @@ const Page = () => {
           )}
           <div className="h-12" />
           <div className= "w-full flex justify-center">
-            <Button intent="gradient" disabled={!isAllNFTsOwned} onClick={() => dispatch(setOpenClaimRewardsDialog(true))}>
+            <Button intent="gradient" disabled={!user?.winner.winLlamaoAwakening} onClick={() => dispatch(setOpenClaimRewardsDialog(true))}>
               Claim Rewards
             </Button>
           </div>

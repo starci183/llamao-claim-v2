@@ -54,6 +54,8 @@ interface User {
   updatedAt: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   season2: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  winner: any;
 }
 interface AuthContextType {
   accessToken: string | null;
