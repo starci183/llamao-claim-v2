@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/providers/auth-provider";
-import useSWR from "swr";
 import { ethers } from "ethers";
 import { erc1155Abi } from "@/abi/erc-1155";
 import { addOwnedNFT, useAppDispatch } from "@/redux";
@@ -42,28 +41,11 @@ export default function CollectibleCard({
   image,
   index,
 }: CollectibleCardProps) {
-  const { walletAddress } = useAuth();
+  const { user, walletAddress } = useAuth();
   const dispatch = useAppDispatch();
-  const {
-    data: balance,
-    isValidating,
-  } = useSWR(
-    walletAddress ? ["nft-balance", address, walletAddress] : null,
-    () => fetchTokenBalance(address, walletAddress!),
-    {
-      shouldRetryOnError: true,
-      revalidateOnFocus: false,
-      onErrorRetry: (err, key, config, revalidate, { retryCount }) => {
-        // Retry forever, but wait progressively longer each time
-        const delay = Math.min(5000 * retryCount, 30000); // max 30s
-        setTimeout(() => revalidate({ retryCount: retryCount + 1 }), delay);
-      },
-    }
-  );
-
-  const owned = balance && balance > 0;
+  
+  const owned = user?.winner.winLlamaoAwakening;
   useEffect(() => {
-    console.log("owned", owned);
     if (owned) {
       dispatch(addOwnedNFT(index));
     }
@@ -101,8 +83,6 @@ export default function CollectibleCard({
           <p className="text-xs text-gray-700 mt-1">
             {owned
               ? `Owned`
-              : isValidating
-              ? "Checking balance..."
               : "Not owned"}
           </p>
         )}
