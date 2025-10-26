@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Collectibles from "./Collectibles";
 import { cn } from "@/lib/utils";
 import { RewardProgress } from "./RewardProgress";
@@ -15,6 +15,7 @@ import AddressButton from "./AddressButton";
 import { useWalletContext } from "@/context/wallet-context";
 import Image from "next/image";
 import Carousel from "./Carousel";
+import { useRouter } from "next/navigation";
 import { DialogContainer } from "./DialogContainer";
 import { useAuth } from "@/providers/auth-provider";
 const Page = () => { 
@@ -23,6 +24,13 @@ const Page = () => {
   const rewardTab = useAppSelector((state) => state.nftReducer.rewardTab);
   const dispatch = useAppDispatch();
   const { user } = useAuth()
+  const router = useRouter();
+  useEffect(() => {
+    if (!address || !walletInfo) {
+      router.replace("/");
+    }
+  }, [address, walletInfo, router]);
+
   if (!address || !walletInfo) {
     return <div></div>;
   }
@@ -88,7 +96,7 @@ const Page = () => {
             repeat: Infinity, // lặp vô hạn
           }}
         >
-          Claim Chapter Rewards
+          Claim Llamaoism Awakening Rewards
         </motion.div>
       </div>
       <div className="h-12" />
@@ -108,9 +116,8 @@ const Page = () => {
           {!user?.winner.winLlamaoAwakening && (
             <>
               <div className="h-12" />
-              <div className="text-center text-sm text-gray-300">
-                Your address is currently not whitelisted. Whitelisting is required
-                to claim the final reward.
+              <div className="text-center text-sm text-white">
+              You are not eligible to claim the rewards
               </div>
             </>
           )}

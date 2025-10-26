@@ -26,7 +26,7 @@ export default function Collectibles() {
           )}
         >
           <div className="text-sm text-gray-500">
-            The snapshot for all 10 NFTs was taken at 5:00 PM UTC (12:00 PM EST) on 14 October. Any NFTs traded after this time to meet the eligibility criteria will not be considered, holders must have owned all chapters before the snapshot, not after. Additionally, users must continue holding all current chapters until mainnet for their rewards to remain valid. Any actions contrary to this may result in revocation of roles or rewards.
+          The snapshot for all 10 llamaosim NFTs was taken at 9:30 AM UTC on 20 October. Any NFTs traded after this time will not count toward eligibility. Only holders who owned all 10 NFTs before the snapshot are qualified.
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {Object.values(nfts).map((item) => (
