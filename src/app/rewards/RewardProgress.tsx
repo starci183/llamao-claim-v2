@@ -13,7 +13,7 @@ export const RewardProgress = ({ total }: RewardProgressProps) => {
     <div className="w-full flex flex-col items-center justify-center text-center">
       {/* Text phần trăm */}
       <p className="text-xs sm:text-sm text-white/80 mt-2">
-        {ownedNFTsCount} / {total} chapters —{" "}
+        {ownedNFTsCount} / {total} pages —{" "}
         <span className="font-semibold text-white">{Math.floor(progress)}%</span>
       </p>
     </div>
