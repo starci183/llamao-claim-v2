@@ -239,7 +239,6 @@ export const DialogContainer = () => {
         <div>
           <div>Congrats! You&apos;ve won the following rewards:</div>
           <div className="h-4" />
-
           <div>
             <span className="font-bold text-red-700">
               1. Llamao FCFS whitelist and Overnads FCFS whitelist:
@@ -248,13 +247,11 @@ export const DialogContainer = () => {
             on mainnet. You don&apos;t need to open a ticket or contact support
             for this.
           </div>
-
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
             Open Haha Wallet using this address and join the Llamao exclusive
             quest there to claim your Karma Points.
           </div>
-
           <div>
             <span className="font-bold text-green-700">
               3. Beallad Role from Bean Exchange:
