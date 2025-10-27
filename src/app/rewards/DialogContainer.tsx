@@ -242,7 +242,7 @@ export const DialogContainer = () => {
 
           <div>
             <span className="font-bold text-red-700">
-              1. Llamao FCFS whitelist:
+              1. Llamao FCFS whitelist and Overnads FCFS whitelist:
             </span>{" "}
             Your wallet will be automatically added to the relevant mint round
             on mainnet. You don&apos;t need to open a ticket or contact support
