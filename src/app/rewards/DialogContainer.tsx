@@ -31,8 +31,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -42,7 +41,7 @@ export const DialogContainer = () => {
             Discord&apos; in Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
           <div className="h-4" />
@@ -65,8 +64,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -76,7 +74,7 @@ export const DialogContainer = () => {
             Discord&apos; in Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
           <div className="h-4" />
@@ -99,8 +97,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -110,7 +107,7 @@ export const DialogContainer = () => {
             Discord&apos; in Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
           <div className="h-4" />
@@ -133,8 +130,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -144,7 +140,7 @@ export const DialogContainer = () => {
             Discord&apos; in Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
           <div className="h-4" />
@@ -167,8 +163,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -178,7 +173,7 @@ export const DialogContainer = () => {
             Discord&apos; in Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
           <div className="h-4" />
@@ -203,8 +198,7 @@ export const DialogContainer = () => {
 
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
 
           <div>
@@ -249,8 +243,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -260,7 +253,7 @@ export const DialogContainer = () => {
             Discord&apos; in the Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
 
@@ -284,8 +277,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -295,7 +287,7 @@ export const DialogContainer = () => {
             Discord&apos; in Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
           <div className="h-4" />
@@ -318,8 +310,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -329,7 +320,7 @@ export const DialogContainer = () => {
             Discord&apos; in the Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
           <div className="h-4" />
@@ -352,8 +343,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -363,7 +353,7 @@ export const DialogContainer = () => {
             Discord&apos; in the Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
           <div className="h-4" />
@@ -386,8 +376,7 @@ export const DialogContainer = () => {
           </div>
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
           <div>
             <span className="font-bold text-green-700">
@@ -397,7 +386,7 @@ export const DialogContainer = () => {
             Discord&apos; in the Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
           <div className="h-4" />
@@ -422,8 +411,7 @@ export const DialogContainer = () => {
 
           <div>
             <span className="font-bold text-blue-700">2. Karma point:</span>{" "}
-            Open Haha Wallet using this address and join the Llamao exclusive
-            quest there to claim your Karma Points.
+            Open your HaHa Wallet using this address and enter the code “llamao5000” to instantly redeem your Karma Points! The code will become active on Nov 3 and expire on Nov 5.
           </div>
 
           <div>
@@ -434,7 +422,7 @@ export const DialogContainer = () => {
             Discord&apos; in the Portfolio tab to claim your role.{" "}
             <span className="font-bold text-pink-700">
               In addition, your wallet will earn a 1% Bean Point Boost for every
-              LP, swaps, and trades on Bean.
+              LP, swap, and trade on Bean.
             </span>
           </div>
 
